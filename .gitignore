@@ -1,0 +1,11 @@
+/core/media
+/core/staticfiles
+/.venv
+.idea
+.env
+core/frontend/node_modules
+core/frontend/package.json
+core/frontend/package-lock.json
+
+__pycache__/
+*.py[cod]
