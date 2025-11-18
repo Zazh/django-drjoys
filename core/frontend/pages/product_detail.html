@@ -1,14 +1,533 @@
 <!DOCTYPE html>
 <html lang="ru">
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet" href="../dist/css/styles.css">
-<title>Product Detail</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../dist/css/styles.css">
+    <title>Product detail</title>
+</head>
 <body>
-    <main class="relative">
+<section class="nav_wrapper [ flex flex-col mx-0 gap-0 ] left-0 right-0 top-0 fixed overflow-hidden bg-white/75 backdrop-blur-xs z-50" >
+    <header class="site-header">
+        <section class="main-grid">
+            <div class="col-span-3 lg:col-span-1 flex items-center">
+                <button id="menuBtn" class="btn-menu" type="button" aria-label="MenuButton">
+                    <span class="line-item line-top     [ top-0 left-0 ]"></span>
+                    <span class="line-item line-mid-1   [ lg:top-4 left-0 ]"></span>
+                    <span class="line-item line-mid-2   [ lg:top-4 left-0 ]"></span>
+                    <span class="line-item line-bottom  [ bottom-0 left-0 ]"></span>
+                </button>
+            </div>
+            <div class="col-span-3 lg:col-span-4" id="brand_wrapper">
+                <a href="/" class="pl-0 lg:pl-6 lg:ml-0 block ml-auto w-[10rem] lg:w-[12rem] xl:w-[20rem]">
+                    <svg viewBox="0 0 1369 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_7_2)">
+                            <!-- Все paths смещаем вниз на 30px через transform -->
+                            <g transform="translate(0, 100)">
+                                <path d="M80.39 30.23C99.53 30.23 117.52 33.87 134.37 41.14C151.21 48.41 165.88 58.36 178.39 71C190.89 83.64 200.78 98.31 208.05 115.02C215.32 131.74 218.96 149.67 218.96 168.81C218.96 187.95 215.32 205.94 208.05 222.79C200.78 239.63 190.88 254.37 178.39 267C165.88 279.64 151.21 289.59 134.37 296.86C117.53 304.13 99.54 307.77 80.39 307.77H0V30.23H80.39ZM80.39 226.61C88.56 226.61 96.28 225.14 103.55 222.21C110.82 219.28 117.14 215.19 122.5 209.96C127.86 204.73 132.07 198.55 135.13 191.4C138.19 184.26 139.72 176.61 139.72 168.43C139.72 160.25 138.19 152.61 135.13 145.46C132.07 138.31 127.86 132.13 122.5 126.89C117.14 121.66 110.83 117.51 103.55 114.45C96.28 111.39 88.55 109.86 80.39 109.86V226.62V226.61Z" fill="#1D1D1B"/>
+                                <path d="M462.43 307.76H375.91C364.43 290.92 354.92 277.46 347.39 267.37C339.86 257.3 333.73 249.7 329.02 244.6C324.29 239.5 320.79 236.43 318.49 235.41C316.19 234.4 314.6 234.52 313.71 235.79C312.82 237.07 312.37 238.99 312.37 241.53V307.76H231.98V30.23H337.25C349.5 30.23 361.56 33.16 373.42 39.03C385.29 44.9 395.56 52.3 404.24 61.23C414.44 71.44 422.04 83.05 427.01 96.07C431.99 109.08 434.35 122.35 434.09 135.88C433.83 149.41 430.96 162.74 425.48 175.89C419.99 189.04 412.14 200.84 401.94 211.3L462.42 307.76H462.43ZM356.39 132.44C356.39 125.05 353.84 118.79 348.73 113.68C343.62 108.58 337.37 106.02 329.97 106.02H311.59V159.23H329.97C337.36 159.23 343.62 156.61 348.73 151.38C353.83 146.15 356.39 139.83 356.39 132.43V132.44Z" fill="#1D1D1B"/>
 
-    </main>
+                                <!-- Дрожащая точка -->
+                                <g class="dot-shake" style="transform-origin: 505px 318px;">
+                                    <path d="M534 299.29C534 301.6 533.18 303.59 531.52 305.26C529.87 306.93 527.91 307.76 525.63 307.76H484.18C481.89 307.76 479.93 306.93 478.28 305.26C476.63 303.59 475.81 301.6 475.81 299.29V257.3C475.81 254.73 476.63 252.61 478.28 250.94C479.93 249.27 481.89 248.43 484.18 248.43H525.63C527.91 248.43 529.87 249.27 531.52 250.94C533.17 252.61 534 254.73 534 257.3V299.29Z" fill="#1D1D1B"/>
+                                </g>
+
+                                <path d="M1263.22 27.63C1276.74 27.12 1290.2 27.69 1303.61 29.35C1317.01 31.01 1330.59 34.26 1344.37 39.11C1343.86 43.45 1343.6 46.64 1343.6 48.68V58.06C1343.6 62.27 1343.47 68.66 1343.22 77.2C1342.96 85.75 1342.33 98.7 1341.31 116.06C1333.14 112.75 1323.7 109.69 1312.99 106.87C1302.27 104.06 1292.45 102.03 1283.52 100.75C1278.42 100.24 1273.5 100.37 1268.78 101.13C1264.06 101.9 1259.92 103.68 1256.35 106.49C1253.53 109.3 1253.09 112.23 1255 115.29C1256.91 118.35 1259.27 120.78 1262.09 122.56L1305.73 136.72C1314.92 139.53 1323.34 143.49 1330.99 148.59C1338.65 153.69 1345.28 159.63 1350.89 166.39C1356.5 173.15 1360.91 180.62 1364.1 188.78C1367.29 196.95 1368.89 205.62 1368.89 214.81C1369.13 228.33 1367.03 240.52 1362.57 251.36C1358.1 262.21 1351.91 271.65 1344 279.69C1336.09 287.73 1326.59 294.24 1315.49 299.21C1304.39 304.19 1292.33 307.44 1279.31 308.97C1277.52 309.22 1274.84 309.41 1271.27 309.54C1267.69 309.67 1263.86 309.73 1259.79 309.73C1252.13 309.98 1244.72 309.86 1237.59 309.35C1230.43 308.83 1223.93 307.95 1218.06 306.67C1211.17 305.14 1204.09 303.23 1196.82 300.93C1189.55 298.63 1180.16 295.32 1168.68 290.98L1187.05 208.67C1190.88 209.95 1194.71 211.29 1198.53 212.69C1202.36 214.09 1206.19 215.56 1210.01 217.09L1228.01 223.6C1233.87 225.9 1239.68 228.07 1245.42 230.11C1251.16 232.16 1257.34 233.17 1263.99 233.17C1268.06 232.92 1271.52 231.96 1274.32 230.3C1277.13 228.64 1278.79 225.64 1279.3 221.3C1279.3 218.24 1278.41 215.49 1276.62 213.07C1274.83 210.65 1272.6 208.6 1269.92 206.94C1267.24 205.29 1264.38 203.88 1261.31 202.73C1258.25 201.58 1255.31 200.62 1252.51 199.86C1240.5 197.06 1229.54 192.4 1219.58 185.89C1209.63 179.38 1201.02 171.86 1193.75 163.31C1186.48 154.76 1180.74 145.51 1176.53 135.55C1172.32 125.6 1170.21 115.65 1170.21 105.69C1170.21 97.52 1171.36 89.61 1173.65 81.96C1175.95 74.3 1179.59 67.22 1184.56 60.71C1189.54 54.2 1195.79 48.46 1203.32 43.49C1210.85 38.51 1219.84 34.75 1230.31 32.2C1241.79 29.14 1252.75 27.61 1263.23 27.61L1263.22 27.63Z" fill="#1D1D1B"/>
+                                <path d="M1100.53 30.31L1070.29 101.89L1039.29 30.31H1013.26C1013.92 34.7 1014.55 39.62 1015.07 45C1018.82 83.75 1014.42 121.62 1008.89 143.34L1027.8 183.05V307.84H1111.25V183.81L1185.52 30.31H1100.53Z" fill="#1D1D1B"/>
+                                <path d="M652.07 64C651.65 52.34 651.72 41.1 652.15 30.31H584.13V101.89H608.24V194.35C608.24 198.92 607.34 203.17 605.56 207.1C603.77 211.04 601.41 214.52 598.48 217.56C595.54 220.6 592.03 223.02 587.95 224.79C583.86 226.56 579.52 227.45 574.93 227.45H571.49L550.05 307.84H577.99C593.31 307.84 607.66 304.91 621.06 299.04C634.46 293.17 646.14 285.26 656.09 275.31C666.04 265.35 673.95 253.68 679.82 240.28C682.62 233.88 684.75 227.26 686.21 220.42C669.57 179.74 654.32 126.67 652.05 64H652.07Z" fill="#1D1D1B"/>
+
+                                <!-- Сердце тоже смещаем и обновляем transform-origin -->
+                                <g class="heart-beat" style="transform-origin: 835px 189px;">
+                                    <path d="M1002.27 55.41C1001.92 44.93 1001.06 36.11 1000.27 29.67C985.02 27.01 961.9 22.87 933.76 17.46C858.62 2.99 855.5 0.140004 835.25 3.97814e-06C815.83 -0.129996 811.64 2.45 732.74 17.45C705.74 22.58 683.53 26.6 668.73 29.23C665.49 52.56 663.57 89.37 675.23 132.62C690.94 190.87 722.85 229.53 734.74 242.99C769.93 282.85 809.68 305.86 834.75 318.02C859.47 306.13 901.3 282.36 937.76 239.93C950.64 224.94 979.81 187.89 993.77 135.67C995.44 129.41 1003.66 97.6 1002.27 55.4V55.41ZM939.13 151.32C934.16 179.21 912.06 193.25 905.16 197.63C883.57 211.34 831.29 238.38 827.26 243.09C822.68 235.8 814.96 221.36 806.01 210.86C801.47 205.54 791.31 194.11 773.88 179.99C741.86 154.06 718.59 130.88 732.32 87.82C741.6 58.71 779.11 48.72 802.78 63.77C827.75 79.65 830.21 115.79 831.71 122.66C837.03 98.97 852.57 80.66 872.1 75.25C900.81 67.3 921.68 91.77 923.51 93.99C924.94 95.73 944.63 120.41 939.12 151.32H939.13Z" fill="#E42521"/>
+                                </g>
+                            </g>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_7_2">
+                                <rect width="1368.9" height="500" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+            <div class="lg:col-span-6 lg:col-start-10 col-span-full flex">
+                <ul class="bradcrumb mt-auto">
+                    <li class="bradcrumb-item"><a href="">DR.JOYS</a></li>
+                    <li class="bradcrumb-item">/</li>
+                    <li class="bradcrumb-item"><a href="">каталог</a></li>
+                    <li class="bradcrumb-item">/</li>
+                    <li class="bradcrumb-item"><a href="">классические</a></li>
+                    <li class="bradcrumb-item">/</li>
+                    <li class="bradcrumb-item"><a href="">банан 0.02 мм 5 шт</a></li>
+                </ul>
+            </div>
+        </section>
+    </header>
+
+    <section class="[ main-grid mx-0 gap-0 ] col-span-full lg:flex-1 overflow-hidden hidden" id="mainNav">
+        <div class="col-span-1 hidden lg:block"></div>
+
+        <nav class="col-span-full overflow-auto hide-scrollbar lg:col-span-3 " role="navigation">
+            <ul class="nav" role="menubar">
+                <li class="nav-item active" role="menuitem"><a href="#">Главная</a></li>
+                <li class="nav-item" role="menuitem"><a href="#">О Dr.Joys</a></li>
+                <li class="nav-item" role="menuitem"><a href="#">Каталог</a></li>
+                <li class="nav-item" role="menuitem"><a href="#">Статьи</a></li>
+                <li class="nav-item" role="menuitem"><a href="#">Партнерам</a></li>
+                <li class="nav-item" role="menuitem"><a href="#">Контакты</a></li>
+            </ul>
+        </nav>
+
+        <section class="col-span-full lg:col-span-4 overflow-y-auto hide-scrollbar">
+            <div class="nav flex flex-col w-full px-4">
+                <!-- video -->
+                <div class="w-full aspect-video my-8 lg:my-0 overflow-hidden relative">
+                    <iframe
+                            id="navYoutubeVideo"
+                            class="absolute w-full h-[110%] -top-[5%]"
+                            src="https://www.youtube.com/embed/TGFDgNPNJhU?si=lOKDgtNbcFbq2DUM&enablejsapi=1&controls=0&autoplay=0&mute=1&rel=0&modestbranding=1"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+
+                <ul class="flex w-full flex-col gap-4 pb-12 lg:py-[2rem]">
+                    <li class="nav-item text-xs"><a href="#">60 поз для секса</a></li>
+                    <li class="nav-item text-xs"><a href="#">Пожизненный запас за тату</a></li>
+                    <li class="nav-item text-xs"><a href="#">Краш тест презирвативов</a></li>
+                    <li class="nav-item text-xs"><a href="#">Конкурс за самый длинный</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <div class=" col-span-1 hidden lg:block"></div>
+
+    </section>
+</section>
+
+<main class="site-main ">
+    <section class="main-grid">
+        <!-- Картинка -->
+        <div class="col-span-full lg:col-start-3 lg:col-span-6">
+            <div class="product_picture [ w-full aspect-[2/3] overflow-hidden ]">
+                <img src="../dist/images/figure.jpg" class="object-cover w-full h-full" alt="Презервативы DR.JOYS классические">
+            </div>
+        </div>
+
+        <!-- Инфо -->
+        <div class="col-span-full lg:col-start-10 lg:col-span-5">
+            <div class="pt-50 h-full flex flex-col">
+                <div class="product_info">
+                    <div class="product_info_title">
+                        <h5 class="text-sm tracking-wide text-red-500 mb-2 font-bold">ХИТ ПРОДАЖ</h5>
+                        <h1 class="h2 br-lg font-benzin uppercase">Презервативы DR.JOYS <span> классические, банан,</span> <span>0.02 мм, 5 шт.</span></h1>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-wider flex items-center gap-2">АРТИКУЛ <span class="h-4 border-l-1"></span> 123456</span>
+                    </div>
+                    <div class="add-to-cart">
+                        <div class="cart-button-wrapper">
+                            <button class="btn-cat w-full font-benzin">КУПИТЬ АНОНИМНО</button>
+                        </div>
+                        <div class="cart-links-wrapper hidden py-3">
+                            <a href="" class="btn-cat-list"><span class="uppercase">Wildberries</span> <span class="text-red-500">Нет в наличии</span></a>
+                            <a href="" class="btn-cat-list"><span class="uppercase">Ozon</span></a>
+                            <a href="" class="btn-cat-list"><span class="uppercase">teez</span></a>
+                            <a href="" class="btn-cat-list"><span class="uppercase">joystoys</span></a>
+                            <a href="" class="btn-cat-list"><span class="uppercase">blackrabbit</span></a>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="br-lg text-sm">
+                            Гладкая поверхность, латекс бесцветный. С дополнительной
+                            <span>силиконовой смазкой, с нейтральным ароматом, толщина 0.02</span>
+                            мм неощутимые на 95%
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:mt-auto mt-12 pt-8 pb-4">
+                    <ul class="product_links">
+                        <li class="product_links-item"><a href="#characters" class="w-full block">СОСТАВ И ХАРАКТЕРИСТИКИ</a></li>
+                        <li class="product_links-item"><a href="" class="w-full block">Как правильно выбрать размер</a></li>
+                        <li class="product_links-item"><a href="" class="w-full block">Инструкция по применению</a></li>
+                        <li class="product_links-item"><a href="" class="w-full block">противопоказания</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="main-grid mt-24">
+        <div class="lg:col-start-3 lg:col-span-6 col-span-full flex ">
+            <div id="characters" class="mt-auto pt-12 pb-4">
+                <ul class="mt-auto flex flex-col gap-6">
+                    <li class="flex flex-col text-sm gap-1">
+                        <span class="uppercase font-benzin tracking-wider">материал</span>
+                        <span class="br-lg">Ультратонкие 0,02 мм, натуральный латекс</span>
+                    </li>
+                    <li class="flex flex-col text-sm gap-1">
+                        <span class="uppercase font-benzin tracking-wider">Особенности  </span>
+                        <span class="br-lg">Сверхпрочные, особо увлажненные</span>
+                    </li>
+                    <li class="flex flex-col text-sm gap-1">
+                        <span class="uppercase font-benzin tracking-wider">Комплектация  </span>
+                        <span class="br-lg">Презервативы классические - 5 шт, <span>Упаковка (пачка) - 1 шт</span></span>
+                    </li>
+                    <li class="flex text-sm gap-1">
+                        <span class="uppercase font-benzin tracking-wider">Срок годности –</span>
+                        <span class="br-lg">60 мес</span>
+                    </li>
+                    <li class="flex text-sm gap-1">
+                        <span class="uppercase font-benzin tracking-wider">Страна производства –</span>
+                        <span class="br-lg">Китай</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="lg:col-start-9 lg:col-span-6 col-span-full">
+            <div class="product-zoom-container w-full h-full aspect-[2/3] overflow-hidden">
+                <!-- data-rotate контролирует градус поворота -->
+                <img
+                        src="../src/images/product-refs.jpg"
+                        class="product-zoom-image w-full h-full object-cover"
+                        data-rotate="15"
+                        alt="Презервативы DR.JOYS"
+                >
+            </div>
+        </div>
+    </section>
+
+
+    <section class="main-grid mt-24">
+        <!-- Слайдер 1 -->
+        <div class="lg:col-start-2 lg:col-span-6 col-span-full flex flex-col">
+            <div class="product-slider w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
+                <!-- Картинки -->
+                <img src="../src/images/upakovka.jpg" class="slider-image" alt="Упаковка вид 3">
+                <img src="../src/images/upakovka-1.jpg" class="slider-image" alt="Упаковка презервативов DR.JOYS">
+                <img src="../src/images/upakovka-2.jpg" class="slider-image" alt="Упаковка вид 2">
+
+                <!-- Круговой прогресс с кнопкой pause/play -->
+                <div class="slider-progress-wrapper">
+                    <svg class="slider-progress-circle" viewBox="0 0 36 36">
+                        <circle class="progress-bg" cx="18" cy="18" r="16"></circle>
+                        <circle class="progress-bar" cx="18" cy="18" r="16"></circle>
+                    </svg>
+                    <button class="slider-play-pause" type="button" aria-label="Pause slideshow">
+                        <!-- Pause icon -->
+                        <svg class="pause-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="2" width="2" height="8" fill="currentColor"/>
+                            <rect x="8" y="2" width="2" height="8" fill="currentColor"/>
+                        </svg>
+                        <!-- Play icon -->
+                        <svg class="play-icon hidden" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 2L10 6L3 10V2Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Индикаторы -->
+                <div class="slider-indicators"></div>
+            </div>
+            <div>
+                <p class="text-xs italic text-right py-2">Упаковка презервативов DR.JOYS</p>
+            </div>
+        </div>
+
+        <!-- Слайдер 2 -->
+        <div class="lg:col-start-9 lg:col-span-6 col-span-full flex flex-col">
+            <div class="product-slider w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
+                <!-- Картинки -->
+                <img src="../src/images/paket-1.jpg" class="slider-image" alt="Пакет вид 3">
+                <img src="../src/images/paket.jpg" class="slider-image" alt="Презерватив в пакете">
+                <img src="../src/images/paket-2.jpg" class="slider-image" alt="Пакет вид 2">
+
+                <!-- Круговой прогресс с кнопкой pause/play -->
+                <div class="slider-progress-wrapper">
+                    <svg class="slider-progress-circle" viewBox="0 0 36 36">
+                        <circle class="progress-bg" cx="18" cy="18" r="16"></circle>
+                        <circle class="progress-bar" cx="18" cy="18" r="16"></circle>
+                    </svg>
+                    <button class="slider-play-pause" type="button" aria-label="Pause slideshow">
+                        <svg class="pause-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="2" width="2" height="8" fill="currentColor"/>
+                            <rect x="8" y="2" width="2" height="8" fill="currentColor"/>
+                        </svg>
+                        <svg class="play-icon hidden" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 2L10 6L3 10V2Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Индикаторы -->
+                <div class="slider-indicators"></div>
+            </div>
+            <div>
+                <p class="text-xs italic text-right py-2">Презерватив в индивидуальной упаковке</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-24 py-8">
+        <div class="main-grid">
+            <div class="col-span-full col-start-2">
+                <h2 class="h2 font-benzin uppercase mb-8">Вам может быть интересно</h2>
+            </div>
+        </div>
+        <div class="flex ">
+            <!-- Карусель -->
+            <div class="carousel-wrapper">
+                <div class="carousel-track">
+                    <!-- Карточки (добавь столько сколько нужно) -->
+                    <article class="carousel-card">
+                        <a href="product_detail.html" class="block">
+                            <div class="carousel-card_picture">
+                                <img src="../dist/images/figure-2.jpg" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
+                                <div class="product-card_label" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
+                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
+                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="carousel-card_info">
+                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Неощутимые на 95% 0.02 мм, 5 шт.</h3>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="carousel-card">
+                        <a href="product_detail.html" class="block">
+                            <div class="carousel-card_picture">
+                                <img src="../dist/images/figure-3.jpg" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
+                                <div class="product-card_label" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
+                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
+                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="carousel-card_info">
+                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Классические 0.03 мм, 10 шт.</h3>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="carousel-card">
+                        <a href="product_detail.html" class="block">
+                            <div class="carousel-card_picture">
+                                <img src="../dist/images/figure.jpg" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
+                                <div class="product-card_label" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
+                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
+                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="carousel-card_info">
+                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Ребристые 0.02 мм, 3 шт.</h3>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="carousel-card">
+                        <a href="product_detail.html" class="block">
+                            <div class="carousel-card_picture">
+                                <img src="../dist/images/figure-2.jpg" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
+                                <div class="product-card_label" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
+                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
+                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="carousel-card_info">
+                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS XXL увеличенные 0.03 мм, 5 шт.</h3>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="carousel-card">
+                        <a href="product_detail.html" class="block">
+                            <div class="carousel-card_picture">
+                                <img src="../dist/images/figure-3.jpg" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
+                                <div class="product-card_label" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
+                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
+                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="carousel-card_info">
+                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Точечные 0.02 мм, 5 шт.</h3>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="carousel-card">
+                        <a href="product_detail.html" class="block">
+                            <div class="carousel-card_picture">
+                                <img src="../dist/images/figure.jpg" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
+                                <div class="product-card_label" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
+                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
+                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="carousel-card_info">
+                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Mix набор 0.02 мм, 12 шт.</h3>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+
+                <!-- Кастомный курсор -->
+                <div class="carousel-cursor"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <section class="main-grid gap-12">
+        <div class="col-span-full md:col-span-2 lg:col-span-4 xl:col-span-3 lg:col-start-2 xl:col-start-2 px-4 lg:px-0">
+            <div class="flex flex-col gap-6">
+                <h4 class="font-benzin uppercase text-xs">menu</h4>
+                <ul class="footer-menu">
+                    <li class="nav-item">
+                        <a href="">
+                            главная
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="">
+                            о компании
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="">
+                            каталог
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="">
+                            контакты
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-span-full md:col-span-4 lg:col-span-10 xl:col-span-3 px-4 lg:px-0">
+            <div class="flex flex-col gap-6">
+                <h4 class="font-benzin uppercase text-xs">Политики</h4>
+                <ul class="footer-menu">
+                    <li class="nav-item">
+                        <a href="">Политика конфиденциальности</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="">Условия покупки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="">Настройки файлов cookie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="">сертификат соотвествия</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-span-full lg:col-span-full xl:col-span-8 xl:col-start-0 lg:col-start-2 px-4 lg:px-0 flex">
+            <div class="mt-auto w-full lg:pr-16">
+                <ul class="flex gap-8 justify-start xl:justify-end">
+                    <li class="hover:text-red-500">
+                        <a href="">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_74_88)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M32 16C32 24.8365 24.8365 32 16 32C7.16344 32 0 24.8365 0 16C0 7.16344 7.16344 0 16 0C24.8365 0 32 7.16344 32 16ZM16.5733 11.8119C15.0171 12.4592 11.9068 13.7989 7.24251 15.831C6.48509 16.1323 6.08832 16.427 6.05221 16.715C5.99117 17.2021 6.60094 17.3938 7.43128 17.6549C7.54424 17.6904 7.66126 17.7272 7.78123 17.7661C8.59816 18.0317 9.69709 18.3424 10.2684 18.3547C10.7866 18.3659 11.365 18.1523 12.0035 17.7138C16.3616 14.772 18.6112 13.2851 18.7523 13.253C18.852 13.2304 18.9901 13.2019 19.0837 13.2851C19.1773 13.3683 19.168 13.5258 19.1581 13.568C19.0978 13.8256 16.7042 16.0509 15.4654 17.2024C15.0794 17.5614 14.8054 17.816 14.7494 17.8742C14.624 18.0045 14.4962 18.1277 14.3733 18.2461C13.6144 18.9778 13.0451 19.5264 14.4048 20.4224C15.0582 20.853 15.581 21.209 16.1026 21.5642C16.6722 21.9522 17.2403 22.339 17.9755 22.821C18.1627 22.9437 18.3416 23.0712 18.5158 23.1954C19.1787 23.668 19.7742 24.0926 20.5101 24.0248C20.9376 23.9856 21.3792 23.5835 21.6035 22.3845C22.1336 19.5509 23.1755 13.4112 23.4163 10.8813C23.4374 10.6596 23.4109 10.376 23.3896 10.2514C23.3682 10.1269 23.3237 9.94947 23.1618 9.81813C22.9701 9.66258 22.6742 9.62978 22.5418 9.632C21.94 9.64272 21.0166 9.96376 16.5733 11.8119Z" fill="currentColor"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_74_88">
+                                        <rect width="32" height="32" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="hover:text-red-500">
+                        <a href="">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.11711 15.8744C2.11627 18.3196 2.75809 20.7068 3.97812 22.8108L2 30L9.39123 28.0708C11.4278 29.1763 13.7204 29.759 16.0538 29.7599H16.0598C23.7436 29.7599 29.9991 23.5349 30.0023 15.8852C30.0036 12.1775 28.5544 8.69154 25.9223 6.06909C23.2897 3.44665 19.7894 2.0016 16.0598 2C8.37437 2 2.12009 8.22386 2.11688 15.874M6.51842 22.4483L6.24252 22.012C5.08233 20.1759 4.47 18.0538 4.47085 15.875C4.47338 9.51672 9.67176 4.34344 16.0639 4.34344C19.1594 4.34464 22.0686 5.54592 24.2569 7.72545C26.445 9.90515 27.649 12.8027 27.6481 15.884C27.6453 22.2427 22.4468 27.4164 16.0595 27.4164H16.055C13.9752 27.4152 11.9356 26.8595 10.1568 25.8087L9.73341 25.5589L5.34714 26.7037L6.51842 22.4483ZM16.0598 29.7599C16.0595 29.7599 16.0596 29.7599 16.0598 29.7599V29.7599Z" fill="currentColor"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5602 10.2275C12.3021 9.66521 12.0305 9.65396 11.785 9.64407C11.5841 9.63569 11.3543 9.63624 11.1248 9.63624C10.8951 9.63624 10.5219 9.72074 10.2063 10.0586C9.89041 10.3965 9.00046 11.2133 9.00046 12.8744C9.00046 14.5358 10.235 16.141 10.407 16.3665C10.5793 16.5915 12.7903 20.1096 16.2914 21.4628C19.2015 22.5876 19.7937 22.3639 20.4253 22.3075C21.0569 22.2513 22.4635 21.491 22.7504 20.7026C23.0376 19.9142 23.0376 19.2385 22.9515 19.0973C22.8654 18.9566 22.6356 18.8721 22.2911 18.7034C21.9465 18.5345 20.253 17.7176 19.9373 17.6049C19.6214 17.4924 19.3917 17.4362 19.162 17.7742C18.9323 18.1118 18.2726 18.8721 18.0715 19.0973C17.8706 19.323 17.6696 19.3511 17.3251 19.1823C16.9805 19.0128 15.871 18.6566 14.5548 17.5065C13.5307 16.6116 12.8394 15.5064 12.6383 15.1683C12.4374 14.8307 12.6169 14.6478 12.7896 14.4795C12.9444 14.3282 13.1342 14.0853 13.3065 13.8882C13.4784 13.691 13.5357 13.5503 13.6505 13.3251C13.7655 13.0997 13.708 12.9025 13.6219 12.7336C13.5357 12.5648 12.8665 10.8952 12.5602 10.2275Z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="hover:text-red-500">
+                        <a href="">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.0013 2C12.1991 2 11.7219 2.01663 10.2286 2.08458C8.73815 2.15283 7.72081 2.38879 6.83063 2.735C5.90983 3.09258 5.12874 3.57092 4.35057 4.34938C3.57181 5.12754 3.09347 5.90862 2.73472 6.82912C2.38763 7.71958 2.15138 8.73721 2.08429 10.227C2.0175 11.7204 2 12.1978 2 16C2 19.8022 2.01692 20.2779 2.08458 21.7712C2.15313 23.2616 2.38909 24.279 2.73501 25.1691C3.09289 26.0899 3.57122 26.871 4.34969 27.6492C5.12757 28.4279 5.90867 28.9074 6.82888 29.265C7.71964 29.6112 8.73728 29.8472 10.2274 29.9154C11.7208 29.9834 12.1976 30 15.9996 30C19.8021 30 20.2778 29.9834 21.7711 29.9154C23.2616 29.8472 24.2801 29.6112 25.1708 29.265C26.0913 28.9074 26.8713 28.4279 27.6491 27.6492C28.4279 26.871 28.9062 26.0899 29.265 25.1694C29.6092 24.279 29.8454 23.2613 29.9154 21.7715C29.9825 20.2782 30 19.8022 30 16C30 12.1978 29.9825 11.7207 29.9154 10.2273C29.8454 8.73692 29.6092 7.71958 29.265 6.82942C28.9062 5.90862 28.4279 5.12754 27.6491 4.34938C26.8704 3.57063 26.0916 3.09229 25.17 2.735C24.2774 2.38879 23.2595 2.15283 21.7691 2.08458C20.2757 2.01663 19.8003 2 15.9969 2H16.0013ZM14.7454 4.52292C15.1181 4.52233 15.5341 4.52292 16.0013 4.52292C19.7393 4.52292 20.1824 4.53633 21.6585 4.60342C23.0236 4.66583 23.7644 4.89392 24.2579 5.08554C24.9112 5.33929 25.377 5.64262 25.8667 6.13262C26.3568 6.62262 26.6601 7.08929 26.9144 7.74262C27.1061 8.23554 27.3344 8.97637 27.3966 10.3414C27.4636 11.8172 27.4782 12.2605 27.4782 15.9968C27.4782 19.733 27.4636 20.1764 27.3966 21.6522C27.3341 23.0172 27.1061 23.758 26.9144 24.251C26.6607 24.9043 26.3568 25.3695 25.8667 25.8592C25.3767 26.3492 24.9115 26.6525 24.2579 26.9063C23.765 27.0988 23.0236 27.3263 21.6585 27.3887C20.1827 27.4558 19.7393 27.4704 16.0013 27.4704C12.263 27.4704 11.8199 27.4558 10.3441 27.3887C8.97907 27.3257 8.23823 27.0976 7.74443 26.906C7.09109 26.6522 6.62442 26.3489 6.13442 25.8589C5.64441 25.3689 5.34108 24.9034 5.08674 24.2498C4.89511 23.7569 4.66674 23.016 4.60461 21.651C4.53753 20.1752 4.52411 19.7319 4.52411 15.9933C4.52411 12.2547 4.53753 11.8137 4.60461 10.3379C4.66703 8.97288 4.89511 8.23204 5.08674 7.73854C5.34049 7.08521 5.64441 6.61854 6.13442 6.12854C6.62442 5.63854 7.09109 5.33521 7.74443 5.08087C8.23794 4.88837 8.97907 4.66088 10.3441 4.59817C11.6356 4.53983 12.1361 4.52233 14.7454 4.51942V4.52292ZM23.4745 6.8475C22.547 6.8475 21.7945 7.59912 21.7945 8.52692C21.7945 9.45442 22.547 10.2069 23.4745 10.2069C24.402 10.2069 25.1545 9.45442 25.1545 8.52692C25.1545 7.59942 24.402 6.84692 23.4745 6.84692V6.8475ZM16.0013 8.81042C12.0308 8.81042 8.81165 12.0295 8.81165 16C8.81165 19.9705 12.0308 23.1881 16.0013 23.1881C19.9718 23.1881 23.1898 19.9705 23.1898 16C23.1898 12.0295 19.9718 8.81042 16.0013 8.81042ZM16.0013 11.3333C18.5785 11.3333 20.668 13.4225 20.668 16C20.668 18.5772 18.5785 20.6667 16.0013 20.6667C13.4238 20.6667 11.3346 18.5772 11.3346 16C11.3346 13.4225 13.4238 11.3333 16.0013 11.3333Z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="hover:text-red-500">
+                        <a href="">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_74_96)">
+                                    <path d="M28 9.77785C23.3743 9.77785 18.6939 7.08503 18.6939 2.66675" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M11.3469 15.2983C7.28933 15.2983 4 18.4402 4 22.3158C4 26.1915 7.28933 29.3334 11.3469 29.3334C15.4045 29.3334 18.6939 26.1915 18.6939 22.3158V2.66675" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_74_96">
+                                        <rect width="32" height="32" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="hover:text-red-500">
+                        <a href="">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_74_100)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7815 20.1378V11.1589C15.969 12.6588 18.4377 14.1077 21.3575 15.6699C18.9493 17.0054 15.969 18.5039 12.7815 20.1378ZM30.5456 6.6933C29.9958 5.96889 29.0586 5.40499 28.0609 5.2183C25.1284 4.66142 6.83358 4.65984 3.90264 5.2183C3.10257 5.36829 2.39014 5.73082 1.77813 6.29408C-0.80058 8.68752 0.00746589 21.5228 0.629035 23.6019C0.890411 24.5018 1.2283 25.1509 1.65384 25.5769C2.20209 26.1401 2.95275 26.528 3.81497 26.7019C6.22953 27.2013 18.6689 27.4806 28.0099 26.7769C28.8706 26.6269 29.6324 26.2266 30.2332 25.6394C32.6175 23.2555 32.4549 9.69946 30.5456 6.6933Z" fill="currentColor"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_74_100">
+                                        <rect width="32" height="32" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-span-full lg:col-start-2 pt-12 pb-8">
+            <p class="text-xs uppercase tracking-wide text-center md:text-left">© 2024 DR.JOYS - Все права защищены</p>
+        </div>
+    </section>
+</footer>
+
+<!-- YouTube Player API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+
+<script src="../dist/js/main.js"></script>
+
 </body>
 </html>

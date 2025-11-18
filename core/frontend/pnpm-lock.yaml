@@ -23,11 +23,20 @@ importers:
       live-server:
         specifier: ^1.2.2
         version: 1.2.2
+      onchange:
+        specifier: ^7.1.0
+        version: 7.1.0
       tailwindcss:
         specifier: ^4.1.0
         version: 4.1.17
 
 packages:
+
+  '@blakeembrey/deque@1.0.5':
+    resolution: {integrity: sha512-6xnwtvp9DY1EINIKdTfvfeAtCYw4OqBZJhtiqkT3ivjnEfa25VQ3TsKvaFfKm8MyGIEfE95qLe+bNEt3nB0Ylg==}
+
+  '@blakeembrey/template@1.2.0':
+    resolution: {integrity: sha512-w/63nURdkRPpg3AXbNr7lPv6HgOuVDyefTumiXsbXxtIwcuk5EXayWR5OpSwDjsQPgaYsfUSedMduaNOjAYY8A==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -257,6 +266,10 @@ packages:
   anymatch@2.0.0:
     resolution: {integrity: sha512-5teOsQWABXHHBFP9y3skS5P3d/WfWXpv3FUpy+LorMrNYaT9pI4oLMQX7jzQ2KklNpGpWHzdCXTDT2Y3XGlZBw==}
 
+  anymatch@3.1.3:
+    resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
+    engines: {node: '>= 8'}
+
   apache-crypt@1.2.6:
     resolution: {integrity: sha512-072WetlM4blL8PREJVeY+WHiUh1R5VNt2HfceGS8aKqttPHcmqE5pkKuXPz/ULmJOFkc8Hw3kfKl6vy7Qka6DA==}
     engines: {node: '>=8'}
@@ -264,6 +277,9 @@ packages:
   apache-md5@1.1.8:
     resolution: {integrity: sha512-FCAJojipPn0bXjuEpjOOOMN8FZDkxfWWp4JGN9mifU2IhxvKyXZYqpzPHdnTSUpmPDy+tsslB6Z1g+Vg6nVbYA==}
     engines: {node: '>=8'}
+
+  arg@4.1.3:
+    resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
 
   arr-diff@4.0.0:
     resolution: {integrity: sha512-YVIQ82gZPGBebQV/a8dar4AitzCQs0jjXwMPZllpXMaGjXPYVUawSxQrRsjhjupyVxEvbHgUmIhKVlND+j02kA==}
@@ -315,6 +331,10 @@ packages:
     resolution: {integrity: sha512-Un7MIEDdUC5gNpcGDV97op1Ywk748MpHcFTHoYs6qnj1Z3j7I53VG3nwZhKzoBZmbdRNnb6WRdFlwl7tSDuZGw==}
     engines: {node: '>=0.10.0'}
 
+  binary-extensions@2.3.0:
+    resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
+    engines: {node: '>=8'}
+
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
 
@@ -336,6 +356,10 @@ packages:
 
   chokidar@2.1.8:
     resolution: {integrity: sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==}
+
+  chokidar@3.6.0:
+    resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
+    engines: {node: '>= 8.10.0'}
 
   class-utils@0.3.6:
     resolution: {integrity: sha512-qOhPa/Fj7s6TY8H8esGu5QNpMMQxz79h+urzrNYN6mn+9BnxlDGf5QZ+XeCDsxSjPqsSR56XOZOJmpeurnLMeg==}
@@ -565,6 +589,11 @@ packages:
     os: [darwin]
     deprecated: Upgrade to fsevents v2 to mitigate potential security issues
 
+  fsevents@2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
 
@@ -650,6 +679,10 @@ packages:
   is-binary-path@1.0.1:
     resolution: {integrity: sha512-9fRVlXc0uCxEDj1nQzaWONSpbTfx0FmJfzHF7pwlI8DkWGoHBBea4Pg5Ky0ojwwxQmnSifgbKkI06Qv0Ljgj+Q==}
     engines: {node: '>=0.10.0'}
+
+  is-binary-path@2.1.0:
+    resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
+    engines: {node: '>=8'}
 
   is-buffer@1.1.6:
     resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
@@ -940,6 +973,10 @@ packages:
     resolution: {integrity: sha512-737ZY3yNnXy37FHkQxPzt4UZ2UWPWiCZWLvFZ4fu5cueciegX0zGPnrlY6bwRg4FdQOe9YU8MkmJwGhoMybl8A==}
     engines: {node: '>= 0.8'}
 
+  onchange@7.1.0:
+    resolution: {integrity: sha512-ZJcqsPiWUAUpvmnJri5TPBooqJOPmC0ttN65juhN15Q8xA+Nbg3BaxBHXQ45EistKKlKElb0edmbPWnKSBkvMg==}
+    hasBin: true
+
   opn@6.0.0:
     resolution: {integrity: sha512-I9PKfIZC+e4RXZ/qr1RhgyCnGgYX0UEIlXgWnCOVACIvFgaC9rz6Won7xbdhoHrd8IIhV7YEpHjreNUNkqCGkQ==}
     engines: {node: '>=8'}
@@ -1022,6 +1059,10 @@ packages:
   readdirp@2.2.1:
     resolution: {integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==}
     engines: {node: '>=0.10'}
+
+  readdirp@3.6.0:
+    resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
+    engines: {node: '>=8.10.0'}
 
   regex-not@1.0.2:
     resolution: {integrity: sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==}
@@ -1287,6 +1328,10 @@ packages:
 
 snapshots:
 
+  '@blakeembrey/deque@1.0.5': {}
+
+  '@blakeembrey/template@1.2.0': {}
+
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -1472,11 +1517,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  anymatch@3.1.3:
+    dependencies:
+      normalize-path: 3.0.0
+      picomatch: 2.3.1
+
   apache-crypt@1.2.6:
     dependencies:
       unix-crypt-td-js: 1.1.4
 
   apache-md5@1.1.8: {}
+
+  arg@4.1.3: {}
 
   arr-diff@4.0.0: {}
 
@@ -1513,6 +1565,8 @@ snapshots:
   bcryptjs@2.4.3: {}
 
   binary-extensions@1.13.1: {}
+
+  binary-extensions@2.3.0: {}
 
   bindings@1.5.0:
     dependencies:
@@ -1572,6 +1626,18 @@ snapshots:
       fsevents: 1.2.13
     transitivePeerDependencies:
       - supports-color
+
+  chokidar@3.6.0:
+    dependencies:
+      anymatch: 3.1.3
+      braces: 3.0.3
+      glob-parent: 5.1.2
+      is-binary-path: 2.1.0
+      is-glob: 4.0.3
+      normalize-path: 3.0.0
+      readdirp: 3.6.0
+    optionalDependencies:
+      fsevents: 2.3.3
 
   class-utils@0.3.6:
     dependencies:
@@ -1824,6 +1890,9 @@ snapshots:
       nan: 2.23.1
     optional: true
 
+  fsevents@2.3.3:
+    optional: true
+
   function-bind@1.1.2: {}
 
   get-caller-file@2.0.5: {}
@@ -1913,6 +1982,10 @@ snapshots:
   is-binary-path@1.0.1:
     dependencies:
       binary-extensions: 1.13.1
+
+  is-binary-path@2.1.0:
+    dependencies:
+      binary-extensions: 2.3.0
 
   is-buffer@1.1.6: {}
 
@@ -2182,6 +2255,16 @@ snapshots:
 
   on-headers@1.1.0: {}
 
+  onchange@7.1.0:
+    dependencies:
+      '@blakeembrey/deque': 1.0.5
+      '@blakeembrey/template': 1.2.0
+      arg: 4.1.3
+      chokidar: 3.6.0
+      cross-spawn: 7.0.6
+      ignore: 5.3.2
+      tree-kill: 1.2.2
+
   opn@6.0.0:
     dependencies:
       is-wsl: 1.1.0
@@ -2249,6 +2332,10 @@ snapshots:
       readable-stream: 2.3.8
     transitivePeerDependencies:
       - supports-color
+
+  readdirp@3.6.0:
+    dependencies:
+      picomatch: 2.3.1
 
   regex-not@1.0.2:
     dependencies:

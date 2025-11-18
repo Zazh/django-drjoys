@@ -5,12 +5,7 @@ export default {
     "./src/**/*.{html,js}",
   ],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        benzin: ['Benzin', 'sans-serif'],
-      },
-    }
+    extend: {},
   },
   plugins: [],
 }
