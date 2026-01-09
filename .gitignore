@@ -1,11 +1,45 @@
-/core/media
-/core/staticfiles
-/.venv
-.idea
-.env
-core/frontend/node_modules
-core/frontend/package.json
-core/frontend/package-lock.json
-
+# Python
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+app/media/
+staticfiles/
+
+# Environment
+../.env
+.env.*
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+.pnpm-store/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+
+Dockerfile

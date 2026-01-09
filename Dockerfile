@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копирование проекта (исправлено на core)
-COPY ./core /app
+# Копирование проекта (исправлено на app)
+COPY app /app
 
 # Создание необходимых директорий
 RUN mkdir -p /app/media /app/staticfiles

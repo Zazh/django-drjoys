@@ -25,20 +25,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Third party
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
     'drf_spectacular',
 
-    # Local apps
-    'products',  # Добавьте приложение
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # До CommonMiddleware
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -99,7 +96,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Дополнительные директории со статикой
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # <-- Добавь эту строку
+    BASE_DIR / 'static',
 ]
 
 MEDIA_URL = '/media/'
