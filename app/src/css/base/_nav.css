@@ -1,0 +1,13 @@
+.nav {
+    @apply flex lg:flex-col lg:gap-5 gap-6 flex-nowrap px-4 py-4 lg:px-0;
+}
+.nav-item  > a {
+    @apply inline-block whitespace-nowrap;
+}
+.nav .nav-item {
+    @apply uppercase tracking-wider text-gray-500 text-sm hover:text-red-500;
+    @apply flex-shrink-0;
+}
+.nav .nav-item.active {
+    @apply text-black font-bold transition-all duration-200;
+}

@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<main class="site-main ">
+<main>
     <section class="main-grid">
         <!-- Картинка -->
         <div class="col-span-full lg:col-start-3 lg:col-span-6">
@@ -20,8 +20,8 @@
         <!-- Инфо -->
         <div class="col-span-full lg:col-start-10 lg:col-span-5">
             <div class="pt-50 h-full flex flex-col">
-                <div class="product_info">
-                    <div class="product_info_title">
+                <div class="flex flex-col gap-8">
+                    <div class="border-b-[0.5px] border-b-black pb-8">
                         <h5 class="text-sm tracking-wide text-red-500 mb-2 font-bold">ХИТ ПРОДАЖ</h5>
                         <h1 class="h2 br-lg font-benzin uppercase">Презервативы DR.JOYS <span> классические, банан,</span> <span>0.02 мм, 5 шт.</span></h1>
                     </div>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="lg:mt-auto mt-12 pt-8 pb-4">
-                    <ul class="product_links">
+                    <ul class="flex flex-col gap-3">
                         <li class="product_links-item"><a href="#characters" class="w-full block">СОСТАВ И ХАРАКТЕРИСТИКИ</a></li>
                         <li class="product_links-item"><a href="" class="w-full block">Как правильно выбрать размер</a></li>
                         <li class="product_links-item"><a href="" class="w-full block">Инструкция по применению</a></li>
@@ -104,7 +104,7 @@
     <section class="main-grid mt-24">
         <!-- Слайдер 1 -->
         <div class="lg:col-start-2 lg:col-span-6 col-span-full flex flex-col">
-            <div class="product-slider w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
+            <div class="[ product-slider ] w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
                 <!-- Картинки -->
                 <img src="{% static 'dist/images/upakovka.jpg' %}" class="slider-image" alt="Упаковка вид 3">
                 <img src="{% static 'dist/images/upakovka-1.jpg' %}" class="slider-image" alt="Упаковка вид 3">
@@ -139,7 +139,7 @@
 
         <!-- Слайдер 2 -->
         <div class="lg:col-start-9 lg:col-span-6 col-span-full flex flex-col">
-            <div class="product-slider w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
+            <div class="[ product-slider ] w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
                 <!-- Картинки -->
                 <img src="{% static 'dist/images/paket.jpg' %}" class="slider-image" alt="Пакет вид 3">
                 <img src="{% static 'dist/images/paket-1.jpg' %}" class="slider-image" alt="Пакет вид 3">
@@ -183,7 +183,7 @@
                 <div class="carousel-track">
                     <!-- Карточки (добавь столько сколько нужно) -->
                     <article class="carousel-card">
-                        <a href="product_detail.html" class="block">
+                        <a href="" class="block">
                             <div class="carousel-card_picture">
                                 <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
                                 <div class="product-card_label" aria-hidden="true">
@@ -201,7 +201,7 @@
                     </article>
 
                     <article class="carousel-card">
-                        <a href="product_detail.html" class="block">
+                        <a href="" class="block">
                             <div class="carousel-card_picture">
                                 <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
                                 <div class="product-card_label" aria-hidden="true">
@@ -219,7 +219,7 @@
                     </article>
 
                     <article class="carousel-card">
-                        <a href="product_detail.html" class="block">
+                        <a href="" class="block">
                             <div class="carousel-card_picture">
                                 <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
                                 <div class="product-card_label" aria-hidden="true">
@@ -237,7 +237,7 @@
                     </article>
 
                     <article class="carousel-card">
-                        <a href="product_detail.html" class="block">
+                        <a href="" class="block">
                             <div class="carousel-card_picture">
                                 <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
                                 <div class="product-card_label" aria-hidden="true">
@@ -255,7 +255,7 @@
                     </article>
 
                     <article class="carousel-card">
-                        <a href="product_detail.html" class="block">
+                        <a href="" class="block">
                             <div class="carousel-card_picture">
                                 <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
                                 <div class="product-card_label" aria-hidden="true">
@@ -273,7 +273,7 @@
                     </article>
 
                     <article class="carousel-card">
-                        <a href="product_detail.html" class="block">
+                        <a href="" class="block">
                             <div class="carousel-card_picture">
                                 <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
                                 <div class="product-card_label" aria-hidden="true">
@@ -305,6 +305,60 @@
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+// --------------------------------------------
+// 7. ZOOM ЭФФЕКТ ДЛЯ КАРТИНКИ ТОВАРА ПРИ СКРОЛЛЕ
+// --------------------------------------------
+function initProductZoom() {
+    // Проверяем что GSAP загружен
+    if (typeof gsap === 'undefined') {
+        console.warn('GSAP не загружен - zoom эффект не работает');
+        return;
+    }
+
+    const zoomImages = document.querySelectorAll('.product-zoom-image');
+
+    if (zoomImages.length === 0) return;
+
+    // Регистрируем плагин ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    zoomImages.forEach(image => {
+        const container = image.closest('.product-zoom-container');
+        if (!container) return;
+
+        // Получаем градус поворота из data-атрибута (по умолчанию 15)
+        const rotationDegree = parseFloat(image.getAttribute('data-rotate')) || 15;
+
+        // Создаем GSAP анимацию
+        gsap.fromTo(image,
+            {
+                // Начальное состояние
+                scale: 1,
+                rotation: 0,
+            },
+            {
+                // Конечное состояние
+                scale: 1.5,  // Увеличение на 30%
+                rotation: rotationDegree,  // Поворот из data-rotate
+                ease: "none",  // Линейная анимация для плавности со скроллом
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top bottom",  // Начинаем когда верх контейнера достигает низа экрана
+                    end: "bottom top",    // Заканчиваем когда низ контейнера достигает верха экрана
+                    scrub: 1,  // Плавная синхронизация со скроллом (1 секунда задержки)
+                    // markers: true,  // Раскомментируй для отладки
+                }
+            }
+        );
+    });
+}
+
+// Инициализируем после загрузки
+window.addEventListener('load', initProductZoom);
+</script>
+
 {% endblock %}
 
 

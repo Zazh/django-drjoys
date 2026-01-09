@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<main class="site-main mt-[6rem] lg:mt-40">
+<main class="mt-[6rem] lg:mt-40">
     <section class="main-grid">
         <div class="col-span-full mb-6 lg:mb-12 lg:col-start-2 flex flex-wrap gap-6 justify-center lg:justify-between items-end">
             <div class="w-full lg:w-auto">
@@ -26,7 +26,7 @@
 
         <div class="col-span-full lg:col-span-14 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 lg:gap-4 pb-12 px-4 lg:px-0" id="productGrid">
             <article class="product-card heart-trigger">
-                <a href="product_detail.html" class="relative block">
+                <a href="{% url 'product_detail' %}" class="relative block">
                     <div class="product-card_picture" data-images-count="3">
                         <!-- Картинки товара -->
                         <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
@@ -51,7 +51,7 @@
             </article>
 
             <article class="product-card heart-trigger">
-                <a href="product_detail.html" class="relative block">
+                <a href="{% url 'product_detail' %}" class="relative block">
                     <div class="product-card_picture" data-images-count="3">
                         <!-- Картинки товара -->
                         <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
@@ -76,7 +76,7 @@
             </article>
 
             <article class="product-card">
-                <a href="product_detail.html" class="relative block">
+                <a href="{% url 'product_detail' %}" class="relative block">
                     <div class="product-card_picture" data-images-count="3">
                         <!-- Картинки товара -->
                         <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
@@ -101,7 +101,7 @@
             </article>
 
             <article class="product-card heart-trigger">
-                <a href="product_detail.html" class="relative block">
+                <a href="{% url 'product_detail' %}" class="relative block">
                     <div class="product-card_picture" data-images-count="3">
                         <!-- Картинки товара -->
                         <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
@@ -126,7 +126,7 @@
             </article>
 
             <article class="product-card heart-trigger">
-                <a href="product_detail.html" class="relative block">
+                <a href="{% url 'product_detail' %}" class="relative block">
                     <div class="product-card_picture" data-images-count="3">
                         <!-- Картинки товара -->
                         <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
@@ -158,7 +158,7 @@
                     <h1 class="h2 font-benzin uppercase">faq</h1>
                 </div>
                 <div class="py-8">
-                    <ul class="faq-list">
+                    <ul class="flex flex-col gap-3">
                         <!-- Просто повторяй этот блок в цикле Django -->
                         <li class="faq-item">
                             <button class="faq-button" type="button">

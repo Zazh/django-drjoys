@@ -307,48 +307,6 @@
     });
   }
   window.addEventListener("load", initAddToCart);
-  function initProductZoom() {
-    if (typeof gsap === "undefined") {
-      console.warn("GSAP \u043D\u0435 \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043D - zoom \u044D\u0444\u0444\u0435\u043A\u0442 \u043D\u0435 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442");
-      return;
-    }
-    const zoomImages = document.querySelectorAll(".product-zoom-image");
-    if (zoomImages.length === 0) return;
-    gsap.registerPlugin(ScrollTrigger);
-    zoomImages.forEach((image) => {
-      const container = image.closest(".product-zoom-container");
-      if (!container) return;
-      const rotationDegree = parseFloat(image.getAttribute("data-rotate")) || 15;
-      gsap.fromTo(
-        image,
-        {
-          // Начальное состояние
-          scale: 1,
-          rotation: 0
-        },
-        {
-          // Конечное состояние
-          scale: 1.5,
-          // Увеличение на 30%
-          rotation: rotationDegree,
-          // Поворот из data-rotate
-          ease: "none",
-          // Линейная анимация для плавности со скроллом
-          scrollTrigger: {
-            trigger: container,
-            start: "top bottom",
-            // Начинаем когда верх контейнера достигает низа экрана
-            end: "bottom top",
-            // Заканчиваем когда низ контейнера достигает верха экрана
-            scrub: 1
-            // Плавная синхронизация со скроллом (1 секунда задержки)
-            // markers: true,  // Раскомментируй для отладки
-          }
-        }
-      );
-    });
-  }
-  window.addEventListener("load", initProductZoom);
   function initProductSlider() {
     const sliders = document.querySelectorAll(".product-slider");
     if (sliders.length === 0) return;

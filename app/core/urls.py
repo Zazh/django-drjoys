@@ -8,9 +8,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Страницы для верстки
-    path('', TemplateView.as_view(template_name='pages/home.html'), name='home'),
-    path('catalog/', TemplateView.as_view(template_name='pages/catalog.html'), name='catalog'),
-    path('product/', TemplateView.as_view(template_name='pages/product_detail.html'), name='product_detail'),
+    path('', TemplateView.as_view(template_name='pages/home.html', extra_context={'page_type': 'home'}), name='home'),
+    path('catalog/', TemplateView.as_view(template_name='pages/catalog.html', extra_context={'page_type': 'catalog'}), name='catalog'),
+    path('product/', TemplateView.as_view(template_name='pages/product_detail.html', extra_context={'page_type': 'product_detail'}), name='product_detail'),
 ]
 
 if settings.DEBUG:

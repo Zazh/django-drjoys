@@ -1,0 +1,9 @@
+.breadcrumb {
+    @apply flex gap-3;
+}
+.breadcrumb-item {
+    @apply text-xs uppercase tracking-wider text-gray-500 hover:text-red-500;
+}
+.breadcrumb-item:last-child {
+    @apply text-black;
+}

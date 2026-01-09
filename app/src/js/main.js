@@ -482,56 +482,6 @@ function initAddToCart() {
 
 window.addEventListener('load', initAddToCart);
 
-// --------------------------------------------
-// 7. ZOOM ЭФФЕКТ ДЛЯ КАРТИНКИ ТОВАРА ПРИ СКРОЛЛЕ
-// --------------------------------------------
-function initProductZoom() {
-    // Проверяем что GSAP загружен
-    if (typeof gsap === 'undefined') {
-        console.warn('GSAP не загружен - zoom эффект не работает');
-        return;
-    }
-
-    const zoomImages = document.querySelectorAll('.product-zoom-image');
-
-    if (zoomImages.length === 0) return;
-
-    // Регистрируем плагин ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
-
-    zoomImages.forEach(image => {
-        const container = image.closest('.product-zoom-container');
-        if (!container) return;
-
-        // Получаем градус поворота из data-атрибута (по умолчанию 15)
-        const rotationDegree = parseFloat(image.getAttribute('data-rotate')) || 15;
-
-        // Создаем GSAP анимацию
-        gsap.fromTo(image,
-            {
-                // Начальное состояние
-                scale: 1,
-                rotation: 0,
-            },
-            {
-                // Конечное состояние
-                scale: 1.5,  // Увеличение на 30%
-                rotation: rotationDegree,  // Поворот из data-rotate
-                ease: "none",  // Линейная анимация для плавности со скроллом
-                scrollTrigger: {
-                    trigger: container,
-                    start: "top bottom",  // Начинаем когда верх контейнера достигает низа экрана
-                    end: "bottom top",    // Заканчиваем когда низ контейнера достигает верха экрана
-                    scrub: 1,  // Плавная синхронизация со скроллом (1 секунда задержки)
-                    // markers: true,  // Раскомментируй для отладки
-                }
-            }
-        );
-    });
-}
-
-// Инициализируем после загрузки
-window.addEventListener('load', initProductZoom);
 
 
 // --------------------------------------------
