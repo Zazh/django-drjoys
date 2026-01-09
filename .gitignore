@@ -45,6 +45,6 @@ htmlcov/
 
 
 # Src image
-src/images
+app/src/images/
 
 Dockerfile
