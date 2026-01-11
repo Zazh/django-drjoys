@@ -20,9 +20,11 @@
     --text-xl--line-height: calc(1.75 / 1.25);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
+    --font-weight-medium: 500;
     --font-weight-bold: 700;
     --tracking-wide: 0.025em;
     --tracking-wider: 0.05em;
+    --leading-tight: 1.25;
     --blur-xs: 4px;
     --blur-xl: 24px;
     --aspect-video: 16 / 9;
@@ -257,8 +259,26 @@
   .mt-24 {
     margin-top: calc(var(--spacing) * 24);
   }
+  .mt-\[5rem\] {
+    margin-top: 5rem;
+  }
   .mt-\[6rem\] {
     margin-top: 6rem;
+  }
+  .mt-\[7\.5rem\] {
+    margin-top: 7.5rem;
+  }
+  .mt-\[7rem\] {
+    margin-top: 7rem;
+  }
+  .mt-\[8rem\] {
+    margin-top: 8rem;
+  }
+  .mt-\[10rem\] {
+    margin-top: 10rem;
+  }
+  .mt-\[20rem\] {
+    margin-top: 20rem;
   }
   .mt-auto {
     margin-top: auto;
@@ -271,6 +291,9 @@
   }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
+  }
+  .mb-auto {
+    margin-bottom: auto;
   }
   .ml-auto {
     margin-left: auto;
@@ -438,6 +461,9 @@
   .pb-4 {
     padding-bottom: calc(var(--spacing) * 4);
   }
+  .pb-5 {
+    padding-bottom: calc(var(--spacing) * 5);
+  }
   .pb-8 {
     padding-bottom: calc(var(--spacing) * 8);
   }
@@ -460,13 +486,25 @@
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
   }
+  .text-xl {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
   .text-xs {
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
+  .leading-tight {
+    --tw-leading: var(--leading-tight);
+    line-height: var(--leading-tight);
+  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
+  }
+  .font-medium {
+    --tw-font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium);
   }
   .tracking-wide {
     --tw-tracking: var(--tracking-wide);
@@ -617,6 +655,11 @@
       margin-top: calc(var(--spacing) * 40);
     }
   }
+  .lg\:mt-\[7\.5rem\] {
+    @media (width >= 64rem) {
+      margin-top: 7.5rem;
+    }
+  }
   .lg\:mt-auto {
     @media (width >= 64rem) {
       margin-top: auto;
@@ -707,6 +750,18 @@
       text-align: left;
     }
   }
+  .lg\:text-sm {
+    @media (width >= 64rem) {
+      font-size: var(--text-sm);
+      line-height: var(--tw-leading, var(--text-sm--line-height));
+    }
+  }
+  .lg\:text-xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-xl);
+      line-height: var(--tw-leading, var(--text-xl--line-height));
+    }
+  }
   .xl\:col-span-3 {
     @media (width >= 80rem) {
       grid-column: span 3 / span 3;
@@ -787,6 +842,17 @@
   src: url('../fonts/SF-Pro-Display-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
+}
+.display-1 {
+  font-family: var(--font-benzin);
+  font-size: var(--text-2xl);
+  line-height: var(--tw-leading, var(--text-2xl--line-height));
+  --tw-leading: var(--leading-tight);
+  line-height: var(--leading-tight);
+  text-transform: uppercase;
+  @media (width >= 64rem) {
+    font-size: 2.5rem;
+  }
 }
 .h1 {
   font-size: var(--text-2xl);
@@ -1886,6 +1952,10 @@
   inherits: false;
   initial-value: solid;
 }
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
@@ -1973,6 +2043,7 @@
       --tw-skew-x: initial;
       --tw-skew-y: initial;
       --tw-border-style: solid;
+      --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-tracking: initial;
       --tw-backdrop-blur: initial;

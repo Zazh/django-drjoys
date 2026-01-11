@@ -1,3 +1,6 @@
+.display-1 {
+    @apply text-2xl lg:text-[2.5rem] leading-tight font-benzin uppercase;
+}
 .h1 {
     @apply text-2xl;
 }
