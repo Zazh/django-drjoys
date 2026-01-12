@@ -16,6 +16,8 @@
 @import "./components/_product-zoom.css";
 @import "./components/_recommendation_products_carousel.css";
 @import "./components/_product_slider.css";
+@import "./components/_features_carousel.css";
+@import "./components/_hero-carousel.css";
 
 /* Utilities */
 @import "./utilities/custom.css";
@@ -59,7 +61,5 @@
     .main-grid {
         @apply grid grid-cols-6 lg:grid-cols-15 gap-4 mx-2 lg:mx-5;
     }
-    .features {
-        @apply bg-gray-200 py-10 relative;
-    }
+
 }
