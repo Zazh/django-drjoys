@@ -28,6 +28,7 @@
 
 @theme {
     --color-stone-50:   #F2F3F3;
+    --color-gray-200:   #EBEBEB;
     --color-gray-500:   #7D7D7D;
     --color-gray-600:   #4D4D4D;
     --color-gray-700:   #868686;
@@ -57,5 +58,8 @@
 @layer components {
     .main-grid {
         @apply grid grid-cols-6 lg:grid-cols-15 gap-4 mx-2 lg:mx-5;
+    }
+    .features {
+        @apply bg-gray-200 py-10;
     }
 }
