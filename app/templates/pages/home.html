@@ -150,6 +150,7 @@
 <!-- Presentation block -->
 <section id="features" class="features ">
     <div class="features-carousel">
+        <div class="features-cursor"></div>
         <div class="features-card">
             <div class="features-card-container">
                 <div>
@@ -164,7 +165,6 @@
                 <img class="features-bg-img" src="{% static 'dist/images/features/1.jpg' %}" alt="">
             </div>
         </div>
-
         <div class="features-card">
             <div class="features-card-container">
                 <div>
@@ -179,7 +179,6 @@
                 <img class="features-bg-img" src="{% static 'dist/images/features/1.jpg' %}" alt="">
             </div>
         </div>
-
         <div class="features-card">
             <div class="features-card-container">
                 <div>
@@ -193,6 +192,26 @@
             <div class="absolute inset-0 z-0">
                 <img class="features-bg-img" src="{% static 'dist/images/features/1.jpg' %}" alt="">
             </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="absolute bottom-14 flex justify-center items-center w-full">
+        <div class="features-controls">
+            <div class="features-dots">
+                <button class="features-dot active" data-index="0"></button>
+                <button class="features-dot" data-index="1"></button>
+                <button class="features-dot" data-index="2"></button>
+            </div>
+            <button class="features-pause">
+                <svg class="pause-icon" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                    <rect width="4" height="16" rx="1" fill="white"/>
+                    <rect x="10" width="4" height="16" rx="1" fill="white"/>
+                </svg>
+                <svg class="play-icon hidden" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                    <path d="M14 8L0 16V0L14 8Z" fill="white"/>
+                </svg>
+            </button>
         </div>
     </div>
 </section>
@@ -333,16 +352,159 @@
     // FEATURES CAROUSEL
     // --------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
+        const section = document.querySelector('#features');
         const carousel = document.querySelector('.features-carousel');
-        if (!carousel) return;
+        const cursor = document.querySelector('.features-cursor');
+        const dots = document.querySelectorAll('.features-dot');
+        const pauseBtn = document.querySelector('.features-pause');
+        const pauseIcon = pauseBtn?.querySelector('.pause-icon');
+        const playIcon = pauseBtn?.querySelector('.play-icon');
 
-        const isMobile = window.innerWidth < 1024;
-        if (!isMobile) return;
+        if (!carousel || !section) return;
 
-        // Принудительный сброс на первую карточку
-        setTimeout(() => {
-            carousel.scrollTo({ left: 0, behavior: 'instant' });
-        }, 0);
+        const cards = carousel.querySelectorAll('.features-card');
+        let currentIndex = 0;
+        let isPlaying = true;
+        let isVisible = false;
+        let autoplayInterval;
+        let isDragging = false;
+
+        // Scroll to card
+        const scrollToCard = (index) => {
+            const card = cards[index];
+            if (!card) return;
+
+            const isMobile = window.innerWidth < 1024;
+            const scrollLeft = isMobile
+                ? card.offsetLeft - 20
+                : card.offsetLeft - (carousel.offsetWidth - card.offsetWidth) / 2;
+
+            carousel.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+        };
+
+        // Update dots
+        const updateDots = (index) => {
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentIndex = index;
+        };
+
+        // Autoplay
+        const startAutoplay = () => {
+            if (autoplayInterval) clearInterval(autoplayInterval);
+            if (!isPlaying || !isVisible) return;
+
+            autoplayInterval = setInterval(() => {
+                if (!isDragging && isPlaying && isVisible) {
+                    const nextIndex = (currentIndex + 1) % cards.length;
+                    scrollToCard(nextIndex);
+                    updateDots(nextIndex);
+                }
+            }, 4000);
+        };
+
+        const stopAutoplay = () => {
+            clearInterval(autoplayInterval);
+        };
+
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isVisible = entry.isIntersecting;
+
+                if (isVisible && isPlaying) {
+                    startAutoplay();
+                } else {
+                    stopAutoplay();
+                }
+            });
+        }, {
+            threshold: 0.3 // 30% видимости
+        });
+
+        observer.observe(section);
+
+        // Detect current card on scroll
+        const onScroll = () => {
+            const scrollLeft = carousel.scrollLeft;
+            let closestIndex = 0;
+            let closestDistance = Infinity;
+
+            cards.forEach((card, i) => {
+                const distance = Math.abs(card.offsetLeft - scrollLeft - 20);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestIndex = i;
+                }
+            });
+
+            if (closestIndex !== currentIndex) {
+                updateDots(closestIndex);
+            }
+        };
+
+        carousel.addEventListener('scroll', onScroll);
+
+        // Dot click
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                scrollToCard(i);
+                updateDots(i);
+                if (isPlaying && isVisible) startAutoplay();
+            });
+        });
+
+        // Pause/Play
+        pauseBtn?.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            pauseIcon.classList.toggle('hidden', !isPlaying);
+            playIcon.classList.toggle('hidden', isPlaying);
+
+            if (isPlaying && isVisible) {
+                startAutoplay();
+            } else {
+                stopAutoplay();
+            }
+        });
+
+        // Desktop cursor + drag
+        if (cursor && window.innerWidth >= 1024) {
+            let startX;
+            let scrollLeft;
+
+            carousel.addEventListener('mouseenter', () => {
+                cursor.classList.add('visible');
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                cursor.classList.remove('visible', 'dragging');
+                isDragging = false;
+            });
+
+            carousel.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - carousel.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                carousel.scrollLeft = scrollLeft - walk;
+            });
+
+            carousel.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.pageX - carousel.offsetLeft;
+                scrollLeft = carousel.scrollLeft;
+                cursor.classList.add('dragging');
+            });
+
+            carousel.addEventListener('mouseup', () => {
+                isDragging = false;
+                cursor.classList.remove('dragging');
+            });
+        }
     });
 </script>
 {% endblock %}

@@ -60,6 +60,6 @@
         @apply grid grid-cols-6 lg:grid-cols-15 gap-4 mx-2 lg:mx-5;
     }
     .features {
-        @apply bg-gray-200 py-10;
+        @apply bg-gray-200 py-10 relative;
     }
 }
