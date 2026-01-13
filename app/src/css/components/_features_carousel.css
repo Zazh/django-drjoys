@@ -55,9 +55,7 @@
 }
 
 .features-dots {
-    @apply flex items-center gap-2 px-4 h-12 rounded-full bg-black/10 backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    @apply flex items-center gap-2 px-4 h-12 rounded-full bg-black/10 backdrop-blur-xl;
 }
 
 .features-dot {
@@ -69,8 +67,7 @@
 }
 
 .features-pause {
-    @apply w-12 h-12 rounded-full flex items-center justify-center bg-black/10 backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    @apply w-12 h-12 rounded-full flex items-center justify-center bg-black/10 backdrop-blur-xl;
 }
 
 .features-pause .hidden {

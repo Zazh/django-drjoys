@@ -38,9 +38,12 @@
         @apply font-benzin text-xs lg:text-base p-5 lg:p-7 cursor-pointer rounded-full leading-tight;
     }
     .btn-macro.default {
-        @apply  bg-gray-200 hover:bg-black text-black hover:text-white;
+        @apply bg-gray-200 hover:bg-black text-black hover:text-white;
     }
     .btn-macro.danger {
-        @apply  bg-red-500 hover:bg-black text-white;
+        @apply bg-red-500 hover:bg-black text-white;
+    }
+    .btn-macro.white-opacity {
+        @apply bg-white/30 hover:bg-black text-white border-1 border-white hover:border-black;
     }
 }

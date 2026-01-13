@@ -218,9 +218,24 @@
 
 
 <!-- Quizzes block -->
-<section id="quizzes" class="quizzes">
-    <div class="quizzes-container">
+<section id="quizzes" class="quizzes" data-parallax >
+    <div class="quizzes-container ">
+        <div class="quizzes-content ">
+            <div class="w-full">
+                <h2 class="display-1 text-white hyphens-auto">Не можешь <br>определиться?</h2>
+                <p class="font-medium text-white text-sm lg:text-lg br-lg leading-tight mt-5">Пройди короткий тест и узнай, какой <span>DR.JOYS подходит именно тебе</span></p>
+            </div>
+            <div class="w-full mt-auto text-center md:text-left">
+                <button type="button" class="btn-macro white-opacity">Пройти опрос</button>
+            </div>
+        </div>
 
+        <div class="quizzes-girl">
+            <img src="{% static 'dist/images/quizzes/girl.png' %}" class="w-full" alt="Девушка с продуктом">
+        </div>
+        <div class="quizzes-heart"  data-depth="0.85">
+            <img src="{% static 'dist/images/quizzes/heart.png' %}" class="w-full object-cover" alt="">
+        </div>
     </div>
 </section>
 

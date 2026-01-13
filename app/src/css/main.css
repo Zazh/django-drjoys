@@ -18,6 +18,7 @@
 @import "./components/_product_slider.css";
 @import "./components/_features_carousel.css";
 @import "./components/_hero-carousel.css";
+@import "./components/_quizzes.css";
 
 /* Utilities */
 @import "./utilities/custom.css";
