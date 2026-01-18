@@ -8,7 +8,10 @@
 <section class="main-grid">
     <div class="col-span-full">
         <div class="mb-6">
-            <h1 class="[ br-lg ] display-1 text-center pb-5"><span>Ультратонкие</span> <span>презервативы </span><span>DR.JOYS</span></h1>
+            <h1 class="text-center pb-5 flex flex-col
+                        text-2xl md:text-[2.5rem] leading-tight font-benzin uppercase">
+                <span>Ультратонкие</span> <span>презервативы </span><span>DR.JOYS</span>
+            </h1>
             <h2 class="flex flex-wrap justify-center text-sm lg:text-xl font-medium leading-tight">
                 <span class="flex justify-center gap-1 w-full">Неощутимые на 95% <span class="lg:text-sm text-xs mb-auto">(0,02 мм)</span></span>
                 <span class="flex justify-center w-full">Тоньше волоса, прочнее стали</span>
@@ -222,8 +225,10 @@
     <div class="quizzes-container ">
         <div class="quizzes-content ">
             <div class="w-full">
-                <h2 class="display-1 text-white hyphens-auto">Не можешь <br>определиться?</h2>
-                <p class="font-medium text-white text-sm lg:text-lg br-lg leading-tight mt-5">Пройди короткий тест и узнай, какой <span>DR.JOYS подходит именно тебе</span></p>
+                <h2 class="text-white hyphens-auto
+                            text-2xl md:text-[2.5rem] leading-tight font-benzin uppercase">
+                    Не можешь <br>Определиться?</h2>
+                <p class="font-medium text-white text-sm md:text-lg leading-tight mt-5">Пройди короткий тест и узнай, какой <span class="md:block">DR.JOYS подходит именно тебе</span></p>
             </div>
             <div class="w-full mt-auto text-center md:text-left">
                 <button type="button" class="btn-macro white-opacity">Пройти опрос</button>
@@ -238,6 +243,505 @@
         </div>
     </div>
 </section>
+
+<!-- Reviews block -->
+<section id="reviews" class="reviews" data-parallax >
+    <div class="w-full max-w-screen-lg mx-auto">
+        <div class="lg:pb-10">
+            <h2 class="display-1">
+                <span class="flex flex-wrap items-center justify-center md:gap-2">
+                    <span class="w-full md:w-auto -mb-3 md:mb-0 text-center">Более</span>
+                    <span class="w-[260px] md:w-[240px] lg:w-[440px] shrink-0 relative">
+                        <span class="relative md:absolute md:-bottom-6.5 lg:-bottom-12 w-full z-10" data-depth="0.5">
+                            <img src="{% static 'dist/images/reviews/label_counter.png' %}" alt="" class="object-contain w-full h-full object-top-left">
+                        </span>
+                        <span class="reviews-counter-shadow w-[80%] ml-[10%] h-1 absolute top-5 md:-top-2 lg:-top-2 z-0" data-depth="-0.5"></span>
+                    </span>
+                    <span class="w-full md:w-auto text-center">заказов</span>
+                </span>
+                <span class="flex justify-center flex-wrap md:gap-2">
+                    <span class="hyphens-auto w-full md:w-auto text-center">на маркет&shy;плейсах</span>
+                    <span class="hyphens-auto w-full md:w-auto text-center">со средней</span>
+                </span>
+                <span class="flex flex-wrap items-center justify-center md:gap-2">
+                    <span class="hyphens-auto text-center block w-full md:w-auto">оценкой</span>
+                    <span class="w-[160px] md:w-[130px] lg:w-[242px] shrink-0 relative lg:absolute">
+                        <span class="relative md:absolute md:-bottom-9 lg:-bottom-22 lg:-right-65 w-full z-10" data-depth="-0.65">
+                            <img src="{% static 'dist/images/reviews/label_ranked.svg' %}" alt="" class="object-contain w-full h-full object-top-left">
+                        </span>
+                        <span class="reviews-shadow-alt w-[70%] ml-[20%] h-4 absolute top-10 md:-top-1.5 lg:-right-57 lg:top-1 z-0" data-depth="0.65"></span>
+                    </span>
+                </span>
+            </h2>
+        </div>
+        <div class="flex justify-center pt-2 pb-8 lg:py-8">
+            <div class="md:w-lg m-auto text-center text-lg leading-tight font-medium px-5 md:px-0">
+                <p>Всего 2,4% негативных отзывов. Мы за честный фидбек, поэтому не стесняемся, а наоборот — отвечаем с удовольствием :)</p>
+            </div>
+        </div>
+        <div class="flex justify-center py-2">
+            <ul class="flex gap-3 md:gap-4 flex-col md:flex-row">
+                <li>
+                    <button type="button" class="reviews-filter btn-macro black font-sans inline-flex gap-2 text-base" data-filter="positive">
+                        <span>Понравилось</span> <span class="opacity-55">1248</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="reviews-filter btn-macro light font-sans inline-flex gap-2 text-base" data-filter="negative">
+                        <span>Не понравилось</span> <span class="opacity-55">48</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="reviews-carousel" class="reviews-carousel">
+    <div class="reviews-carousel-wrapper">
+        <!-- Стрелка влево -->
+        <button class="reviews-arrow reviews-arrow--prev">
+            <svg  class="rotate-180" width="68" height="60" viewBox="0 0 68 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M38.3946 60L33.3061 54.9107L54.2546 33.683L-5.88933e-06 33.683L-4.6014e-06 26.317L54.2546 26.317L33.3061 5.15626L38.3946 6.71312e-06L68 30L38.3946 60Z" fill="currentColor"/>
+            </svg>
+        </button>
+        <!-- Стрелка вправо -->
+        <button class="reviews-arrow reviews-arrow--next">
+            <svg width="68" height="60" viewBox="0 0 68 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M38.3946 60L33.3061 54.9107L54.2546 33.683L-5.88933e-06 33.683L-4.6014e-06 26.317L54.2546 26.317L33.3061 5.15626L38.3946 6.71312e-06L68 30L38.3946 60Z" fill="currentColor"/>
+            </svg>
+        </button>
+
+        <div class="reviews-carousel-track">
+            <div class="reviews-carousel-slide">
+                <div class="comment-card">
+                    <!-- Review -->
+                    <div class="comment-card__review">
+                        <!-- Header -->
+                        <div class="comment-card__header">
+                            <div class="comment-card__main">
+                                <div class="rating rating-bg [ rating-1 ]">
+                                    <div class="rating-fill"></div>
+                                </div>
+                                <div class="comment-card__name">
+                                    <span>Сафа1</span>
+                                    <span>|</span>
+                                    <span>24 нояб. 2025</span>
+                                </div>
+                            </div>
+                            <div class="comment-card__side">
+                                <div class="comment-card__tools"></div>
+                            </div>
+                        </div>
+                        <!-- END Header -->
+
+                        <!-- Body -->
+                        <div class="comment-card__body">
+                            <ul class="comment-card__list">
+                                <li>
+                                    <span class="comment-card__title">Достоинства</span>
+                                    <p>Эффект неощутимости</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Недостатки</span>
+                                    <p>Не заметила</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Комментарий</span>
+                                    <p>
+                                        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Body -->
+                    </div>
+                    <!-- END Review -->
+
+                    <!-- Answer -->
+                    <div class="comment-card__answer bg-slate-50">
+                        <div class="comment-card__answer-title">
+                            <div class="reply-icon"></div>
+                            <span>Ответ Dr.Joys</span>
+                        </div>
+                        <div class="comment-card__answer-body">
+                            lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        </div>
+                    </div>
+                    <!-- END Answer -->
+                </div>
+            </div>
+            <div class="reviews-carousel-slide">
+                <div class="comment-card">
+                    <!-- Review -->
+                    <div class="comment-card__review">
+                        <!-- Header -->
+                        <div class="comment-card__header">
+                            <div class="comment-card__main">
+                                <div class="rating rating-bg [ rating-1 ]">
+                                    <div class="rating-fill"></div>
+                                </div>
+                                <div class="comment-card__name">
+                                    <span>Сафа2</span>
+                                    <span>|</span>
+                                    <span>24 нояб. 2025</span>
+                                </div>
+                            </div>
+                            <div class="comment-card__side">
+                                <div class="comment-card__tools"></div>
+                            </div>
+                        </div>
+                        <!-- END Header -->
+
+                        <!-- Body -->
+                        <div class="comment-card__body">
+                            <ul class="comment-card__list">
+                                <li>
+                                    <span class="comment-card__title">Достоинства</span>
+                                    <p>Эффект неощутимости</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Недостатки</span>
+                                    <p>Не заметила</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Комментарий</span>
+                                    <p>
+                                        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Body -->
+                    </div>
+                    <!-- END Review -->
+
+                    <!-- Answer -->
+                    <div class="comment-card__answer bg-slate-50">
+                        <div class="comment-card__answer-title">
+                            <div class="reply-icon"></div>
+                            <span>Ответ Dr.Joys</span>
+                        </div>
+                        <div class="comment-card__answer-body">
+                            lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        </div>
+                    </div>
+                    <!-- END Answer -->
+                </div>
+            </div>
+            <div class="reviews-carousel-slide">
+                <div class="comment-card">
+                    <!-- Review -->
+                    <div class="comment-card__review">
+                        <!-- Header -->
+                        <div class="comment-card__header">
+                            <div class="comment-card__main">
+                                <div class="rating rating-bg [ rating-1 ]">
+                                    <div class="rating-fill"></div>
+                                </div>
+                                <div class="comment-card__name">
+                                    <span>Сафа3</span>
+                                    <span>|</span>
+                                    <span>24 нояб. 2025</span>
+                                </div>
+                            </div>
+                            <div class="comment-card__side">
+                                <div class="comment-card__tools"></div>
+                            </div>
+                        </div>
+                        <!-- END Header -->
+
+                        <!-- Body -->
+                        <div class="comment-card__body">
+                            <div class="comment-card__text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto distinctio eaque molestias mollitia porro quidem, temporibus ut voluptatem? Accusamus asperiores culpa inventore laudantium magni nemo pariatur quas quidem, quisquam.
+                            </div>
+
+                            <ul class="comment-card__list">
+                                <li>
+                                    <span class="comment-card__title">Достоинства</span>
+                                    <p>Эффект неощутимости</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Недостатки</span>
+                                    <p>Не заметила</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Комментарий</span>
+                                    <p>
+                                        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    </p>
+                                </li>
+                            </ul>
+
+                            <div class="comment-card__meta">
+                                <p class="comment-card__title">Плюсы товара</p>
+                                <ul class="comment-card__tags">
+                                    <li>отвыв как тег</li>
+                                    <li>нет эффекта</li>
+                                    <li>плохое качество</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- END Body -->
+                    </div>
+                    <!-- END Review -->
+
+                    <!-- Answer -->
+                    <div class="comment-card__answer bg-slate-50">
+                        <div class="comment-card__answer-title">
+                            <div class="reply-icon"></div>
+                            <span>Ответ Dr.Joys</span>
+                        </div>
+                        <div class="comment-card__answer-body">
+                            lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        </div>
+                    </div>
+                    <!-- END Answer -->
+                </div>
+            </div>
+
+            <div class="reviews-carousel-slide">
+                <div class="comment-card">
+                    <!-- Review -->
+                    <div class="comment-card__review">
+                        <!-- Header -->
+                        <div class="comment-card__header">
+                            <div class="comment-card__main">
+                                <div class="rating rating-bg [ rating-1 ]">
+                                    <div class="rating-fill"></div>
+                                </div>
+                                <div class="comment-card__name">
+                                    <span>Сафа4</span>
+                                    <span>|</span>
+                                    <span>24 нояб. 2025</span>
+                                </div>
+                            </div>
+                            <div class="comment-card__side">
+                                <div class="comment-card__tools"></div>
+                            </div>
+                        </div>
+                        <!-- END Header -->
+
+                        <!-- Body -->
+                        <div class="comment-card__body">
+                            <ul class="comment-card__list">
+                                <li>
+                                    <span class="comment-card__title">Достоинства</span>
+                                    <p>Эффект неощутимости</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Недостатки</span>
+                                    <p>Не заметила</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Комментарий</span>
+                                    <p>
+                                        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Body -->
+                    </div>
+                    <!-- END Review -->
+
+                    <!-- Answer -->
+                    <div class="comment-card__answer bg-slate-50">
+                        <div class="comment-card__answer-title">
+                            <div class="reply-icon"></div>
+                            <span>Ответ Dr.Joys</span>
+                        </div>
+                        <div class="comment-card__answer-body">
+                            lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        </div>
+                    </div>
+                    <!-- END Answer -->
+                </div>
+            </div>
+            <div class="reviews-carousel-slide">
+                <div class="comment-card">
+                    <!-- Review -->
+                    <div class="comment-card__review">
+                        <!-- Header -->
+                        <div class="comment-card__header">
+                            <div class="comment-card__main">
+                                <div class="rating rating-bg [ rating-1 ]">
+                                    <div class="rating-fill"></div>
+                                </div>
+                                <div class="comment-card__name">
+                                    <span>Сафа5</span>
+                                    <span>|</span>
+                                    <span>24 нояб. 2025</span>
+                                </div>
+                            </div>
+                            <div class="comment-card__side">
+                                <div class="comment-card__tools"></div>
+                            </div>
+                        </div>
+                        <!-- END Header -->
+
+                        <!-- Body -->
+                        <div class="comment-card__body">
+                            <div class="comment-card__text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto distinctio eaque molestias mollitia porro quidem, temporibus ut voluptatem? Accusamus asperiores culpa inventore laudantium magni nemo pariatur quas quidem, quisquam.
+                            </div>
+
+                            <div class="comment-card__meta">
+                                <p class="comment-card__title">Плюсы товара</p>
+                                <ul class="comment-card__tags">
+                                    <li>отвыв как тег</li>
+                                    <li>нет эффекта</li>
+                                    <li>плохое качество</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- END Body -->
+                    </div>
+                    <!-- END Review -->
+
+                    <!-- Answer -->
+                    <div class="comment-card__answer bg-slate-50">
+                        <div class="comment-card__answer-title">
+                            <div class="reply-icon"></div>
+                            <span>Ответ Dr.Joys</span>
+                        </div>
+                        <div class="comment-card__answer-body">
+                            lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        </div>
+                    </div>
+                    <!-- END Answer -->
+                </div>
+            </div>
+            <div class="reviews-carousel-slide">
+                <div class="comment-card">
+                    <!-- Review -->
+                    <div class="comment-card__review">
+                        <!-- Header -->
+                        <div class="comment-card__header">
+                            <div class="comment-card__main">
+                                <div class="rating rating-bg [ rating-1 ]">
+                                    <div class="rating-fill"></div>
+                                </div>
+                                <div class="comment-card__name">
+                                    <span>Сафа6</span>
+                                    <span>|</span>
+                                    <span>24 нояб. 2025</span>
+                                </div>
+                            </div>
+                            <div class="comment-card__side">
+                                <div class="comment-card__tools"></div>
+                            </div>
+                        </div>
+                        <!-- END Header -->
+
+                        <!-- Body -->
+                        <div class="comment-card__body">
+                            <div class="comment-card__text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto distinctio eaque molestias mollitia porro quidem, temporibus ut voluptatem? Accusamus asperiores culpa inventore laudantium magni nemo pariatur quas quidem, quisquam.
+                            </div>
+
+                            <ul class="comment-card__list">
+                                <li>
+                                    <span class="comment-card__title">Достоинства</span>
+                                    <p>Эффект неощутимости</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Недостатки</span>
+                                    <p>Не заметила</p>
+                                </li>
+                                <li>
+                                    <span class="comment-card__title">Комментарий</span>
+                                    <p>
+                                        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                    </p>
+                                </li>
+                            </ul>
+
+                            <div class="comment-card__meta">
+                                <p class="comment-card__title">Плюсы товара</p>
+                                <ul class="comment-card__tags">
+                                    <li>отвыв как тег</li>
+                                    <li>нет эффекта</li>
+                                    <li>плохое качество</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- END Body -->
+                    </div>
+                    <!-- END Review -->
+
+                    <!-- Answer -->
+                    <div class="comment-card__answer bg-slate-50">
+                        <div class="comment-card__answer-title">
+                            <div class="reply-icon"></div>
+                            <span>Ответ Dr.Joys</span>
+                        </div>
+                        <div class="comment-card__answer-body">
+                            lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        </div>
+                    </div>
+                    <!-- END Answer -->
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="pt-5 pb-10 md:py-10">
+        <div class="text-center">
+            <button class="btn-wb">
+                <span>Читать на WB</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="go-partners" id="go-partners">
+    <div class="main-grid">
+        <div class="go-partners-container">
+            <div class="go-partners-content" data-parallax>
+                <span class="lg:w-[320px] w-[160px] aspect-square shrink-0 absolute flex justify-center items-center [ -top-[15%] lg:-top-[20%] md:-top-[15%] right-0 md:-right-[20%] ]">
+                    <span class="relative w-full z-10" data-depth="-0.65">
+                        <img src="{% static 'dist/images/go_partner/accessory.png' %}" alt="" class="object-contain w-full h-full object-top-left">
+                    </span>
+                    <span class="reviews-shadow-alt md:mt-[20%] lg:mt-[50%] w-[50%] mx-auto h-4 absolute top-10 z-0" data-depth="0.65"></span>
+                </span>
+                <div>
+                    <h2 class="display-1 md:hyphens-none">
+                        Хотите <span class="block md:inline">зарабаты&shy;вать вместе</span> <span class="block md:inline">с DR.JOYS?</span>
+                    </h2>
+                </div>
+                <div>
+                    <p class="leading-tight text-sm lg:text-base">Каждый день мы получаем много заявок на оптовую реализацию продукции из разных стран. Если вы действующий дистрибьютор в своем городе или у вас сеть магазинов или аптек - оставляйте заявку и мы отправим вам коммерческое предложение с самыми выгодными оптовыми ценами. У каждого из наших партнеров DR.JOYS занимает первые места по продажам в категории барьерной контрацепции.</p>
+                </div>
+                <div class="py-2 hidden md:block">
+                    <ul class="flex flex-wrap gap-2">
+                        <li>
+                            <button type="button" class="btn-macro default">Подробнее</button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn-macro danger">Оставить заявку</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="go-partners-side">
+            <img src="{% static 'dist/images/go_partner/partner.jpg' %}" class="object-cover w-full h-full" alt="">
+            <div class="absolute inset-0 flex items-end md:hidden">
+                <ul class="flex flex-wrap gap-2 p-5">
+                    <li>
+                        <button type="button" class="btn-macro default">Подробнее</button>
+                    </li>
+                    <li>
+                        <button type="button" class="btn-macro danger">Оставить заявку</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 </main>
 
@@ -531,6 +1035,248 @@
         }
     });
 </script>
+
+<script>
+    // --------------------------------------------
+    // REVIEWS CAROUSEL (Infinite + Filter)
+    // --------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.querySelector('.reviews-carousel-track');
+        const prevBtn = document.querySelector('.reviews-arrow--prev');
+        const nextBtn = document.querySelector('.reviews-arrow--next');
+        const cursor = document.querySelector('.features-cursor');
+        const filterBtns = document.querySelectorAll('.reviews-filter');
+
+        if (!track) return;
+
+        let originalSlides = Array.from(track.querySelectorAll('.reviews-carousel-slide'));
+        if (originalSlides.length === 0) return;
+
+        let currentFilter = 'all';
+
+        // Определить тип отзыва по классу rating-X
+        const getSlideType = (slide) => {
+            const ratingEl = slide.querySelector('[class*="rating-"]');
+            if (!ratingEl) return null;
+
+            const classes = ratingEl.className;
+            const match = classes.match(/rating-(\d)/);
+
+            if (match) {
+                const rating = parseInt(match[1]);
+                return rating >= 4 ? 'positive' : 'negative';
+            }
+            return null;
+        };
+
+        // Удалить все клоны
+        const removeClones = () => {
+            track.querySelectorAll('.is-clone').forEach(clone => clone.remove());
+        };
+
+        // Создать клоны
+        const createClones = () => {
+            const visibleSlides = Array.from(track.querySelectorAll('.reviews-carousel-slide:not(.hidden):not(.is-clone)'));
+            if (visibleSlides.length < 2) return;
+
+            const clonesCount = Math.min(3, visibleSlides.length);
+
+            visibleSlides.slice(0, clonesCount).forEach(slide => {
+                const clone = slide.cloneNode(true);
+                clone.classList.add('is-clone');
+                track.appendChild(clone);
+            });
+
+            visibleSlides.slice(-clonesCount).forEach(slide => {
+                const clone = slide.cloneNode(true);
+                clone.classList.add('is-clone');
+                track.insertBefore(clone, track.firstChild);
+            });
+        };
+
+        // Получить ширину слайда + gap
+        const getSlideWidth = () => {
+            const slide = track.querySelector('.reviews-carousel-slide:not(.hidden)');
+            if (!slide) return 0;
+            const style = window.getComputedStyle(track);
+            const gap = parseInt(style.gap) || 16;
+            return slide.offsetWidth + gap;
+        };
+
+        // Начальная позиция
+        const setInitialPosition = () => {
+            const visibleSlides = track.querySelectorAll('.reviews-carousel-slide:not(.hidden):not(.is-clone)');
+            const clonesCount = Math.min(3, visibleSlides.length);
+            const slideWidth = getSlideWidth();
+            track.style.scrollBehavior = 'auto';
+            track.scrollLeft = slideWidth * clonesCount;
+            track.style.scrollBehavior = 'smooth';
+        };
+
+        // Фильтрация
+        const applyFilter = (filter) => {
+            currentFilter = filter;
+            removeClones();
+
+            originalSlides.forEach(slide => {
+                const type = getSlideType(slide);
+
+                if (filter === 'all' || type === filter) {
+                    slide.classList.remove('hidden');
+                } else {
+                    slide.classList.add('hidden');
+                }
+            });
+
+            createClones();
+            setTimeout(setInitialPosition, 50);
+        };
+
+        // Обновить стили кнопок
+        const updateButtonStyles = (activeFilter) => {
+            filterBtns.forEach(btn => {
+                const filter = btn.dataset.filter;
+
+                if (filter === activeFilter && activeFilter !== 'all') {
+                    btn.classList.add('active', 'black');
+                    btn.classList.remove('light');
+                } else {
+                    btn.classList.remove('active', 'black');
+                    btn.classList.add('light');
+                }
+            });
+        };
+
+        // Кнопки фильтров
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+
+                // Если кликнули на активный — сбрасываем на "все"
+                if (currentFilter === filter) {
+                    applyFilter('all');
+                    updateButtonStyles('all');
+                } else {
+                    applyFilter(filter);
+                    updateButtonStyles(filter);
+                }
+            });
+        });
+
+        // Инициализация
+        createClones();
+        setInitialPosition();
+
+        // Проверка бесконечного скролла
+        let isJumping = false;
+
+        const checkInfiniteScroll = () => {
+            if (isJumping) return;
+
+            const visibleSlides = track.querySelectorAll('.reviews-carousel-slide:not(.hidden):not(.is-clone)');
+            const clonesCount = Math.min(3, visibleSlides.length);
+            const slideWidth = getSlideWidth();
+            const scrollLeft = track.scrollLeft;
+            const maxScroll = track.scrollWidth - track.offsetWidth;
+
+            if (scrollLeft < slideWidth * (clonesCount - 1)) {
+                isJumping = true;
+                track.style.scrollBehavior = 'auto';
+                track.scrollLeft = scrollLeft + slideWidth * visibleSlides.length;
+                track.style.scrollBehavior = 'smooth';
+                setTimeout(() => isJumping = false, 50);
+            }
+
+            if (scrollLeft > maxScroll - slideWidth * (clonesCount - 1)) {
+                isJumping = true;
+                track.style.scrollBehavior = 'auto';
+                track.scrollLeft = scrollLeft - slideWidth * visibleSlides.length;
+                track.style.scrollBehavior = 'smooth';
+                setTimeout(() => isJumping = false, 50);
+            }
+        };
+
+        track.addEventListener('scroll', checkInfiniteScroll);
+
+        // Прокрутка
+        const scrollToDirection = (direction) => {
+            const slideWidth = getSlideWidth();
+            const currentScroll = track.scrollLeft;
+
+            if (direction === 'next') {
+                track.scrollTo({ left: currentScroll + slideWidth, behavior: 'smooth' });
+            } else {
+                track.scrollTo({ left: currentScroll - slideWidth, behavior: 'smooth' });
+            }
+        };
+
+        // Стрелки
+        if (prevBtn) prevBtn.addEventListener('click', () => scrollToDirection('prev'));
+        if (nextBtn) nextBtn.addEventListener('click', () => scrollToDirection('next'));
+
+        // Desktop: drag + cursor
+        if (window.innerWidth >= 1024 && cursor) {
+            let isDragging = false;
+            let startX;
+            let scrollLeft;
+
+            track.style.cursor = 'none';
+
+            track.addEventListener('mouseenter', () => {
+                cursor.classList.add('visible');
+            });
+
+            track.addEventListener('mouseleave', () => {
+                cursor.classList.remove('visible', 'dragging');
+                isDragging = false;
+            });
+
+            track.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX;
+                const walk = (x - startX) * 1.5;
+                track.scrollLeft = scrollLeft - walk;
+            });
+
+            track.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.pageX;
+                scrollLeft = track.scrollLeft;
+                cursor.classList.add('dragging');
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    cursor.classList.remove('dragging');
+                }
+            });
+        }
+
+        // Клавиатурная навигация
+        document.addEventListener('keydown', (e) => {
+            const rect = track.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+            if (!isVisible) return;
+
+            if (e.key === 'ArrowLeft') scrollToDirection('prev');
+            if (e.key === 'ArrowRight') scrollToDirection('next');
+        });
+
+        // Resize
+        window.addEventListener('resize', () => {
+            removeClones();
+            createClones();
+            setInitialPosition();
+        });
+    });
+</script>
+
 {% endblock %}
 
 {% endblock %}

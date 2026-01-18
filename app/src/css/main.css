@@ -19,6 +19,8 @@
 @import "./components/_features_carousel.css";
 @import "./components/_hero-carousel.css";
 @import "./components/_quizzes.css";
+@import "./components/_review.css";
+@import "./components/_go-partners.css";
 
 /* Utilities */
 @import "./utilities/custom.css";

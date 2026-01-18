@@ -40,6 +40,19 @@
     .btn-macro.default {
         @apply bg-gray-200 hover:bg-black text-black hover:text-white;
     }
+    .btn-macro.black {
+        @apply bg-black hover:bg-red-500 text-white hover:text-white font-bold;
+    }
+    .btn-macro.light {
+        @apply bg-stone-50 hover:bg-red-500 text-black hover:text-white font-bold;
+    }
+    .btn-wb {
+        @apply text-[#E313BF] hover:text-[#A813E3] bg-gradient-to-b from-[#A813E3] to-[#FF7CFF] hover:from-[#FF7CFF] hover:to-[#A813E3]
+               bg-stone-50 font-bold text-xs lg:text-base p-[2px] hover:p-[4px] hover:-m-[2px] cursor-pointer rounded-full leading-tight font-benzin;
+    }
+    .btn-wb > span {
+        @apply bg-white p-5 lg:p-7 rounded-full block;
+    }
     .btn-macro.danger {
         @apply bg-red-500 hover:bg-black text-white;
     }

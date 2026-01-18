@@ -1,5 +1,5 @@
 .features {
-    @apply bg-gray-200 py-10 relative;
+    @apply bg-gray-200 py-8 md:py-10 relative;
 }
 .features-card {
     @apply h-[31.25rem] bg-white rounded-3xl lg:rounded-4xl relative overflow-hidden;
