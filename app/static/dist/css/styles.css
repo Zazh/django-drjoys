@@ -6,6 +6,7 @@
     --font-sans: 'SF Pro Display', sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-400: #FD4642;
     --color-red-500: #E42521;
     --color-slate-50: oklch(98.4% 0.003 247.858);
     --color-gray-100: oklch(96.7% 0.003 264.542);
@@ -45,6 +46,8 @@
     --radius-4xl: 2rem;
     --blur-xs: 4px;
     --blur-xl: 24px;
+    --blur-2xl: 40px;
+    --blur-3xl: 64px;
     --aspect-video: 16 / 9;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -755,6 +758,11 @@
   }
   .backdrop-blur {
     --tw-backdrop-blur: blur(8px);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  }
+  .backdrop-blur-3xl {
+    --tw-backdrop-blur: blur(var(--blur-3xl));
     -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
     backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
   }
@@ -1556,12 +1564,7 @@
     color: var(--color-black);
     &:hover {
       @media (hover: hover) {
-        background-color: var(--color-black);
-      }
-    }
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-white);
+        background-color: #F9F9F9;
       }
     }
   }
@@ -1661,7 +1664,7 @@
     color: var(--color-white);
     &:hover {
       @media (hover: hover) {
-        background-color: var(--color-black);
+        background-color: var(--color-red-400);
       }
     }
   }
@@ -1674,14 +1677,20 @@
       background-color: color-mix(in oklab, var(--color-white) 30%, transparent);
     }
     color: var(--color-white);
+    --tw-backdrop-blur: blur(var(--blur-2xl));
+    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
     &:hover {
       @media (hover: hover) {
-        border-color: var(--color-black);
+        background-color: var(--color-black);
       }
     }
     &:hover {
       @media (hover: hover) {
-        background-color: var(--color-black);
+        background-color: color-mix(in srgb, #fff 50%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-white) 50%, transparent);
+        }
       }
     }
   }
@@ -2524,11 +2533,6 @@
       @supports (color: color-mix(in lab, red, red)) {
         background-color: color-mix(in oklab, var(--color-black) 5%, transparent);
       }
-    }
-  }
-  &:hover {
-    @media (hover: hover) {
-      color: var(--color-black);
     }
   }
 }

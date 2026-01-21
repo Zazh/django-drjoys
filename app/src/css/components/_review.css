@@ -103,7 +103,7 @@
 /* Стрелки */
 .reviews-arrow {
     @apply absolute z-20 w-[174px] mt-30 hidden md:flex aspect-square rounded-full bg-black/10 backdrop-blur-[20px] text-white items-center justify-center transition-all;
-    @apply hover:scale-110 hover:text-black hover:bg-black/5 cursor-pointer;
+    @apply hover:scale-110  hover:bg-black/5 cursor-pointer;
 }
 
 .reviews-arrow--prev {
