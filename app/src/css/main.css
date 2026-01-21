@@ -22,6 +22,7 @@
 @import "./components/_review.css";
 @import "./components/_go-partners.css";
 @import "./components/_promo-events.css";
+@import "./components/_blog-widgets.css";
 
 /* Utilities */
 @import "./utilities/custom.css";
@@ -64,7 +65,7 @@
 
 @layer components {
     .main-grid {
-        @apply grid grid-cols-6 lg:grid-cols-15 gap-4 mx-2 lg:mx-5;
+        @apply grid grid-cols-6 lg:grid-cols-15 gap-4 mx-3 lg:mx-5;
     }
 
 }

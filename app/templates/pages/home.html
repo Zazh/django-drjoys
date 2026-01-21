@@ -5,24 +5,21 @@
 
 {% block content %}
 <main class="mt-[7.5rem] lg:mt-[7.5rem]">
-<section class="main-grid">
-    <div class="col-span-full">
-        <div class="mb-6">
-            <h1 class="text-center pb-5 flex flex-col
-                        text-2xl md:text-[2.5rem] leading-tight font-benzin uppercase">
-                <span>Ультратонкие</span> <span>презервативы </span><span>DR.JOYS</span>
-            </h1>
-            <h2 class="flex flex-wrap justify-center text-sm lg:text-xl font-medium leading-tight">
-                <span class="flex justify-center gap-1 w-full">Неощутимые на 95% <span class="lg:text-sm text-xs mb-auto">(0,02 мм)</span></span>
-                <span class="flex justify-center w-full">Тоньше волоса, прочнее стали</span>
-            </h2>
-        </div>
-    </div>
-</section>
 
-<section>
-    <div class="col-span-full">
-        <div class="hero-carousel-container gap-2 lg:gap-0 flex justify-center items-center relative pb-6 pt-12 h-[23rem] max-lg:px-[30%] max-lg:justify-start">
+<!-- Hero -->
+<section id="home-hero">
+    <div class="mb-6">
+        <h1 class="text-center pb-5 flex flex-col
+                   text-2xl md:text-[2.5rem] leading-tight font-benzin uppercase">
+            <span>Ультратонкие</span> <span>презервативы </span><span>DR.JOYS</span>
+        </h1>
+        <h2 class="flex flex-wrap justify-center text-sm lg:text-xl font-medium leading-tight">
+            <span class="flex justify-center gap-1 w-full">Неощутимые на 95% <span class="lg:text-sm text-xs mb-auto">(0,02 мм)</span></span>
+            <span class="flex justify-center w-full">Тоньше волоса, прочнее стали</span>
+        </h2>
+    </div>
+
+    <div class="hero-carousel-container gap-2 lg:gap-0 flex justify-center items-center relative pb-6 pt-12 h-[23rem] max-lg:px-[30%] max-lg:justify-start">
             <!-- Card 1 -->
             <div class="w-[240px]">
                 <div class="hero-carousel-card bg-white" data-parallax>
@@ -138,15 +135,10 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<section class="main-grid">
-    <div class="col-span-full">
-        <div class="flex justify-center items-center gap-2 pb-10">
-            <button class="btn-macro default">В каталог</button>
-            <button class="btn-macro danger">Купить</button>
-        </div>
+    <div class="flex justify-center items-center gap-2 pb-10">
+        <button class="btn-macro default">В каталог</button>
+        <button class="btn-macro danger">Купить</button>
     </div>
 </section>
 
@@ -295,6 +287,7 @@
     </div>
 </section>
 
+<!-- Reviews carousel block -->
 <section id="reviews-carousel" class="reviews-carousel">
     <div class="reviews-carousel-wrapper">
         <!-- Стрелка влево -->
@@ -695,7 +688,8 @@
     </div>
 </section>
 
-<section class="go-partners" id="go-partners">
+<!-- Go partners block -->
+<section id="go-partners" class="go-partners">
     <div class="main-grid">
         <div class="go-partners-container">
             <div class="go-partners-content" data-parallax>
@@ -741,7 +735,8 @@
     </div>
 </section>
 
-<section class="events ">
+<!-- Events block -->
+<section id="events" class="events ">
     <div class="events-container">
         <div class="flex flex-wrap gap-5 md:gap-10 shadow-[0_0_120px_30px_rgba(0,0,0,0.9)] bg-[#00000094] rounded-full">
             <div class="w-full lg:pt-8 text-white text-center">
@@ -778,6 +773,153 @@
         </div>
     </div>
     <!-- END Images Gallery -->
+</section>
+
+<!-- Blog block -->
+<section id="blog-widgets" class="blog-widgets">
+    <div class="blog-widgets-container">
+        <div class="main-grid">
+            <div class="col-span-full lg:col-start-2">
+                <div class="md:pt-12 md:pb-10 pb-8">
+                    <h2 class="text-2xl md:text-[2.5rem] leading-tight font-benzin uppercase">
+                        тут интересно, <br>почитай
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="blog-carousel">
+            <div class="blog-carousel-track">
+                <div class="blog-carousel-slide">
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="" class="blog-card-link">
+                            <figure class="blog-card-figure">
+                                <img
+                                        class="blog-card-img"
+                                        src="{% static 'dist/images/blog/1.jpg' %}"
+                                        alt="Описание изображения статьи"
+                                        loading="lazy"
+                                        itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h3 class="h2" itemprop="headline">Натянули DR.JOYS на Кок-Тобе</h3>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-05-01" itemprop="datePublished">1 мая 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+                <div class="blog-carousel-slide">
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="" class="blog-card-link">
+                            <figure class="blog-card-figure">
+                                <img
+                                        class="blog-card-img"
+                                        src="{% static 'dist/images/blog/1.jpg' %}"
+                                        alt="Описание изображения статьи"
+                                        loading="lazy"
+                                        itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h3 class="h2" itemprop="headline">Натянули DR.JOYS на Кок-Тобе</h3>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-05-01" itemprop="datePublished">1 мая 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+
+                <div class="blog-carousel-slide">
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="" class="blog-card-link">
+                            <figure class="blog-card-figure">
+                                <img
+                                        class="blog-card-img"
+                                        src="{% static 'dist/images/blog/1.jpg' %}"
+                                        alt="Описание изображения статьи"
+                                        loading="lazy"
+                                        itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h3 class="h2" itemprop="headline">Натянули DR.JOYS на Кок-Тобе</h3>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-05-01" itemprop="datePublished">1 мая 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+
+                <div class="blog-carousel-slide">
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="" class="blog-card-link">
+                            <figure class="blog-card-figure">
+                                <img
+                                        class="blog-card-img"
+                                        src="{% static 'dist/images/blog/1.jpg' %}"
+                                        alt="Описание изображения статьи"
+                                        loading="lazy"
+                                        itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h3 class="h2" itemprop="headline">Натянули DR.JOYS на Кок-Тобе</h3>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-05-01" itemprop="datePublished">1 мая 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+
+                <div class="blog-carousel-slide">
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="" class="blog-card-link">
+                            <figure class="blog-card-figure">
+                                <img
+                                        class="blog-card-img"
+                                        src="{% static 'dist/images/blog/1.jpg' %}"
+                                        alt="Описание изображения статьи"
+                                        loading="lazy"
+                                        itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h3 class="h2" itemprop="headline">Натянули DR.JOYS на Кок-Тобе</h3>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-05-01" itemprop="datePublished">1 мая 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 </main>
@@ -1340,6 +1482,83 @@
         gallery.innerHTML = content + content;
 
         gallery.style.setProperty('--scroll-size', `-${totalSize}px`);
+    });
+</script>
+
+<script>
+    // --------------------------------------------
+    // BLOG CAROUSEL
+    // --------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.querySelector('.blog-carousel-track');
+        const cursor = document.querySelector('.features-cursor');
+
+        if (!track) return;
+
+        // Отключаем drag для всех элементов внутри
+        track.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+
+        // Desktop: drag + cursor
+        if (window.innerWidth >= 1024 && cursor) {
+            let isDragging = false;
+            let hasMoved = false;
+            let startX;
+            let scrollLeft;
+            const dragThreshold = 5; // Порог в пикселях
+
+            track.addEventListener('mouseenter', () => {
+                cursor.classList.add('visible');
+            });
+
+            track.addEventListener('mouseleave', () => {
+                cursor.classList.remove('visible', 'dragging');
+                isDragging = false;
+            });
+
+            track.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+
+                if (!isDragging) return;
+
+                const x = e.pageX;
+                const distance = Math.abs(x - startX);
+
+                // Если сдвинули больше порога — это drag
+                if (distance > dragThreshold) {
+                    hasMoved = true;
+                    e.preventDefault();
+                }
+
+                const walk = (x - startX) * 1.5;
+                track.scrollLeft = scrollLeft - walk;
+            });
+
+            track.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                hasMoved = false;
+                startX = e.pageX;
+                scrollLeft = track.scrollLeft;
+                cursor.classList.add('dragging');
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    cursor.classList.remove('dragging');
+                }
+            });
+
+            // Блокируем клик если был drag
+            track.addEventListener('click', (e) => {
+                if (hasMoved) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, true);
+        }
     });
 </script>
 
