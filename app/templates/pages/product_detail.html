@@ -11,22 +11,22 @@
 <main>
     <section class="main-grid">
         <!-- Картинка -->
-        <div class="col-span-full lg:col-start-3 lg:col-span-6">
+        <div class="pt-28 md:lg-8 col-span-full lg:col-span-7 xl:col-start-2 xl:col-span-6">
             <div class="product_picture [ w-full aspect-[2/3] overflow-hidden ]">
                 <img src="{% static 'dist/images/figure.jpg' %}" class="object-cover w-full h-full" alt="Презервативы DR.JOYS классические">
             </div>
         </div>
 
         <!-- Инфо -->
-        <div class="col-span-full lg:col-start-10 lg:col-span-5">
-            <div class="pt-50 h-full flex flex-col">
+        <div class="col-span-full lg:col-span-7 lg:col-start-9 xl:col-start-9 xl:col-span-5">
+            <div class="pt-4 xl:pt-50 lg:pt-40 h-full flex flex-col">
                 <div class="flex flex-col gap-8">
                     <div class="border-b-[0.5px] border-b-black pb-8">
                         <h5 class="text-sm tracking-wide text-red-500 mb-2 font-bold">ХИТ ПРОДАЖ</h5>
                         <h1 class="h2 br-lg font-benzin uppercase">Презервативы DR.JOYS <span> классические, банан,</span> <span>0.02 мм, 5 шт.</span></h1>
                     </div>
                     <div>
-                        <span class="text-xs uppercase tracking-wider flex items-center gap-2">АРТИКУЛ <span class="h-4 border-l-1"></span> 123456</span>
+                        <span class="text-xs uppercase tracking-wider flex items-center gap-2 font-medium">АРТИКУЛ <span class="h-4 border-l-1"></span> 123456</span>
                     </div>
                     <div class="add-to-cart">
                         <div class="cart-button-wrapper">
@@ -41,14 +41,14 @@
                         </div>
                     </div>
                     <div>
-                        <p class="br-lg text-sm">
+                        <p class=" text-sm">
                             Гладкая поверхность, латекс бесцветный. С дополнительной
                             <span>силиконовой смазкой, с нейтральным ароматом, толщина 0.02</span>
                             мм неощутимые на 95%
                         </p>
                     </div>
                 </div>
-                <div class="lg:mt-auto mt-12 pt-8 pb-4">
+                <div class="lg:mt-auto mt-4 pt-8 lg:pb-4">
                     <ul class="flex flex-col gap-3">
                         <li class="product_links-item"><a href="#characters" class="w-full block">СОСТАВ И ХАРАКТЕРИСТИКИ</a></li>
                         <li class="product_links-item"><a href="" class="w-full block">Как правильно выбрать размер</a></li>
@@ -60,34 +60,37 @@
         </div>
     </section>
 
-    <section class="main-grid mt-24">
-        <div class="lg:col-start-3 lg:col-span-6 col-span-full flex ">
-            <div id="characters" class="mt-auto pt-12 pb-4">
+    <section class="main-grid lg:mt-24">
+        <!-- Меню 1 -->
+        <div class="col-span-full lg:col-span-7 xl:col-start-3 xl:col-span-5 flex ">
+            <div id="characters" class="mt-auto pt-12 pb-8 lg:pb-4 w-full">
                 <ul class="mt-auto flex flex-col gap-6">
                     <li class="flex flex-col text-sm gap-1">
                         <span class="uppercase font-benzin tracking-wider">материал</span>
                         <span class="br-lg">Ультратонкие 0,02 мм, натуральный латекс</span>
                     </li>
                     <li class="flex flex-col text-sm gap-1">
-                        <span class="uppercase font-benzin tracking-wider">Особенности  </span>
+                        <span class="uppercase font-benzin tracking-wider">Особенности</span>
                         <span class="br-lg">Сверхпрочные, особо увлажненные</span>
                     </li>
                     <li class="flex flex-col text-sm gap-1">
-                        <span class="uppercase font-benzin tracking-wider">Комплектация  </span>
+                        <span class="uppercase font-benzin tracking-wider">Комплектация</span>
                         <span class="br-lg">Презервативы классические - 5 шт, <span>Упаковка (пачка) - 1 шт</span></span>
                     </li>
-                    <li class="flex text-sm gap-1">
+                    <li class="flex flex-col md:flex-row text-sm gap-1">
                         <span class="uppercase font-benzin tracking-wider">Срок годности –</span>
                         <span class="br-lg">60 мес</span>
                     </li>
-                    <li class="flex text-sm gap-1">
+                    <li class="flex flex-col md:flex-row text-sm gap-1">
                         <span class="uppercase font-benzin tracking-wider">Страна производства –</span>
                         <span class="br-lg">Китай</span>
                     </li>
                 </ul>
             </div>
         </div>
-        <div class="lg:col-start-9 lg:col-span-6 col-span-full">
+
+        <!-- Меню 2 -->
+        <div class="col-span-full lg:col-span-7 lg:col-start-9 xl:col-start-9 xl:col-span-6 ">
             <div class="product-zoom-container w-full h-full aspect-[2/3] overflow-hidden">
                 <!-- data-rotate контролирует градус поворота -->
                 <img
@@ -100,10 +103,9 @@
         </div>
     </section>
 
-
-    <section class="main-grid mt-24">
+    <section class="main-grid mt-8 lg:mt-24">
         <!-- Слайдер 1 -->
-        <div class="lg:col-start-2 lg:col-span-6 col-span-full flex flex-col">
+        <div class="col-span-full col-start-0 md:col-span-3 lg:col-span-7 xl:col-start-2 xl:col-span-6 flex flex-col">
             <div class="[ product-slider ] w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
                 <!-- Картинки -->
                 <img src="{% static 'dist/images/upakovka.jpg' %}" class="slider-image" alt="Упаковка вид 3">
@@ -138,7 +140,7 @@
         </div>
 
         <!-- Слайдер 2 -->
-        <div class="lg:col-start-9 lg:col-span-6 col-span-full flex flex-col">
+        <div class="col-span-full lg:col-start-9 md:col-span-3 lg:col-span-7 xl:col-start-9 xl:col-span-6 flex flex-col">
             <div class="[ product-slider ] w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
                 <!-- Картинки -->
                 <img src="{% static 'dist/images/paket.jpg' %}" class="slider-image" alt="Пакет вид 3">
@@ -171,9 +173,9 @@
         </div>
     </section>
 
-    <section class="mt-24 py-8">
+    <section class="mt-8 lg:mt-24 py-8">
         <div class="main-grid">
-            <div class="col-span-full col-start-2">
+            <div class="col-span-full xl:col-start-2">
                 <h2 class="h2 font-benzin uppercase mb-8">Вам может быть интересно</h2>
             </div>
         </div>

@@ -1,9 +1,38 @@
-<ul class="breadcrumb mt-auto">
-  <li class="breadcrumb-item"><a href="">DR.JOYS</a></li>
-  <li class="breadcrumb-item">/</li>
-  <li class="breadcrumb-item"><a href="">каталог</a></li>
-  <li class="breadcrumb-item">/</li>
-  <li class="breadcrumb-item"><a href="">классические</a></li>
-  <li class="breadcrumb-item">/</li>
-  <li class="breadcrumb-item"><a href="">банан 0.02 мм 5 шт</a></li>
-</ul>
+<!-- TODO: добавить JSON-LD из контекста view -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "DR.JOYS", "item": "https://example.com/"},
+      {"@type": "ListItem", "position": 2, "name": "каталог", "item": "https://example.com/catalog/"},
+      {"@type": "ListItem", "position": 3, "name": "классические", "item": "https://example.com/catalog/classic/"},
+      {"@type": "ListItem", "position": 4, "name": "банан 0.02 мм 5 шт", "item": "https://example.com/catalog/classic/banan/"}
+    ]
+  }
+</script>
+
+<!-- Mobile/Tablet: кнопка назад -->
+<!-- TODO: href и текст из breadcrumbs[-2] -->
+<a href="#" class="breadcrumb-back" aria-label="Назад к классические">
+  <span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </span>
+  <span>назад в классические</span>
+</a>
+
+<!-- Desktop: полный список -->
+<nav aria-label="Breadcrumb" class="hidden lg:flex">
+  <ol class="breadcrumb mt-auto">
+    <li class="breadcrumb-item"><a href="#">DR.JOYS</a></li>
+    <li class="breadcrumb-separator" aria-hidden="true">/</li>
+    <li class="breadcrumb-item"><a href="#">каталог</a></li>
+    <li class="breadcrumb-separator" aria-hidden="true">/</li>
+    <li class="breadcrumb-item"><a href="#">классические</a></li>
+    <li class="breadcrumb-separator" aria-hidden="true">/</li>
+    <li class="breadcrumb-item" aria-current="page">банан 0.02 мм 5 шт</li>
+  </ol>
+</nav>

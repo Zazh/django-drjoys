@@ -59,4 +59,8 @@
     .btn-macro.white-opacity {
         @apply bg-white/30 hover:bg-black text-white border-1 border-white hover:bg-white/50 backdrop-blur-2xl;
     }
+
+    .btn-share {
+        @apply text-red-500 hover:text-red-400 uppercase;
+    }
 }

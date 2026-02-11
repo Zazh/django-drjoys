@@ -11,6 +11,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='pages/home.html', extra_context={'page_type': 'home'}), name='home'),
     path('catalog/', TemplateView.as_view(template_name='pages/catalog.html', extra_context={'page_type': 'catalog'}), name='catalog'),
     path('product/', TemplateView.as_view(template_name='pages/product_detail.html', extra_context={'page_type': 'product_detail'}), name='product_detail'),
+    path('blog/', TemplateView.as_view(template_name='pages/blog_list.html', extra_context={'page_type': 'blog_list'}), name='blog_list'),
 ]
 
 if settings.DEBUG:

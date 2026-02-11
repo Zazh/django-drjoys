@@ -1,9 +1,9 @@
 .blog-widgets {
-    @apply py-16 overflow-hidden;
+    @apply py-16 overflow-hidden bg-gray-100;
 }
 
 .blog-carousel {
-    @apply relative;
+    @apply relative pb-8;
 }
 
 .blog-carousel-track {

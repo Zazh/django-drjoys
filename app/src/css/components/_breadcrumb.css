@@ -1,9 +1,23 @@
 .breadcrumb {
-    @apply flex gap-3;
+    @apply flex gap-3 mt-auto;
 }
+
+.breadcrumb-item:last-child {
+    @apply text-black;
+}
+
 .breadcrumb-item {
     @apply text-xs uppercase tracking-wider text-gray-500 hover:text-red-500;
 }
-.breadcrumb-item:last-child {
-    @apply text-black;
+
+.breadcrumb-item a:hover {
+    @apply text-red-500;
+}
+
+.breadcrumb-separator {
+    @apply text-xs text-gray-400;
+}
+
+.breadcrumb-back {
+    @apply flex lg:hidden items-center gap-2 pb-3 text-sm font-medium uppercase tracking-wider text-black hover:text-red-500 mt-auto;
 }
