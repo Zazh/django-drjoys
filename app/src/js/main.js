@@ -69,11 +69,6 @@ function initMobileMenu() {
             // Показываем меню
             mainNav.classList.remove('hidden');
 
-            // Добавляем высоту на header ТОЛЬКО на десктопе
-            if (isDesktop.matches) {
-                siteHeader.classList.add('h-40');
-            }
-
             // Добавляем bottom-0 на nav_wrapper
             navWrapper.classList.add('bottom-0');
 
@@ -96,9 +91,6 @@ function initMobileMenu() {
             // Скрываем меню
             mainNav.classList.add('hidden');
 
-            // Убираем высоту с header
-            siteHeader.classList.remove('h-40');
-
             // Убираем bottom-0 с nav_wrapper
             navWrapper.classList.remove('bottom-0');
 
@@ -113,13 +105,7 @@ function initMobileMenu() {
 
     // Следим за изменением размера экрана
     isDesktop.addEventListener('change', (e) => {
-        if (isMenuActive) {
-            if (e.matches) {
-                siteHeader.classList.add('h-40');
-            } else {
-                siteHeader.classList.remove('h-40');
-            }
-        }
+        // placeholder для будущей логики при ресайзе
     });
 
     // Инициализируем YouTube Player после загрузки API

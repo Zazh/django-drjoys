@@ -43,9 +43,6 @@
         lines[2].style.transform = "rotate(-45deg)";
         lines[3].style.opacity = "0";
         mainNav.classList.remove("hidden");
-        if (isDesktop.matches) {
-          siteHeader.classList.add("h-40");
-        }
         navWrapper.classList.add("bottom-0");
         navWrapper.classList.remove("backdrop-blur-xs");
         navWrapper.classList.add("backdrop-blur-xl");
@@ -58,7 +55,6 @@
         lines[2].style.transform = "rotate(0deg)";
         lines[3].style.opacity = "1";
         mainNav.classList.add("hidden");
-        siteHeader.classList.remove("h-40");
         navWrapper.classList.remove("bottom-0");
         navWrapper.classList.remove("backdrop-blur-xl");
         navWrapper.classList.add("backdrop-blur-xs");
@@ -66,13 +62,6 @@
       }
     });
     isDesktop.addEventListener("change", (e) => {
-      if (isMenuActive) {
-        if (e.matches) {
-          siteHeader.classList.add("h-40");
-        } else {
-          siteHeader.classList.remove("h-40");
-        }
-      }
     });
     if (window.YT && window.YT.Player) {
       initYouTubePlayer();
