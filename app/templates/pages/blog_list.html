@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Блог DR.JOYS — статьи о здоровье и отношениях{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Блог DR.JOYS — статьи об акциях, событиях, здоровье и отношениях. Читайте полезные материалы от команды DR.JOYS.">
+<meta property="og:title" content="Блог DR.JOYS">
+<meta property="og:description" content="Статьи об акциях, событиях, здоровье и отношениях от DR.JOYS.">
+<meta property="og:type" content="blog">
+<link rel="canonical" href="https://drjoys.kz/blog/">
+{% endblock %}
+
+{% block header_right %}
+{% include 'base/components/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="main-grid">
+        <div class="col-span-full lg:col-span-13 xl:col-span-13 xl:col-start-2">
+            <div class="blog-container pt-46">
+                <!-- BEGIN заголовок блога -->
+                <div class="pb-12">
+                    <h1 class="display-1 uppercase font-benzin">Блог DR.JOYS</h1>
+                </div>
+                <!-- END заголовок блога -->
+
+                <!-- BEGIN сетка статей -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="{% url 'blog_detail' %}" class="blog-card-link" itemprop="url">
+                            <figure class="blog-card-figure">
+                                <img
+                                    class="blog-card-img"
+                                    src="{% static 'dist/images/blog/1.jpg' %}"
+                                    alt="Натянули DR.JOYS на Кок-Тобе"
+                                    loading="lazy"
+                                    itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h2 class="text-sm md:text-xl" itemprop="headline">Натянули DR.JOYS на Кок-Тобе</h2>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-05-01" itemprop="datePublished">1 мая 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="{% url 'blog_detail' %}" class="blog-card-link" itemprop="url">
+                            <figure class="blog-card-figure">
+                                <img
+                                    class="blog-card-img"
+                                    src="{% static 'dist/images/blog/1.jpg' %}"
+                                    alt="Пожизненный запас за тату"
+                                    loading="lazy"
+                                    itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h2 class="text-sm md:text-xl" itemprop="headline">Пожизненный запас за тату</h2>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-04-15" itemprop="datePublished">15 апр. 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="{% url 'blog_detail' %}" class="blog-card-link" itemprop="url">
+                            <figure class="blog-card-figure">
+                                <img
+                                    class="blog-card-img"
+                                    src="{% static 'dist/images/blog/1.jpg' %}"
+                                    alt="Краш тест презервативов"
+                                    loading="lazy"
+                                    itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h2 class="text-sm md:text-xl" itemprop="headline">Краш тест презервативов</h2>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-03-20" itemprop="datePublished">20 мар. 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="blog-card" itemscope itemtype="https://schema.org/BlogPosting">
+                        <a href="{% url 'blog_detail' %}" class="blog-card-link" itemprop="url">
+                            <figure class="blog-card-figure">
+                                <img
+                                    class="blog-card-img"
+                                    src="{% static 'dist/images/blog/1.jpg' %}"
+                                    alt="Конкурс за самый длинный"
+                                    loading="lazy"
+                                    itemprop="image"
+                                >
+                            </figure>
+                            <div class="blog-card-content">
+                                <div class="blog-card-info">
+                                    <div class="blog-card-title">
+                                        <h2 class="text-sm md:text-xl" itemprop="headline">Конкурс за самый длинный</h2>
+                                    </div>
+                                    <div class="blog-card-meta">
+                                        <time datetime="2025-02-10" itemprop="datePublished">10 фев. 2025</time>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+
+                </div>
+                <!-- END сетка статей -->
+            </div>
+        </div>
+    </section>
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Блог DR.JOYS",
+        "description": "Статьи об акциях, событиях, здоровье и отношениях от DR.JOYS.",
+        "url": "https://drjoys.kz/blog/",
+        "publisher": {
+            "@type": "Organization",
+            "name": "DR.JOYS"
+        },
+        "blogPost": [
+            {
+                "@type": "BlogPosting",
+                "headline": "Натянули DR.JOYS на Кок-Тобе",
+                "datePublished": "2025-05-01"
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "Пожизненный запас за тату",
+                "datePublished": "2025-04-15"
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "Краш тест презервативов",
+                "datePublished": "2025-03-20"
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": "Конкурс за самый длинный",
+                "datePublished": "2025-02-10"
+            }
+        ]
+    }
+    </script>
+</main>
+{% endblock %}

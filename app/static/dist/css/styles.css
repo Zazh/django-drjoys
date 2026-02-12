@@ -667,6 +667,9 @@
   .pt-8 {
     padding-top: calc(var(--spacing) * 8);
   }
+  .pt-10 {
+    padding-top: calc(var(--spacing) * 10);
+  }
   .pt-12 {
     padding-top: calc(var(--spacing) * 12);
   }
@@ -1337,6 +1340,11 @@
       grid-column: span 9 / span 9;
     }
   }
+  .xl\:col-span-13 {
+    @media (width >= 80rem) {
+      grid-column: span 13 / span 13;
+    }
+  }
   .xl\:col-start-0 {
     @media (width >= 80rem) {
       grid-column-start: 0;
@@ -1365,6 +1373,11 @@
   .xl\:w-\[20rem\] {
     @media (width >= 80rem) {
       width: 20rem;
+    }
+  }
+  .xl\:grid-cols-4 {
+    @media (width >= 80rem) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
   .xl\:justify-end {
