@@ -713,7 +713,7 @@
                             <button type="button" class="btn-macro default">Подробнее</button>
                         </li>
                         <li>
-                            <button type="button" class="btn-macro danger">Оставить заявку</button>
+                            <button type="button" class="btn-macro danger open-partner-modal">Оставить заявку</button>
                         </li>
                     </ul>
                 </div>
@@ -727,7 +727,7 @@
                         <button type="button" class="btn-macro default">Подробнее</button>
                     </li>
                     <li>
-                        <button type="button" class="btn-macro danger">Оставить заявку</button>
+                        <button type="button" class="btn-macro danger open-partner-modal">Оставить заявку</button>
                     </li>
                 </ul>
             </div>
@@ -748,7 +748,7 @@
                 <p class="text-sm lg:text-xl leading-tight pt-5 lg:pt-10">DR.JOYS для смелых. Наша миссия - ломать стереотипы и выйти за пределы стандартов и рамок, навязанных обществом. Мы делаем то, что боятся делать другие. Если ты разделяешь наши ценности, то смотри условия акции.</p>
             </div>
             <div class="w-full text-center absolute lg:static bottom-16">
-                <button type="button" class="btn-macro danger hover:bg-white hover:text-red-500">Прочитать условие</button>
+                <button type="button" class="btn-macro danger hover:bg-white hover:text-red-500" id="openTattooModal">Прочитать условие</button>
             </div>
         </div>
     </div>
@@ -922,6 +922,8 @@
     </div>
 </section>
 
+{% include 'base/components/_modal_tattoo.html' %}
+{% include 'base/components/_modal_partner.html' %}
 </main>
 
 {% block scripts %}
@@ -1559,6 +1561,174 @@
                 }
             }, true);
         }
+    });
+</script>
+
+<script>
+    // --------------------------------------------
+    // MODALS (universal open/close/step logic)
+    // --------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+        // Helper: open modal
+        function openModal(overlay) {
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Helper: close modal and reset to step 1
+        function closeModal(overlay) {
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+            // Reset to step 1
+            const steps = overlay.querySelectorAll('.modal-step');
+            steps.forEach((step, i) => {
+                step.classList.toggle('hidden', i !== 0);
+            });
+        }
+
+        // Helper: go to step
+        function goToStep(overlay, stepNum) {
+            overlay.querySelectorAll('.modal-step').forEach(step => {
+                step.classList.toggle('hidden', step.dataset.step !== String(stepNum));
+            });
+        }
+
+        // --- Tattoo modal ---
+        const tattooOverlay = document.getElementById('modalTattoo');
+        const openTattooBtn = document.getElementById('openTattooModal');
+
+        if (tattooOverlay && openTattooBtn) {
+            openTattooBtn.addEventListener('click', () => openModal(tattooOverlay));
+
+            // Close buttons
+            tattooOverlay.querySelectorAll('.modal-close-tattoo').forEach(btn => {
+                btn.addEventListener('click', () => closeModal(tattooOverlay));
+            });
+
+            // Next step buttons
+            tattooOverlay.querySelectorAll('[data-next-step]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    goToStep(tattooOverlay, btn.dataset.nextStep);
+                });
+            });
+
+            // Back buttons
+            tattooOverlay.querySelectorAll('[data-prev-step]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    goToStep(tattooOverlay, btn.dataset.prevStep);
+                });
+            });
+
+            // Close on overlay click
+            tattooOverlay.addEventListener('click', (e) => {
+                if (e.target === tattooOverlay) closeModal(tattooOverlay);
+            });
+        }
+
+        // --- Partner modal ---
+        const partnerOverlay = document.getElementById('modalPartner');
+        const openPartnerBtns = document.querySelectorAll('.open-partner-modal');
+
+        if (partnerOverlay) {
+            openPartnerBtns.forEach(btn => {
+                btn.addEventListener('click', () => openModal(partnerOverlay));
+            });
+
+            const partnerCloseBtn = document.getElementById('modalPartnerClose');
+            if (partnerCloseBtn) {
+                partnerCloseBtn.addEventListener('click', () => closeModal(partnerOverlay));
+            }
+
+            partnerOverlay.addEventListener('click', (e) => {
+                if (e.target === partnerOverlay) closeModal(partnerOverlay);
+            });
+        }
+
+        // --- Age validation (18+) ---
+        const ageInput = document.getElementById('tattooAge');
+        const ageError = document.getElementById('tattooAgeError');
+
+        if (ageInput && ageError) {
+            // Allow only digits
+            ageInput.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '').slice(0, 2);
+                ageError.classList.add('hidden');
+            });
+
+            ageInput.addEventListener('blur', () => {
+                const age = parseInt(ageInput.value);
+                if (ageInput.value && age < 18) {
+                    ageError.classList.remove('hidden');
+                }
+            });
+
+            const tattooForm = document.getElementById('tattooForm');
+            if (tattooForm) {
+                tattooForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const age = parseInt(ageInput.value);
+                    if (!ageInput.value || age < 18) {
+                        ageError.classList.remove('hidden');
+                        ageInput.focus();
+                        return;
+                    }
+                    // TODO: отправка формы на бэкенд
+                });
+            }
+        }
+
+        // --- Escape key for all modals ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(overlay => {
+                closeModal(overlay);
+            });
+        });
+
+        // --- Phone mask (universal for all modals) ---
+        document.querySelectorAll('input[type="tel"]').forEach(phoneInput => {
+            function formatPhone(digits) {
+                if (!digits.length) return '';
+
+                let codeLen = 1;
+                if (digits.startsWith('7') || digits.startsWith('1')) codeLen = 1;
+                else if (digits.startsWith('99')) codeLen = 3;
+                else codeLen = 2;
+
+                const code = digits.slice(0, codeLen);
+                const rest = digits.slice(codeLen);
+
+                let formatted = '+' + code;
+                if (rest.length > 0) formatted += ' (' + rest.slice(0, 3);
+                if (rest.length >= 3) formatted += ')';
+                if (rest.length > 3) formatted += ' ' + rest.slice(3, 6);
+                if (rest.length > 6) formatted += '-' + rest.slice(6, 8);
+                if (rest.length > 8) formatted += '-' + rest.slice(8, 10);
+
+                return formatted;
+            }
+
+            phoneInput.addEventListener('input', (e) => {
+                let digits = e.target.value.replace(/\D/g, '');
+                if (digits.length > 15) digits = digits.slice(0, 15);
+                e.target.value = formatPhone(digits);
+            });
+
+            phoneInput.addEventListener('focus', () => {
+                if (!phoneInput.value) phoneInput.value = '+';
+            });
+
+            phoneInput.addEventListener('blur', () => {
+                if (phoneInput.value === '+') phoneInput.value = '';
+            });
+
+            phoneInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && phoneInput.value.length <= 1) {
+                    phoneInput.value = '';
+                    e.preventDefault();
+                }
+            });
+        });
     });
 </script>
 

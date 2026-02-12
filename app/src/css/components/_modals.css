@@ -22,7 +22,7 @@
         @apply text-xs font-bold block pb-1;
     }
     .modal-input {
-        @apply w-full bg-stone-50 rounded-xl p-3 text-xs outline-none;
+        @apply w-full bg-stone-50 rounded-full p-3 text-xs outline-none;
     }
 
     /* Custom radio */
@@ -39,5 +39,53 @@
     }
     .modal-radio-text {
         @apply text-xs leading-tight;
+    }
+
+    /* Dark variant */
+    .modal-dark {
+        @apply bg-black text-white flex flex-col
+               min-h-[calc(100dvh-1rem)] md:min-h-140;
+    }
+    .modal-dark .modal-back,
+    .modal-dark .modal-close {
+        @apply text-white/60 hover:text-white;
+    }
+    .modal-dark .modal-input {
+        @apply bg-gray-600 text-white placeholder:text-white/50;
+    }
+
+    /* Steps */
+    .modal-step {
+        @apply flex flex-col flex-1;
+    }
+
+    /* Figure inside modal */
+    .modal-figure {
+        @apply w-full pt-10 pb-4;
+    }
+    .modal-figure img {
+        @apply w-full rounded-2xl object-cover;
+        aspect-ratio: 1 / 1;
+    }
+
+    /* Text in modal */
+    .modal-text {
+        @apply text-sm text-center leading-tight pb-6 font-bold;
+    }
+
+    /* 21+ badge */
+    .modal-badge {
+        @apply flex justify-center pb-5;
+    }
+    .modal-badge-icon {
+        @apply w-20 h-20 rounded-full border-3 border-red-500 flex items-center justify-center;
+    }
+    .modal-badge-icon span {
+        @apply font-benzin text-2xl;
+    }
+
+    /* Error message */
+    .modal-error {
+        @apply text-red-500 text-xs pt-1 pl-3;
     }
 }
