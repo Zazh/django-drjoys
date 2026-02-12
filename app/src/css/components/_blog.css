@@ -1,6 +1,24 @@
 .blog-content {
     @apply flex flex-col;
 }
-.blog-content {
-    @apply text-[2rem];
+.blog-container {
+    @apply pb-20;
+}
+.blog-content p {
+    @apply py-3 hyphens-auto;
+}
+.blog-content h3 {
+    @apply pb-3 pt-8 font-benzin text-2xl uppercase;
+}
+.blog-content ul {
+    @apply list-disc pl-4;
+}
+.blog-content li {
+    @apply text-base py-3 pl-3;
+}
+.blog-content figure {
+    @apply w-full py-9;
+}
+.blog-content figcaption {
+    @apply text-xs italic text-right py-2;
 }
