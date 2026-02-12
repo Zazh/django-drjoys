@@ -1,0 +1,43 @@
+@layer components {
+    .modal-overlay {
+        @apply fixed inset-0 z-50 flex justify-center items-start p-2 md:py-[5%]
+               bg-black/10 backdrop-blur-xl overflow-y-auto;
+    }
+    .modal-content {
+        @apply w-full max-w-xs bg-white rounded-2xl p-5 relative;
+    }
+    .modal-header {
+        @apply flex justify-between items-center pb-2;
+    }
+    .modal-back,
+    .modal-close {
+        @apply cursor-pointer text-gray-500 hover:text-black;
+    }
+    .modal-title {
+        @apply font-benzin text-xl uppercase text-center leading-tight pb-4;
+    }
+
+    /* Form elements */
+    .modal-label {
+        @apply text-xs font-bold block pb-1;
+    }
+    .modal-input {
+        @apply w-full bg-stone-50 rounded-xl p-3 text-xs outline-none;
+    }
+
+    /* Custom radio */
+    .modal-radio {
+        @apply appearance-none w-3.5 h-3.5 border border-gray-500 rounded-full shrink-0 cursor-pointer
+               checked:bg-black checked:border-black relative;
+    }
+    .modal-radio:checked::after {
+        content: '';
+        @apply absolute inset-0.5 bg-white rounded-full;
+    }
+    .modal-radio-label {
+        @apply flex items-center gap-2 cursor-pointer;
+    }
+    .modal-radio-text {
+        @apply text-xs leading-tight;
+    }
+}

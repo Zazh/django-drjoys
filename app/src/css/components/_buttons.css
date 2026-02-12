@@ -37,6 +37,9 @@
     .btn-macro {
         @apply font-benzin text-xs lg:text-base p-5 lg:p-7 cursor-pointer rounded-full leading-tight;
     }
+    .btn-macro.small {
+        @apply font-benzin text-xs p-5 ;
+    }
     .btn-macro.default {
         @apply bg-gray-200 hover:bg-[#F9F9F9] text-black ;
     }

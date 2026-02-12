@@ -24,6 +24,7 @@
 @import "./components/_promo-events.css";
 @import "./components/_blog-widgets.css";
 @import "./components/_blog.css";
+@import "./components/_modals.css";
 
 /* Utilities */
 @import "./utilities/custom.css";
