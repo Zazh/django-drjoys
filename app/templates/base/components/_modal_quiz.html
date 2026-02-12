@@ -1,0 +1,235 @@
+{% load static %}
+
+<!-- BEGIN modal quiz -->
+<div class="modal-overlay hidden" id="modalQuiz">
+    <div class="modal-content modal-fullscreen" id="quizContent">
+
+        <!-- Q1: Что для тебя важнее? -->
+        <div class="modal-step" data-step="1">
+            <div class="modal-header">
+                <div></div>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question">Что для тебя<br>важнее?</h2>
+                <div class="quiz-options">
+                    <button class="quiz-option" type="button" data-next-step="2" data-value="texture">Текстура</button>
+                    <button class="quiz-option" type="button" data-next-step="2" data-value="aroma">Аромат</button>
+                    <button class="quiz-option" type="button" data-next-step="2" data-value="feel">Неощутимость</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q2: Какой аромат привлекает? -->
+        <div class="modal-step hidden" data-step="2">
+            <div class="modal-header">
+                <button class="modal-back" type="button" aria-label="Назад" data-prev-step="1">
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question">Какой аромат<br>привлекает?</h2>
+                <div class="quiz-options">
+                    <button class="quiz-option" type="button" style="background-color:#E8C840;" data-next-step="3" data-value="banana">Банановый</button>
+                    <button class="quiz-option" type="button" style="background-color:#E87DB4;" data-next-step="3" data-value="strawberry">Клубничный</button>
+                    <button class="quiz-option" type="button" style="background-color:#4A3228;color:#fff;" data-next-step="3" data-value="chocolate">Шоколадный</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q3: Как часто случается близость? -->
+        <div class="modal-step hidden" data-step="3">
+            <div class="modal-header">
+                <button class="modal-back" type="button" aria-label="Назад" data-prev-step="2">
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question">Как часто<br>случается<br>близость?</h2>
+                <div class="quiz-options">
+                    <button class="quiz-option" type="button" data-next-step="4" data-value="daily">Несколько раз в день</button>
+                    <button class="quiz-option" type="button" data-next-step="4" data-value="weekly">Несколько раз в неделю</button>
+                    <button class="quiz-option" type="button" data-next-step="4" data-value="monthly">Несколько раз в месяц</button>
+                    <button class="quiz-option" type="button" data-next-step="4" data-value="yearly">Несколько раз в год</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q4: Используешь дополнительную смазку? -->
+        <div class="modal-step hidden" data-step="4">
+            <div class="modal-header">
+                <button class="modal-back" type="button" aria-label="Назад" data-prev-step="3">
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question">Используешь<br>дополни&shy;тельную<br>смазку?</h2>
+                <div class="quiz-options">
+                    <button class="quiz-option" type="button" data-value="yes" data-last>Да, использую дополнительный лубрикант</button>
+                    <button class="quiz-option" type="button" data-value="no" data-last>Нет, хватает той, которая на презервативе</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result: Точечно-ребристые -->
+        <div class="modal-step hidden" data-step="result-dotted-ribbed"
+             data-bg-img="{% static 'dist/images/modal-quizzes/bgs/dotted-ribbed.jpg' %}">
+            <div class="modal-header">
+                <button class="modal-back" type="button" aria-label="Назад" data-prev-step="4">
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question pb-2">Твой<br>идеальный<br>DR.JOYS</h2>
+                <div class="quiz-result-img">
+                    <img src="{% static 'dist/images/modal-quizzes/prod-1.png' %}" alt="DR.JOYS Точечно-ребристые">
+                </div>
+                <p class="quiz-result-name">Точечно-ребристые<br>Средняя пачка (17 шт.)</p>
+                <button type="button" class="btn-macro small danger">Купить</button>
+            </div>
+        </div>
+
+        <!-- Result: Тройная смазка -->
+        <div class="modal-step hidden" data-step="result-triple-lube"
+             data-bg-img="{% static 'dist/images/modal-quizzes/bgs/triple-lube.jpg' %}">
+            <div class="modal-header">
+                <button class="modal-back" type="button" aria-label="Назад" data-prev-step="4">
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question pb-2">Твой<br>идеальный<br>DR.JOYS</h2>
+                <div class="quiz-result-img">
+                    <img src="{% static 'dist/images/modal-quizzes/prod-2.png' %}" alt="DR.JOYS Тройная смазка">
+                </div>
+                <p class="quiz-result-name">Тройная смазка<br>Маленькая пачка (5 шт.)</p>
+                <button type="button" class="btn-macro small danger">Купить</button>
+            </div>
+        </div>
+
+        <!-- Result: Банановые -->
+        <div class="modal-step hidden" data-step="result-banana"
+             data-bg-img="{% static 'dist/images/modal-quizzes/bgs/banana.jpg' %}">
+            <div class="modal-header">
+                <button class="modal-back" type="button" aria-label="Назад" data-prev-step="4">
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question pb-2">Твой<br>идеальный<br>DR.JOYS</h2>
+                <div class="quiz-result-img">
+                    <img src="{% static 'dist/images/modal-quizzes/prod-2.png' %}" alt="DR.JOYS С ароматом банана">
+                </div>
+                <p class="quiz-result-name">С ароматом банана<br>Маленькая пачка (5 шт.)</p>
+                <button type="button" class="btn-macro small danger">Купить</button>
+            </div>
+        </div>
+
+        <!-- Result: Клубничные -->
+        <div class="modal-step hidden" data-step="result-strawberry"
+             data-bg-img="{% static 'dist/images/modal-quizzes/bgs/strawberry.jpg' %}">
+            <div class="modal-header">
+                <button class="modal-back" type="button" aria-label="Назад" data-prev-step="4">
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question pb-2">Твой<br>идеальный<br>DR.JOYS</h2>
+                <div class="quiz-result-img">
+                    <img src="{% static 'dist/images/modal-quizzes/prod-2.png' %}" alt="DR.JOYS С ароматом клубники">
+                </div>
+                <p class="quiz-result-name">С ароматом клубники<br>Маленькая пачка (5 шт.)</p>
+                <button type="button" class="btn-macro small danger">Купить</button>
+            </div>
+        </div>
+
+        <!-- Result: Шоколадные (тёмный фон, белые контроллы) -->
+        <div class="modal-step hidden" data-step="result-chocolate" data-theme="dark"
+             data-bg-img="{% static 'dist/images/modal-quizzes/bgs/chocolate.jpg' %}">
+            <div class="modal-header">
+                <button class="modal-back" type="button" aria-label="Назад" data-prev-step="4">
+                    <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="modal-close modal-close-quiz" type="button" aria-label="Закрыть">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col justify-center items-center">
+                <h2 class="quiz-question pb-2">Твой<br>идеальный<br>DR.JOYS</h2>
+                <div class="quiz-result-img">
+                    <img src="{% static 'dist/images/modal-quizzes/prod-2.png' %}" alt="DR.JOYS С ароматом шоколада">
+                </div>
+                <p class="quiz-result-name">С ароматом шоколада<br>Маленькая пачка (5 шт.)</p>
+                <button type="button" class="btn-macro small danger">Купить</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- END modal quiz -->

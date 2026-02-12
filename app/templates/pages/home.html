@@ -222,7 +222,7 @@
                 <p class="font-medium text-white text-sm md:text-lg leading-tight mt-5">Пройди короткий тест и узнай, какой <span class="md:block">DR.JOYS подходит именно тебе</span></p>
             </div>
             <div class="w-full mt-auto text-center md:text-left">
-                <button type="button" class="btn-macro white-opacity">Пройти опрос</button>
+                <button type="button" class="btn-macro white-opacity" id="openQuizModal">Пройти опрос</button>
             </div>
         </div>
 
@@ -922,6 +922,7 @@
     </div>
 </section>
 
+{% include 'base/components/_modal_quiz.html' %}
 {% include 'base/components/_modal_tattoo.html' %}
 {% include 'base/components/_modal_partner.html' %}
 </main>
@@ -1590,6 +1591,96 @@
         function goToStep(overlay, stepNum) {
             overlay.querySelectorAll('.modal-step').forEach(step => {
                 step.classList.toggle('hidden', step.dataset.step !== String(stepNum));
+            });
+        }
+
+        // --- Quiz modal ---
+        const quizOverlay = document.getElementById('modalQuiz');
+        const quizContent = document.getElementById('quizContent');
+        const openQuizBtn = document.getElementById('openQuizModal');
+        let quizAnswers = {};
+
+        if (quizOverlay && openQuizBtn) {
+            openQuizBtn.addEventListener('click', () => openModal(quizOverlay));
+
+            function resetQuizTheme() {
+                quizContent.style.backgroundImage = '';
+                quizContent.style.backgroundSize = '';
+                quizContent.style.backgroundPosition = '';
+                quizContent.classList.remove('modal-result-dark');
+            }
+
+            function closeQuiz() {
+                closeModal(quizOverlay);
+                quizAnswers = {};
+                resetQuizTheme();
+            }
+
+            function goToQuizStep(stepNum) {
+                resetQuizTheme();
+                const targetStep = quizOverlay.querySelector(`[data-step="${stepNum}"]`);
+                if (targetStep) {
+                    if (targetStep.dataset.bgImg) {
+                        quizContent.style.backgroundImage = `url(${targetStep.dataset.bgImg})`;
+                        quizContent.style.backgroundSize = 'cover';
+                        quizContent.style.backgroundPosition = 'center';
+                    }
+                    if (targetStep.dataset.theme === 'dark') {
+                        quizContent.classList.add('modal-result-dark');
+                    }
+                }
+                quizOverlay.querySelectorAll('.modal-step').forEach(step => {
+                    step.classList.toggle('hidden', step.dataset.step !== String(stepNum));
+                });
+            }
+
+            function getQuizResult() {
+                // Demo logic — будет заменена бэкендом
+                const important = quizAnswers['1'];
+                const aroma = quizAnswers['2'];
+                const frequency = quizAnswers['3'];
+                const lube = quizAnswers['4'];
+
+                if (important === 'aroma') {
+                    if (aroma === 'chocolate') return 'result-chocolate';
+                    if (aroma === 'strawberry') return 'result-strawberry';
+                    return 'result-banana';
+                }
+                if (important === 'texture') return 'result-dotted-ribbed';
+                if (lube === 'yes') return 'result-triple-lube';
+                if (frequency === 'daily' || frequency === 'weekly') return 'result-dotted-ribbed';
+                return 'result-triple-lube';
+            }
+
+            // Close buttons
+            quizOverlay.querySelectorAll('.modal-close-quiz').forEach(btn => {
+                btn.addEventListener('click', () => closeQuiz());
+            });
+
+            // Answer buttons (quiz-option)
+            quizOverlay.querySelectorAll('.quiz-option').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const step = btn.closest('.modal-step');
+                    quizAnswers[step.dataset.step] = btn.dataset.value;
+
+                    if (btn.hasAttribute('data-last')) {
+                        goToQuizStep(getQuizResult());
+                    } else if (btn.dataset.nextStep) {
+                        goToQuizStep(btn.dataset.nextStep);
+                    }
+                });
+            });
+
+            // Back buttons
+            quizOverlay.querySelectorAll('[data-prev-step]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    goToQuizStep(btn.dataset.prevStep);
+                });
+            });
+
+            // Close on overlay click
+            quizOverlay.addEventListener('click', (e) => {
+                if (e.target === quizOverlay) closeQuiz();
             });
         }
 

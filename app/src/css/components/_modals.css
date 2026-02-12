@@ -88,4 +88,40 @@
     .modal-error {
         @apply text-red-500 text-xs pt-1 pl-3;
     }
+
+    /* Full-height modal (shared) */
+    .modal-fullscreen {
+        @apply min-h-[calc(100dvh-1rem)] md:min-h-140 flex flex-col;
+    }
+
+    /* Quiz */
+    .quiz-question {
+        @apply font-benzin text-2xl uppercase text-center leading-tight;
+    }
+    .quiz-options {
+        @apply flex flex-col gap-3 items-center pt-8 w-full;
+    }
+    .quiz-option {
+        @apply rounded-full px-8 py-4 text-sm font-bold text-center cursor-pointer
+               bg-stone-50 min-w-48 transition-opacity hover:opacity-80;
+    }
+    .quiz-result-img {
+        @apply w-52 mx-auto py-6;
+    }
+    .quiz-result-img img {
+        @apply w-full object-contain;
+    }
+    .quiz-result-name {
+        @apply text-sm font-bold text-center leading-tight pb-6;
+    }
+
+    /* Dark result variant (applied via JS to .modal-content) */
+    .modal-result-dark .modal-back,
+    .modal-result-dark .modal-close {
+        @apply text-white/60 hover:text-white;
+    }
+    .modal-result-dark .quiz-question,
+    .modal-result-dark .quiz-result-name {
+        @apply text-white;
+    }
 }
