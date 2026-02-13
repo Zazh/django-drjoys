@@ -1567,33 +1567,11 @@
 
 <script>
     // --------------------------------------------
-    // MODALS (universal open/close/step logic)
+    // HOME MODALS (quiz, tattoo, partner)
+    // Uses global openModal/closeModal/goToStep from main.js
+    // Escape key and phone mask are handled globally in main.js
     // --------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
-        // Helper: open modal
-        function openModal(overlay) {
-            overlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // Helper: close modal and reset to step 1
-        function closeModal(overlay) {
-            overlay.classList.add('hidden');
-            document.body.style.overflow = '';
-            // Reset to step 1
-            const steps = overlay.querySelectorAll('.modal-step');
-            steps.forEach((step, i) => {
-                step.classList.toggle('hidden', i !== 0);
-            });
-        }
-
-        // Helper: go to step
-        function goToStep(overlay, stepNum) {
-            overlay.querySelectorAll('.modal-step').forEach(step => {
-                step.classList.toggle('hidden', step.dataset.step !== String(stepNum));
-            });
-        }
-
         // --- Quiz modal ---
         const quizOverlay = document.getElementById('modalQuiz');
         const quizContent = document.getElementById('quizContent');
@@ -1635,7 +1613,6 @@
             }
 
             function getQuizResult() {
-                // Demo logic — будет заменена бэкендом
                 const important = quizAnswers['1'];
                 const aroma = quizAnswers['2'];
                 const frequency = quizAnswers['3'];
@@ -1652,12 +1629,10 @@
                 return 'result-triple-lube';
             }
 
-            // Close buttons
             quizOverlay.querySelectorAll('.modal-close-quiz').forEach(btn => {
                 btn.addEventListener('click', () => closeQuiz());
             });
 
-            // Answer buttons (quiz-option)
             quizOverlay.querySelectorAll('.quiz-option').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const step = btn.closest('.modal-step');
@@ -1671,14 +1646,12 @@
                 });
             });
 
-            // Back buttons
             quizOverlay.querySelectorAll('[data-prev-step]').forEach(btn => {
                 btn.addEventListener('click', () => {
                     goToQuizStep(btn.dataset.prevStep);
                 });
             });
 
-            // Close on overlay click
             quizOverlay.addEventListener('click', (e) => {
                 if (e.target === quizOverlay) closeQuiz();
             });
@@ -1691,26 +1664,22 @@
         if (tattooOverlay && openTattooBtn) {
             openTattooBtn.addEventListener('click', () => openModal(tattooOverlay));
 
-            // Close buttons
             tattooOverlay.querySelectorAll('.modal-close-tattoo').forEach(btn => {
                 btn.addEventListener('click', () => closeModal(tattooOverlay));
             });
 
-            // Next step buttons
             tattooOverlay.querySelectorAll('[data-next-step]').forEach(btn => {
                 btn.addEventListener('click', () => {
                     goToStep(tattooOverlay, btn.dataset.nextStep);
                 });
             });
 
-            // Back buttons
             tattooOverlay.querySelectorAll('[data-prev-step]').forEach(btn => {
                 btn.addEventListener('click', () => {
                     goToStep(tattooOverlay, btn.dataset.prevStep);
                 });
             });
 
-            // Close on overlay click
             tattooOverlay.addEventListener('click', (e) => {
                 if (e.target === tattooOverlay) closeModal(tattooOverlay);
             });
@@ -1740,7 +1709,6 @@
         const ageError = document.getElementById('tattooAgeError');
 
         if (ageInput && ageError) {
-            // Allow only digits
             ageInput.addEventListener('input', (e) => {
                 e.target.value = e.target.value.replace(/\D/g, '').slice(0, 2);
                 ageError.classList.add('hidden');
@@ -1767,59 +1735,6 @@
                 });
             }
         }
-
-        // --- Escape key for all modals ---
-        document.addEventListener('keydown', (e) => {
-            if (e.key !== 'Escape') return;
-            document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(overlay => {
-                closeModal(overlay);
-            });
-        });
-
-        // --- Phone mask (universal for all modals) ---
-        document.querySelectorAll('input[type="tel"]').forEach(phoneInput => {
-            function formatPhone(digits) {
-                if (!digits.length) return '';
-
-                let codeLen = 1;
-                if (digits.startsWith('7') || digits.startsWith('1')) codeLen = 1;
-                else if (digits.startsWith('99')) codeLen = 3;
-                else codeLen = 2;
-
-                const code = digits.slice(0, codeLen);
-                const rest = digits.slice(codeLen);
-
-                let formatted = '+' + code;
-                if (rest.length > 0) formatted += ' (' + rest.slice(0, 3);
-                if (rest.length >= 3) formatted += ')';
-                if (rest.length > 3) formatted += ' ' + rest.slice(3, 6);
-                if (rest.length > 6) formatted += '-' + rest.slice(6, 8);
-                if (rest.length > 8) formatted += '-' + rest.slice(8, 10);
-
-                return formatted;
-            }
-
-            phoneInput.addEventListener('input', (e) => {
-                let digits = e.target.value.replace(/\D/g, '');
-                if (digits.length > 15) digits = digits.slice(0, 15);
-                e.target.value = formatPhone(digits);
-            });
-
-            phoneInput.addEventListener('focus', () => {
-                if (!phoneInput.value) phoneInput.value = '+';
-            });
-
-            phoneInput.addEventListener('blur', () => {
-                if (phoneInput.value === '+') phoneInput.value = '';
-            });
-
-            phoneInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && phoneInput.value.length <= 1) {
-                    phoneInput.value = '';
-                    e.preventDefault();
-                }
-            });
-        });
     });
 </script>
 

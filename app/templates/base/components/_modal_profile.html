@@ -1,0 +1,224 @@
+<!-- BEGIN modal profile -->
+<div class="modal-overlay hidden" id="modalProfile">
+    <div class="modal-content modal-wide">
+        <!-- Header -->
+        <div class="modal-header">
+            <button class="modal-back hidden" type="button" aria-label="Назад" id="profileBackBtn">
+                <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.57823 19L11.2245 17.3884L4.44703 10.6663L22 10.6663L22 8.3337L4.44703 8.33371L11.2245 1.63281L9.57823 2.17189e-06L-2.15366e-06 9.5L9.57823 19Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button class="modal-close ml-auto" type="button" aria-label="Закрыть" onclick="closeModal(document.getElementById('modalProfile'))">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Step 1: Profile main -->
+        <div class="modal-step" data-step="1">
+            <h2 class="modal-title">Профиль</h2>
+            <div class="flex flex-col items-center gap-2 pb-6">
+                <div class="w-16 h-16 rounded-full bg-stone-50 flex items-center justify-center">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gray-500">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <p class="text-sm font-bold">Алексей Иванов</p>
+                <p class="text-xs text-gray-500">alexey@example.com</p>
+            </div>
+            <div class="flex flex-col gap-2">
+                <button class="profile-menu-btn w-full text-left text-sm py-3 px-4 rounded-xl bg-stone-50 hover:bg-gray-200 font-bold" type="button" data-profile-step="2">
+                    История заказов
+                </button>
+                <button class="profile-menu-btn w-full text-left text-sm py-3 px-4 rounded-xl bg-stone-50 hover:bg-gray-200 font-bold" type="button" data-profile-step="3">
+                    Контакты
+                </button>
+            </div>
+            <button class="text-xs text-gray-500 hover:text-red-500 mt-6 text-center" type="button" id="profileLogoutBtn">Выйти</button>
+        </div>
+
+        <!-- Step 2: Order history -->
+        <div class="modal-step hidden" data-step="2">
+            <h2 class="modal-title">История<br>заказов</h2>
+            <div class="flex flex-col gap-3" id="ordersHistoryList">
+                <!-- Order 1 -->
+                <button class="order-card w-full text-left p-3 rounded-xl bg-stone-50 hover:bg-gray-200" type="button" data-order-id="1" data-profile-step="2-detail-1">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-bold">#00123</p>
+                            <p class="text-[10px] text-gray-500">15 января 2025</p>
+                        </div>
+                        <span class="order-status order-status--processing text-[10px] font-bold px-2 py-0.5 rounded-full">В обработке</span>
+                    </div>
+                    <p class="text-xs font-benzin text-red-500 mt-2">2 270 ₽</p>
+                </button>
+
+                <!-- Order 2 -->
+                <button class="order-card w-full text-left p-3 rounded-xl bg-stone-50 hover:bg-gray-200" type="button" data-order-id="2" data-profile-step="2-detail-2">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-bold">#00098</p>
+                            <p class="text-[10px] text-gray-500">3 декабря 2024</p>
+                        </div>
+                        <span class="order-status order-status--shipped text-[10px] font-bold px-2 py-0.5 rounded-full">Отправлен</span>
+                    </div>
+                    <p class="text-xs font-benzin text-red-500 mt-2">1 580 ₽</p>
+                </button>
+
+                <!-- Order 3 -->
+                <button class="order-card w-full text-left p-3 rounded-xl bg-stone-50 hover:bg-gray-200" type="button" data-order-id="3" data-profile-step="2-detail-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-bold">#00071</p>
+                            <p class="text-[10px] text-gray-500">10 ноября 2024</p>
+                        </div>
+                        <span class="order-status order-status--delivered text-[10px] font-bold px-2 py-0.5 rounded-full">Доставлен</span>
+                    </div>
+                    <p class="text-xs font-benzin text-red-500 mt-2">690 ₽</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2-detail-1: Order detail -->
+        <div class="modal-step hidden" data-step="2-detail-1">
+            <h2 class="modal-title">Заказ #00123</h2>
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">15 января 2025</p>
+                    <span class="order-status order-status--processing text-[10px] font-bold px-2 py-0.5 rounded-full">В обработке</span>
+                </div>
+                <!-- Items -->
+                <div class="flex flex-col divide-y divide-stone-50">
+                    <div class="flex gap-3 py-2">
+                        <div class="w-12 h-12 shrink-0 rounded-lg overflow-hidden bg-stone-50">
+                            <div class="w-full h-full bg-stone-50"></div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-xs font-bold">DR.JOYS классические, 5 шт.</p>
+                            <p class="text-[10px] text-gray-500">Размер: M &middot; 2 шт.</p>
+                            <p class="text-xs font-bold mt-1">1 380 ₽</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 py-2">
+                        <div class="w-12 h-12 shrink-0 rounded-lg overflow-hidden bg-stone-50">
+                            <div class="w-full h-full bg-stone-50"></div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-xs font-bold">DR.JOYS ребристые, 3 шт.</p>
+                            <p class="text-[10px] text-gray-500">Размер: L &middot; 1 шт.</p>
+                            <p class="text-xs font-bold mt-1">890 ₽</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Delivery address -->
+                <div>
+                    <p class="text-xs font-bold pb-1">Адрес доставки</p>
+                    <p class="text-xs text-gray-500">Россия, Москва, ул. Пушкина, д. 10, кв. 42</p>
+                </div>
+                <!-- Payment -->
+                <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">Оплата: Карта</p>
+                    <span class="text-xs font-bold text-green-600">Оплачен</span>
+                </div>
+                <!-- Total -->
+                <div class="flex justify-between items-center pt-2 border-t border-stone-50">
+                    <span class="font-benzin uppercase text-sm">Итого</span>
+                    <span class="font-benzin text-red-500">2 270 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2-detail-2 -->
+        <div class="modal-step hidden" data-step="2-detail-2">
+            <h2 class="modal-title">Заказ #00098</h2>
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">3 декабря 2024</p>
+                    <span class="order-status order-status--shipped text-[10px] font-bold px-2 py-0.5 rounded-full">Отправлен</span>
+                </div>
+                <div class="flex flex-col divide-y divide-stone-50">
+                    <div class="flex gap-3 py-2">
+                        <div class="w-12 h-12 shrink-0 rounded-lg overflow-hidden bg-stone-50">
+                            <div class="w-full h-full bg-stone-50"></div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-xs font-bold">DR.JOYS точечные, 5 шт.</p>
+                            <p class="text-[10px] text-gray-500">Размер: M &middot; 2 шт.</p>
+                            <p class="text-xs font-bold mt-1">1 580 ₽</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-xs font-bold pb-1">Адрес доставки</p>
+                    <p class="text-xs text-gray-500">Россия, Москва, ул. Пушкина, д. 10, кв. 42</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">Оплата: Карта</p>
+                    <span class="text-xs font-bold text-green-600">Оплачен</span>
+                </div>
+                <div class="flex justify-between items-center pt-2 border-t border-stone-50">
+                    <span class="font-benzin uppercase text-sm">Итого</span>
+                    <span class="font-benzin text-red-500">1 580 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2-detail-3 -->
+        <div class="modal-step hidden" data-step="2-detail-3">
+            <h2 class="modal-title">Заказ #00071</h2>
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">10 ноября 2024</p>
+                    <span class="order-status order-status--delivered text-[10px] font-bold px-2 py-0.5 rounded-full">Доставлен</span>
+                </div>
+                <div class="flex flex-col divide-y divide-stone-50">
+                    <div class="flex gap-3 py-2">
+                        <div class="w-12 h-12 shrink-0 rounded-lg overflow-hidden bg-stone-50">
+                            <div class="w-full h-full bg-stone-50"></div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-xs font-bold">DR.JOYS классические, 5 шт.</p>
+                            <p class="text-[10px] text-gray-500">Размер: L &middot; 1 шт.</p>
+                            <p class="text-xs font-bold mt-1">690 ₽</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-xs font-bold pb-1">Адрес доставки</p>
+                    <p class="text-xs text-gray-500">Россия, Санкт-Петербург, Невский пр., д. 28</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">Оплата: Карта</p>
+                    <span class="text-xs font-bold text-green-600">Оплачен</span>
+                </div>
+                <div class="flex justify-between items-center pt-2 border-t border-stone-50">
+                    <span class="font-benzin uppercase text-sm">Итого</span>
+                    <span class="font-benzin text-red-500">690 ₽</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Contacts -->
+        <div class="modal-step hidden" data-step="3">
+            <h2 class="modal-title">Контакты</h2>
+            <div class="flex flex-col gap-4 pt-4">
+                <div class="p-3 rounded-xl bg-stone-50">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-wider">Имя</p>
+                    <p class="text-sm font-bold">Алексей Иванов</p>
+                </div>
+                <div class="p-3 rounded-xl bg-stone-50">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-wider">Телефон</p>
+                    <p class="text-sm font-bold">+7 (999) 123-45-67</p>
+                </div>
+                <div class="p-3 rounded-xl bg-stone-50">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-wider">Email</p>
+                    <p class="text-sm font-bold">alexey@example.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END modal profile -->

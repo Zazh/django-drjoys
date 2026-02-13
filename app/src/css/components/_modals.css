@@ -6,6 +6,10 @@
     .modal-content {
         @apply w-full max-w-xs bg-white rounded-2xl p-5 relative;
     }
+    /* Wider variant for shop modals (cart, favorites, profile, delivery, etc.) */
+    .modal-content.modal-wide {
+        @apply max-w-sm md:max-w-md p-6;
+    }
     .modal-header {
         @apply flex justify-between items-center pb-2;
     }

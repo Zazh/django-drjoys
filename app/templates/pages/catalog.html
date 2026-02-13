@@ -213,3 +213,14 @@
     </section>
 </main>
 {% endblock %}
+
+{% block shop_ui %}
+{% include 'base/components/_floating_nav.html' %}
+{% include 'base/components/_modal_cart.html' %}
+{% include 'base/components/_modal_favorites.html' %}
+{% include 'base/components/_modal_profile.html' %}
+{% include 'base/components/_modal_auth.html' %}
+{% include 'base/components/_modal_order_quantity.html' %}
+{% include 'base/components/_modal_delivery.html' %}
+{% include 'base/components/_modal_success.html' %}
+{% endblock %}

@@ -25,6 +25,8 @@
 @import "./components/_blog-widgets.css";
 @import "./components/_blog.css";
 @import "./components/_modals.css";
+@import "./components/_floating-nav.css";
+@import "./components/_cart.css";
 
 /* Utilities */
 @import "./utilities/custom.css";

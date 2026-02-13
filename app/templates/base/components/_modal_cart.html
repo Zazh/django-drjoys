@@ -1,0 +1,98 @@
+{% load static %}
+<!-- BEGIN modal cart -->
+<div class="modal-overlay hidden" id="modalCart">
+    <div class="modal-content modal-wide">
+        <!-- Header -->
+        <div class="modal-header">
+            <div></div>
+            <button class="modal-close" type="button" aria-label="Закрыть" onclick="closeModal(document.getElementById('modalCart'))">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Title -->
+        <h2 class="modal-title">Корзина</h2>
+
+        <!-- Cart items -->
+        <div class="flex flex-col divide-y divide-stone-50" id="cartItemsList">
+            <!-- Item 1 -->
+            <div class="cart-item flex gap-3 py-3" data-cart-id="1">
+                <div class="w-15 h-15 shrink-0 rounded-lg overflow-hidden bg-stone-50">
+                    <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="DR.JOYS классические" loading="lazy">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-bold truncate">Презервативы DR.JOYS классические, 5 шт.</p>
+                    <p class="text-[10px] text-gray-500">Размер: M</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center gap-2">
+                            <button class="cart-qty-btn" type="button" data-action="minus" aria-label="Уменьшить">
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                            <span class="text-xs font-benzin min-w-5 text-center cart-item-qty">2</span>
+                            <button class="cart-qty-btn" type="button" data-action="plus" aria-label="Увеличить">
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="text-xs font-bold cart-item-price">1 380 ₽</span>
+                    </div>
+                </div>
+                <button class="cart-remove-btn shrink-0 self-start text-gray-500 hover:text-red-500" type="button" aria-label="Удалить">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="cart-item flex gap-3 py-3" data-cart-id="2">
+                <div class="w-15 h-15 shrink-0 rounded-lg overflow-hidden bg-stone-50">
+                    <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="DR.JOYS ребристые" loading="lazy">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-bold truncate">Презервативы DR.JOYS ребристые, 3 шт.</p>
+                    <p class="text-[10px] text-gray-500">Размер: L</p>
+                    <div class="flex items-center justify-between mt-1">
+                        <div class="flex items-center gap-2">
+                            <button class="cart-qty-btn" type="button" data-action="minus" aria-label="Уменьшить">
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                            <span class="text-xs font-benzin min-w-5 text-center cart-item-qty">1</span>
+                            <button class="cart-qty-btn" type="button" data-action="plus" aria-label="Увеличить">
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="text-xs font-bold cart-item-price">890 ₽</span>
+                    </div>
+                </div>
+                <button class="cart-remove-btn shrink-0 self-start text-gray-500 hover:text-red-500" type="button" aria-label="Удалить">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer: total + checkout -->
+        <div class="mt-auto pt-4 border-t border-stone-50">
+            <div class="flex justify-between items-center pb-4">
+                <span class="font-benzin uppercase text-sm">Итого</span>
+                <span class="font-benzin text-lg text-red-500" id="cartTotal">2 270 ₽</span>
+            </div>
+            <button class="btn-macro black w-full text-center text-xs" type="button" id="cartCheckoutBtn">ОФОРМИТЬ ЗАКАЗ</button>
+        </div>
+    </div>
+</div>
+<!-- END modal cart -->

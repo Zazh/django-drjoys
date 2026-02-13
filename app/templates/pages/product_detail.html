@@ -25,21 +25,41 @@
                         <h5 class="text-sm tracking-wide text-red-500 mb-2 font-bold">ХИТ ПРОДАЖ</h5>
                         <h1 class="h2 br-lg font-benzin uppercase">Презервативы DR.JOYS <span> классические, банан,</span> <span>0.02 мм, 5 шт.</span></h1>
                     </div>
-                    <div>
+                    <div class="flex justify-between shrink-1">
                         <span class="text-xs uppercase tracking-wider flex items-center gap-2 font-medium">АРТИКУЛ <span class="h-4 border-l-1"></span> 123456</span>
+                        <span class="text-md font-benzin text-red-500 uppercase tracking-wider flex items-center gap-2 font-bold">3 540 ₸</span>
                     </div>
-                    <div class="add-to-cart">
-                        <div class="cart-button-wrapper">
-                            <button class="btn-cat w-full font-benzin">КУПИТЬ АНОНИМНО</button>
+                    <!-- BEGIN buy section -->
+                    <div class="product-buy" id="productBuy">
+                        <!-- Initial state: Buy + Favorite buttons -->
+                        <div class="flex gap-2" id="buyButtons">
+                            <button class="btn-cat flex-1 font-benzin" type="button" id="buyAnonymousBtn">КУПИТЬ АНОНИМНО</button>
+                            <button class="btn-favorite" type="button" id="productFavoriteBtn" aria-label="Добавить в избранное">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                                </svg>
+                            </button>
                         </div>
-                        <div class="cart-links-wrapper hidden py-3">
-                            <a href="" class="btn-cat-list"><span class="uppercase">Wildberries</span> <span class="text-red-500">Нет в наличии</span></a>
-                            <a href="" class="btn-cat-list"><span class="uppercase">Ozon</span></a>
-                            <a href="" class="btn-cat-list"><span class="uppercase">teez</span></a>
-                            <a href="" class="btn-cat-list"><span class="uppercase">joystoys</span></a>
-                            <a href="" class="btn-cat-list"><span class="uppercase">blackrabbit</span></a>
+                        <!-- Size selector (hidden by default) -->
+                        <div class="hidden" id="sizeSelector">
+                            <p class="text-xs font-bold pb-2">Выберите размер:</p>
+                            <div class="size-selector">
+                                <button class="size-chip" type="button" data-size="M" data-dims="52×180мм" data-available="true">
+                                    M
+                                    <span class="size-chip__dims">52×180мм</span>
+                                </button>
+                                <button class="size-chip" type="button" data-size="L" data-dims="54×190мм" data-available="true">
+                                    L
+                                    <span class="size-chip__dims">54×190мм</span>
+                                </button>
+                                <button class="size-chip disabled" type="button" data-size="XL" data-dims="56×200мм" data-available="false" disabled>
+                                    XL
+                                    <span class="size-chip__dims">Нет в наличии</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <!-- END buy section -->
                     <div>
                         <p class=" text-sm">
                             Гладкая поверхность, латекс бесцветный. С дополнительной
@@ -299,6 +319,17 @@
         </div>
     </section>
 </main>
+
+{% block shop_ui %}
+{% include 'base/components/_floating_nav.html' %}
+{% include 'base/components/_modal_cart.html' %}
+{% include 'base/components/_modal_favorites.html' %}
+{% include 'base/components/_modal_profile.html' %}
+{% include 'base/components/_modal_auth.html' %}
+{% include 'base/components/_modal_order_quantity.html' %}
+{% include 'base/components/_modal_delivery.html' %}
+{% include 'base/components/_modal_success.html' %}
+{% endblock %}
 
 {% block scripts %}
 <!-- YouTube Player API -->
