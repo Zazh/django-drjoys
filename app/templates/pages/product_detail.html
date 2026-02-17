@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Product{% endblock %}
+{% block title %}{{ meta_title }}{% endblock %}
+
+{% block meta %}
+{% if meta_description %}<meta name="description" content="{{ meta_description }}">{% endif %}
+{% endblock %}
 
 {% block header_right %}
     {% include 'base/components/_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
@@ -13,7 +17,11 @@
         <!-- Картинка -->
         <div class="pt-28 md:lg-8 col-span-full lg:col-span-7 xl:col-start-2 xl:col-span-6">
             <div class="product_picture [ w-full aspect-[2/3] overflow-hidden ]">
-                <img src="{% static 'dist/images/figure.jpg' %}" class="object-cover w-full h-full" alt="Презервативы DR.JOYS классические">
+                {% if main_image %}
+                <img src="{{ main_image.image.url }}" class="object-cover w-full h-full" alt="{{ main_image.alt_text|default:product.name }}">
+                {% else %}
+                <img src="{% static 'dist/images/figure.jpg' %}" class="object-cover w-full h-full" alt="{{ product.name }}">
+                {% endif %}
             </div>
         </div>
 
@@ -22,12 +30,30 @@
             <div class="pt-4 xl:pt-50 lg:pt-40 h-full flex flex-col">
                 <div class="flex flex-col gap-8">
                     <div class="border-b-[0.5px] border-b-black pb-8">
-                        <h5 class="text-sm tracking-wide text-red-500 mb-2 font-bold">ХИТ ПРОДАЖ</h5>
-                        <h1 class="h2 br-lg font-benzin uppercase">Презервативы DR.JOYS <span> классические, банан,</span> <span>0.02 мм, 5 шт.</span></h1>
+                        {% if product.badge %}
+                        <h5 class="text-sm tracking-wide text-red-500 mb-2 font-bold">{{ product.get_badge_display|upper }}</h5>
+                        {% endif %}
+                        <h1 class="h2 br-lg font-benzin uppercase">{{ product.name }}</h1>
                     </div>
-                    <div class="flex justify-between shrink-1">
-                        <span class="text-xs uppercase tracking-wider flex items-center gap-2 font-medium">АРТИКУЛ <span class="h-4 border-l-1"></span> 123456</span>
-                        <span class="text-md font-benzin text-red-500 uppercase tracking-wider flex items-center gap-2 font-bold">3 540 ₸</span>
+                    <div class="flex justify-between items-start shrink-1">
+                        <span class="text-xs uppercase tracking-wider flex items-center gap-2 font-medium">АРТИКУЛ <span class="h-4 border-l-1"></span> {{ product.sku }}</span>
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="flex items-center gap-2">
+                                {% if product.has_discount %}
+                                <span class="text-xs text-stone-400 line-through">{{ product.old_price|floatformat:"0" }} ₸</span>
+                                <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{{ product.discount_percent }}%</span>
+                                {% endif %}
+                                <span class="text-md font-benzin text-red-500 font-bold">{{ product.price|floatformat:"0" }} ₸</span>
+                            </div>
+                            {% if product.price_rub %}
+                            <div class="flex items-center gap-2">
+                                {% if product.old_price_rub %}
+                                <span class="text-[10px] text-stone-400 line-through">{{ product.old_price_rub|floatformat:"0" }} ₽</span>
+                                {% endif %}
+                                <span class="text-xs text-stone-500">{{ product.price_rub|floatformat:"0" }} ₽</span>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                     <!-- BEGIN buy section -->
                     <div class="product-buy" id="productBuy">
@@ -44,29 +70,21 @@
                         <div class="hidden" id="sizeSelector">
                             <p class="text-xs font-bold pb-2">Выберите размер:</p>
                             <div class="size-selector">
-                                <button class="size-chip" type="button" data-size="M" data-dims="52×180мм" data-available="true">
-                                    M
-                                    <span class="size-chip__dims">52×180мм</span>
+                                {% for size in sizes %}
+                                <button class="size-chip{% if not size.is_available %} disabled{% endif %}" type="button" data-size="{{ size.size }}" data-dims="{{ size.dimensions }}" data-available="{{ size.is_available|yesno:'true,false' }}" {% if not size.is_available %}disabled{% endif %}>
+                                    {{ size.size }}
+                                    <span class="size-chip__dims">{% if size.is_available %}{{ size.dimensions }}{% else %}Нет в наличии{% endif %}</span>
                                 </button>
-                                <button class="size-chip" type="button" data-size="L" data-dims="54×190мм" data-available="true">
-                                    L
-                                    <span class="size-chip__dims">54×190мм</span>
-                                </button>
-                                <button class="size-chip disabled" type="button" data-size="XL" data-dims="56×200мм" data-available="false" disabled>
-                                    XL
-                                    <span class="size-chip__dims">Нет в наличии</span>
-                                </button>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                     <!-- END buy section -->
+                    {% if product.short_description %}
                     <div>
-                        <p class=" text-sm">
-                            Гладкая поверхность, латекс бесцветный. С дополнительной
-                            <span>силиконовой смазкой, с нейтральным ароматом, толщина 0.02</span>
-                            мм неощутимые на 95%
-                        </p>
+                        <p class=" text-sm">{{ product.short_description }}</p>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="lg:mt-auto mt-4 pt-8 lg:pb-4">
                     <ul class="flex flex-col gap-3">
@@ -81,56 +99,53 @@
     </section>
 
     <section class="main-grid lg:mt-24">
-        <!-- Меню 1 -->
+        <!-- Характеристики -->
         <div class="col-span-full lg:col-span-7 xl:col-start-3 xl:col-span-5 flex ">
             <div id="characters" class="mt-auto pt-12 pb-8 lg:pb-4 w-full">
                 <ul class="mt-auto flex flex-col gap-6">
-                    <li class="flex flex-col text-sm gap-1">
-                        <span class="uppercase font-benzin tracking-wider">материал</span>
-                        <span class="br-lg">Ультратонкие 0,02 мм, натуральный латекс</span>
+                    {% for pc in product_characteristics %}
+                    <li class="flex {% if pc.inline %}flex-row items-baseline{% else %}flex-col{% endif %} text-sm gap-1">
+                        <span class="uppercase font-benzin tracking-wider">{{ pc.name }}{% if pc.inline %} –{% endif %}</span>
+                        <span class="br-lg">{{ pc.value }}{% if pc.hint %} <span class="text-stone-400">{{ pc.hint }}</span>{% endif %}</span>
                     </li>
-                    <li class="flex flex-col text-sm gap-1">
-                        <span class="uppercase font-benzin tracking-wider">Особенности</span>
-                        <span class="br-lg">Сверхпрочные, особо увлажненные</span>
-                    </li>
-                    <li class="flex flex-col text-sm gap-1">
-                        <span class="uppercase font-benzin tracking-wider">Комплектация</span>
-                        <span class="br-lg">Презервативы классические - 5 шт, <span>Упаковка (пачка) - 1 шт</span></span>
-                    </li>
-                    <li class="flex flex-col md:flex-row text-sm gap-1">
-                        <span class="uppercase font-benzin tracking-wider">Срок годности –</span>
-                        <span class="br-lg">60 мес</span>
-                    </li>
-                    <li class="flex flex-col md:flex-row text-sm gap-1">
-                        <span class="uppercase font-benzin tracking-wider">Страна производства –</span>
-                        <span class="br-lg">Китай</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
 
-        <!-- Меню 2 -->
+        <!-- Zoom картинка -->
         <div class="col-span-full lg:col-span-7 lg:col-start-9 xl:col-start-9 xl:col-span-6 ">
             <div class="product-zoom-container w-full h-full aspect-[2/3] overflow-hidden">
-                <!-- data-rotate контролирует градус поворота -->
+                {% if zoom_image %}
+                <img
+                        src="{{ zoom_image.image.url }}"
+                        class="product-zoom-image w-full h-full object-cover"
+                        data-rotate="{{ zoom_image.rotation_angle|default:'15' }}"
+                        alt="{{ zoom_image.alt_text|default:product.name }}"
+                >
+                {% else %}
                 <img
                         src="{% static 'dist/images/product-refs.jpg' %}"
                         class="product-zoom-image w-full h-full object-cover"
                         data-rotate="15"
-                        alt="Презервативы DR.JOYS"
+                        alt="{{ product.name }}"
                 >
+                {% endif %}
             </div>
         </div>
     </section>
 
     <section class="main-grid mt-8 lg:mt-24">
-        <!-- Слайдер 1 -->
+        <!-- Слайдер упаковки -->
         <div class="col-span-full col-start-0 md:col-span-3 lg:col-span-7 xl:col-start-2 xl:col-span-6 flex flex-col">
             <div class="[ product-slider ] w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
-                <!-- Картинки -->
-                <img src="{% static 'dist/images/upakovka.jpg' %}" class="slider-image" alt="Упаковка вид 3">
-                <img src="{% static 'dist/images/upakovka-1.jpg' %}" class="slider-image" alt="Упаковка вид 3">
+                {% for img in slider_package_images %}
+                <img src="{{ img.image.url }}" class="slider-image" alt="{{ img.alt_text|default:'Упаковка' }}">
+                {% empty %}
+                <img src="{% static 'dist/images/upakovka.jpg' %}" class="slider-image" alt="Упаковка вид 1">
+                <img src="{% static 'dist/images/upakovka-1.jpg' %}" class="slider-image" alt="Упаковка вид 2">
                 <img src="{% static 'dist/images/upakovka-2.jpg' %}" class="slider-image" alt="Упаковка вид 3">
+                {% endfor %}
 
                 <!-- Круговой прогресс с кнопкой pause/play -->
                 <div class="slider-progress-wrapper">
@@ -159,13 +174,16 @@
             </div>
         </div>
 
-        <!-- Слайдер 2 -->
+        <!-- Слайдер индивидуальный -->
         <div class="col-span-full lg:col-start-9 md:col-span-3 lg:col-span-7 xl:col-start-9 xl:col-span-6 flex flex-col">
             <div class="[ product-slider ] w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
-                <!-- Картинки -->
-                <img src="{% static 'dist/images/paket.jpg' %}" class="slider-image" alt="Пакет вид 3">
-                <img src="{% static 'dist/images/paket-1.jpg' %}" class="slider-image" alt="Пакет вид 3">
+                {% for img in slider_individual_images %}
+                <img src="{{ img.image.url }}" class="slider-image" alt="{{ img.alt_text|default:'Индивидуальная упаковка' }}">
+                {% empty %}
+                <img src="{% static 'dist/images/paket.jpg' %}" class="slider-image" alt="Пакет вид 1">
+                <img src="{% static 'dist/images/paket-1.jpg' %}" class="slider-image" alt="Пакет вид 2">
                 <img src="{% static 'dist/images/paket-2.jpg' %}" class="slider-image" alt="Пакет вид 3">
+                {% endfor %}
 
                 <!-- Круговой прогресс с кнопкой pause/play -->
                 <div class="slider-progress-wrapper">
@@ -193,6 +211,7 @@
         </div>
     </section>
 
+    {% if related_products %}
     <section class="mt-8 lg:mt-24 py-8">
         <div class="main-grid">
             <div class="col-span-full xl:col-start-2">
@@ -203,11 +222,17 @@
             <!-- Карусель -->
             <div class="carousel-wrapper">
                 <div class="carousel-track">
-                    <!-- Карточки (добавь столько сколько нужно) -->
+                    {% for related in related_products %}
                     <article class="carousel-card">
-                        <a href="" class="block">
+                        <a href="{{ related.get_absolute_url }}" class="block">
                             <div class="carousel-card_picture">
-                                <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
+                                {% with related_main=related.images.all|first %}
+                                {% if related_main %}
+                                <img src="{{ related_main.image.url }}" class="w-full h-full object-cover" alt="{{ related.name }}">
+                                {% else %}
+                                <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="{{ related.name }}">
+                                {% endif %}
+                                {% endwith %}
                                 <div class="product-card_label" aria-hidden="true">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="16" height="16" rx="1" fill="currentColor"/>
@@ -217,100 +242,11 @@
                                 </div>
                             </div>
                             <div class="carousel-card_info">
-                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Неощутимые на 95% 0.02 мм, 5 шт.</h3>
+                                <h3 class="text-sm uppercase tracking-wider">{{ related.name }}</h3>
                             </div>
                         </a>
                     </article>
-
-                    <article class="carousel-card">
-                        <a href="" class="block">
-                            <div class="carousel-card_picture">
-                                <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
-                                <div class="product-card_label" aria-hidden="true">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="carousel-card_info">
-                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Классические 0.03 мм, 10 шт.</h3>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="carousel-card">
-                        <a href="" class="block">
-                            <div class="carousel-card_picture">
-                                <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
-                                <div class="product-card_label" aria-hidden="true">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="carousel-card_info">
-                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Ребристые 0.02 мм, 3 шт.</h3>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="carousel-card">
-                        <a href="" class="block">
-                            <div class="carousel-card_picture">
-                                <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
-                                <div class="product-card_label" aria-hidden="true">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="carousel-card_info">
-                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS XXL увеличенные 0.03 мм, 5 шт.</h3>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="carousel-card">
-                        <a href="" class="block">
-                            <div class="carousel-card_picture">
-                                <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
-                                <div class="product-card_label" aria-hidden="true">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="carousel-card_info">
-                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Точечные 0.02 мм, 5 шт.</h3>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="carousel-card">
-                        <a href="" class="block">
-                            <div class="carousel-card_picture">
-                                <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="Презервативы DR.JOYS">
-                                <div class="product-card_label" aria-hidden="true">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="carousel-card_info">
-                                <h3 class="text-sm uppercase tracking-wider">Презервативы DR.JOYS Mix набор 0.02 мм, 12 шт.</h3>
-                            </div>
-                        </a>
-                    </article>
+                    {% endfor %}
                 </div>
 
                 <!-- Кастомный курсор -->
@@ -318,6 +254,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 </main>
 
 {% block shop_ui %}

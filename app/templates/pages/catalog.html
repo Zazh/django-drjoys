@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Catalog{% endblock %}
+{% block title %}{{ meta_title }}{% endblock %}
+
+{% block meta %}
+{% if meta_description %}<meta name="description" content="{{ meta_description }}">{% endif %}
+{% endblock %}
 
 {% block header_right %}
 <div class="gap-8 mt-auto ml-auto xl:mr-8 hidden lg:flex">
@@ -14,7 +18,9 @@
     <section class="main-grid">
         <div class="col-span-full mb-6 lg:mb-12 lg:col-start-2 flex flex-wrap gap-6 justify-center lg:justify-between items-end">
             <div class="w-full lg:w-auto">
-                <h1 class="h1 font-benzin uppercase text-center lg:text-left">Каталог презервативов</h1>
+                <h1 class="h1 font-benzin uppercase text-center lg:text-left">
+                    {% if current_category %}{{ current_category.name }}{% else %}Каталог презервативов{% endif %}
+                </h1>
             </div>
             <div class="flex gap-8 xl:pr-16 lg:hidden">
                 {% include 'base/components/_catalog_filters.html' %}
@@ -25,13 +31,15 @@
         <div class="col-span-1 " id="referenceCol"></div>
 
         <div class="col-span-full lg:col-span-14 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 lg:gap-4 pb-12 px-4 lg:px-0" id="productGrid">
+            {% for product in products %}
             <article class="product-card heart-trigger">
-                <a href="{% url 'product_detail' %}" class="relative block">
-                    <div class="product-card_picture" data-images-count="3">
-                        <!-- Картинки товара -->
-                        <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
+                <a href="{{ product.get_absolute_url }}" class="relative block">
+                    <div class="product-card_picture" data-images-count="{{ product.images.all|length }}">
+                        {% for img in product.images.all %}
+                        <img src="{{ img.image.url }}" class="product-image" alt="{{ img.alt_text|default:product.name }}">
+                        {% empty %}
+                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="{{ product.name }}">
+                        {% endfor %}
 
                         <div class="product-card_label" aria-hidden="true">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,124 +53,29 @@
                         <div class="product-indicators"></div>
                     </div>
                     <div class="product-card_info">
-                        <h2 class="product-card_title">Презервативы DR.JOYS Неощутимые <span>на 95% 0.02 мм, 5 шт.</span></h2>
+                        <h2 class="product-card_title">{{ product.name }}</h2>
                     </div>
                 </a>
             </article>
-
-            <article class="product-card heart-trigger">
-                <a href="{% url 'product_detail' %}" class="relative block">
-                    <div class="product-card_picture" data-images-count="3">
-                        <!-- Картинки товара -->
-                        <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-
-                        <div class="product-card_label" aria-hidden="true">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                            </svg>
-                        </div>
-
-                        <!-- Индикаторы картинок -->
-                        <div class="product-indicators"></div>
-                    </div>
-                    <div class="product-card_info">
-                        <h2 class="product-card_title">Презервативы DR.JOYS Неощутимые <span>на 95% 0.02 мм, 5 шт.</span></h2>
-                    </div>
-                </a>
-            </article>
-
-            <article class="product-card">
-                <a href="{% url 'product_detail' %}" class="relative block">
-                    <div class="product-card_picture" data-images-count="3">
-                        <!-- Картинки товара -->
-                        <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-
-                        <div class="product-card_label" aria-hidden="true">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                            </svg>
-                        </div>
-
-                        <!-- Индикаторы картинок -->
-                        <div class="product-indicators"></div>
-                    </div>
-                    <div class="product-card_info">
-                        <h2 class="product-card_title">Презервативы DR.JOYS Неощутимые <span>на 95% 0.02 мм, 5 шт.</span></h2>
-                    </div>
-                </a>
-            </article>
-
-            <article class="product-card heart-trigger">
-                <a href="{% url 'product_detail' %}" class="relative block">
-                    <div class="product-card_picture" data-images-count="3">
-                        <!-- Картинки товара -->
-                        <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-
-                        <div class="product-card_label" aria-hidden="true">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                            </svg>
-                        </div>
-
-                        <!-- Индикаторы картинок -->
-                        <div class="product-indicators"></div>
-                    </div>
-                    <div class="product-card_info">
-                        <h2 class="product-card_title">Презервативы DR.JOYS Неощутимые <span>на 95% 0.02 мм, 5 шт.</span></h2>
-                    </div>
-                </a>
-            </article>
-
-            <article class="product-card heart-trigger">
-                <a href="{% url 'product_detail' %}" class="relative block">
-                    <div class="product-card_picture" data-images-count="3">
-                        <!-- Картинки товара -->
-                        <img src="{% static 'dist/images/figure.jpg' %}"   class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-                        <img src="{% static 'dist/images/figure.jpg' %}" class="product-image" alt="Презервативы DR.JOYS">
-
-                        <div class="product-card_label" aria-hidden="true">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                            </svg>
-                        </div>
-
-                        <!-- Индикаторы картинок -->
-                        <div class="product-indicators"></div>
-                    </div>
-                    <div class="product-card_info">
-                        <h2 class="product-card_title">Презервативы DR.JOYS Неощутимые <span>на 95% 0.02 мм, 5 шт.</span></h2>
-                    </div>
-                </a>
-            </article>
-
+            {% empty %}
+            <div class="col-span-full text-center py-12">
+                <p class="text-lg text-stone-400">Товары не найдены</p>
+            </div>
+            {% endfor %}
         </div>
 
         <div class="col-span-full lg:col-span-9 lg:col-start-2 px-4 lg:px-0">
+            {% if faqs %}
             <div class="pt-12 mb-14 xl:pt-22">
                 <div>
                     <h1 class="h2 font-benzin uppercase">faq</h1>
                 </div>
                 <div class="py-8">
                     <ul class="flex flex-col gap-3">
-                        <!-- Просто повторяй этот блок в цикле Django -->
+                        {% for faq in faqs %}
                         <li class="faq-item">
                             <button class="faq-button" type="button">
-                                Как подобрать размер презерватива DR.JOYS?
+                                {{ faq.question }}
                                 <span class="faq-icon">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M7 0H9V16H7V0Z" fill="currentColor"/>
@@ -171,44 +84,14 @@
                                 </span>
                             </button>
                             <div class="faq-panel">
-                                <p>
-                                    Презервативы Dr Joys — это средства барьерной контрацепции, разработанные для защиты от нежелательной беременности и инфекций, передающихся половым путём.
-                                </p>
+                                <p>{{ faq.answer }}</p>
                             </div>
                         </li>
-
-                        <li class="faq-item">
-                            <button class="faq-button" type="button">
-                                Безопасны ли ультратонкие презервативы DR.JOYS?
-                                <span class="faq-icon">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7 0H9V16H7V0Z" fill="currentColor"/>
-                                        <path d="M16 7V9L0 9L8.74228e-08 7L16 7Z" fill="currentColor"/>
-                                    </svg>
-                                </span>
-                            </button>
-                            <div class="faq-panel">
-                                <p>Да, абсолютно безопасны! Каждый презерватив проходит электронное тестирование...</p>
-                            </div>
-                        </li>
-
-                        <li class="faq-item">
-                            <button class="faq-button" type="button">
-                                Насколько безопасны презервативы Dr Joys? Есть ли сертификаты качества?
-                                <span class="faq-icon">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7 0H9V16H7V0Z" fill="currentColor"/>
-                                        <path d="M16 7V9L0 9L8.74228e-08 7L16 7Z" fill="currentColor"/>
-                                    </svg>
-                                </span>
-                            </button>
-                            <div class="faq-panel">
-                                <p>Да, абсолютно безопасны! Каждый презерватив проходит электронное тестирование...</p>
-                            </div>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
+            {% endif %}
         </div>
     </section>
 </main>

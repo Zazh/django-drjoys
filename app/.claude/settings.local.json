@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat\\(about\\): добавил страницу «О компании» с контентом и мета-тегами\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(pnpm tailwindcss:*)",
+      "Bash(ls:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

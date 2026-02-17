@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
@@ -7,10 +7,11 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    # Каталог
+    path('catalog/', include('catalog.urls')),
+
     # Страницы для верстки
     path('', TemplateView.as_view(template_name='pages/home.html', extra_context={'page_type': 'home'}), name='home'),
-    path('catalog/', TemplateView.as_view(template_name='pages/catalog.html', extra_context={'page_type': 'catalog'}), name='catalog'),
-    path('product/', TemplateView.as_view(template_name='pages/product_detail.html', extra_context={'page_type': 'product_detail'}), name='product_detail'),
     path('about/', TemplateView.as_view(template_name='pages/about.html', extra_context={'page_type': 'about'}), name='about'),
     path('partners/', TemplateView.as_view(template_name='pages/partners.html', extra_context={'page_type': 'partners'}), name='partners'),
     path('blog/', TemplateView.as_view(template_name='pages/blog_list.html', extra_context={'page_type': 'blog_list'}), name='blog_list'),
