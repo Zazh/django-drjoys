@@ -1,13 +1,8 @@
-import json
-
-from django.db.models import Prefetch
 from django.http import Http404
 from django.views.generic import ListView, DetailView
 
-from .models import (
-    Category, Product, ProductImage, ProductCharacteristic,
-    CategoryCharacteristic, FAQ,
-)
+from .models import Category, Product, FAQ
+from . import jsonld as jld
 
 
 class CatalogListView(ListView):
@@ -20,7 +15,7 @@ class CatalogListView(ListView):
             Product.objects
             .filter(is_active=True)
             .select_related('category')
-            .prefetch_related('images')
+            .prefetch_related('main_images', 'sizes')
         )
         category_slug = self.kwargs.get('category_slug')
         if category_slug:
@@ -39,7 +34,8 @@ class CatalogListView(ListView):
                 raise Http404
         ctx['categories'] = categories
         ctx['current_category'] = current_category
-        ctx['faqs'] = FAQ.objects.filter(is_active=True)
+        faqs = FAQ.objects.filter(is_active=True)
+        ctx['faqs'] = faqs
         ctx['page_type'] = 'catalog'
         ctx['meta_title'] = (
             current_category.meta_title or current_category.name
@@ -51,6 +47,23 @@ class CatalogListView(ListView):
             if current_category
             else 'Каталог презервативов DR.JOYS — классические, ребристые, ультратонкие'
         )
+
+        # JSON-LD
+        breadcrumbs = [
+            {'name': 'DR.JOYS', 'url': '/'},
+            {'name': 'Каталог', 'url': '/catalog/'},
+        ]
+        if current_category:
+            breadcrumbs.append({
+                'name': current_category.name,
+                'url': current_category.get_absolute_url(),
+            })
+        ctx['jsonld_blocks'] = jld.serialize_jsonld(
+            jld.build_breadcrumb_jsonld(self.request, breadcrumbs),
+            jld.build_catalog_itemlist_jsonld(self.request, ctx['products'], current_category),
+            jld.build_faq_jsonld(faqs),
+        )
+
         return ctx
 
 
@@ -66,16 +79,11 @@ class ProductDetailView(DetailView):
             .filter(is_active=True)
             .select_related('category')
             .prefetch_related(
-                'images',
                 'sizes',
-                Prefetch(
-                    'characteristics',
-                    queryset=ProductCharacteristic.objects
-                    .select_related('characteristic')
-                    .prefetch_related('selected_values'),
-                ),
-                'related_products__images',
-                'related_products__category',
+                'characteristics__characteristic__unit',
+                'main_images',
+                'package_images',
+                'individual_images',
             )
         )
 
@@ -85,40 +93,23 @@ class ProductDetailView(DetailView):
             raise Http404
         return obj
 
-    def _build_characteristics(self, product):
-        """Собирает характеристики в готовые для шаблона dict'ы."""
-        # display_mode из CategoryCharacteristic
-        display_modes = dict(
-            CategoryCharacteristic.objects
-            .filter(category=product.category)
-            .values_list('characteristic_id', 'display_mode')
-        )
-        result = []
-        for pc in product.characteristics.all():
-            display = pc.display_value
-            if not display:
-                continue
-            result.append({
-                'name': pc.characteristic.name,
-                'value': display,
-                'hint': pc.hint,
-                'inline': display_modes.get(pc.characteristic_id) == 'inline',
-            })
-        return result
-
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         product = self.object
-        images = product.images.all()
 
-        ctx['main_image'] = images.filter(image_type=ProductImage.ImageType.MAIN).first()
-        ctx['gallery_images'] = images.filter(image_type=ProductImage.ImageType.GALLERY)
-        ctx['zoom_image'] = images.filter(image_type=ProductImage.ImageType.ZOOM).first()
-        ctx['slider_package_images'] = images.filter(image_type=ProductImage.ImageType.SLIDER_PKG)
-        ctx['slider_individual_images'] = images.filter(image_type=ProductImage.ImageType.SLIDER_IND)
-        ctx['sizes'] = product.sizes.all()
-        ctx['related_products'] = product.related_products.filter(is_active=True)[:6]
-        ctx['product_characteristics'] = self._build_characteristics(product)
+        sizes = list(product.sizes.all())
+        ctx['sizes'] = sizes
+        ctx['default_size'] = sizes[0] if sizes else None
+        cover_image = product.main_images.filter(is_cover=True).first()
+        ctx['cover_image'] = cover_image
+        main_images = list(product.main_images.all())
+        ctx['main_images'] = main_images
+        ctx['package_images'] = product.package_images.all()
+        ctx['individual_images'] = product.individual_images.all()
+        characteristics = list(
+            product.characteristics.select_related('characteristic__unit').all()
+        )
+        ctx['characteristics'] = characteristics
         ctx['page_type'] = 'product_detail'
 
         # Хлебные крошки
@@ -130,23 +121,14 @@ class ProductDetailView(DetailView):
         ]
         ctx['breadcrumbs'] = breadcrumbs
 
-        # JSON-LD для хлебных крошек
-        jsonld = {
-            '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            'itemListElement': [],
-        }
-        for i, crumb in enumerate(breadcrumbs, 1):
-            item = {
-                '@type': 'ListItem',
-                'position': i,
-                'name': crumb['name'],
-            }
-            if crumb['url']:
-                item['item'] = self.request.build_absolute_uri(crumb['url'])
-            jsonld['itemListElement'].append(item)
-        ctx['breadcrumb_jsonld'] = json.dumps(jsonld, ensure_ascii=False)
+        # JSON-LD
+        ctx['jsonld_blocks'] = jld.serialize_jsonld(
+            jld.build_breadcrumb_jsonld(self.request, breadcrumbs),
+            jld.build_product_jsonld(
+                self.request, product, sizes, cover_image, main_images, characteristics,
+            ),
+        )
 
         ctx['meta_title'] = product.meta_title or product.name
-        ctx['meta_description'] = product.meta_description or product.short_description
+        ctx['meta_description'] = product.meta_description or product.description
         return ctx

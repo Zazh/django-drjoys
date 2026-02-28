@@ -3,11 +3,40 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}DR.JOYS{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block meta %}{% endblock %}
-    <link rel="icon" href="data:,">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'dist/images/svgs/logo.svg' %}" type="image/svg+xml">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="DR.JOYS">
+    <meta property="og:locale" content="ru_RU">
+    {% block og %}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}DR.JOYS — ультратонкие презервативы{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Ультратонкие презервативы DR.JOYS — неощутимые на 95%{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% static 'dist/images/svgs/logo.svg' %}">
+    {% endblock %}
+
+    <!-- Twitter Card -->
+    {% block twitter %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DR.JOYS — ультратонкие презервативы">
+    <meta name="twitter:description" content="Ультратонкие презервативы DR.JOYS — неощутимые на 95%">
+    <meta name="twitter:image" content="{% static 'dist/images/svgs/logo.svg' %}">
+    {% endblock %}
+
+    <!-- Global JSON-LD -->
+    {% for jsonld_str in global_jsonld_blocks %}
+    <script type="application/ld+json">{{ jsonld_str|safe }}</script>
+    {% endfor %}
+
     <link rel="stylesheet" href="{% static 'dist/css/styles.css' %}">
 </head>
 <body>

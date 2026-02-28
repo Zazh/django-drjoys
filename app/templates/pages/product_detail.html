@@ -3,8 +3,28 @@
 
 {% block title %}{{ meta_title }}{% endblock %}
 
+{% block canonical %}{{ product.get_absolute_url }}{% endblock %}
+
 {% block meta %}
 {% if meta_description %}<meta name="description" content="{{ meta_description }}">{% endif %}
+{% for jsonld_str in jsonld_blocks %}
+<script type="application/ld+json">{{ jsonld_str|safe }}</script>
+{% endfor %}
+{% endblock %}
+
+{% block og %}
+<meta property="og:type" content="product">
+<meta property="og:title" content="{{ meta_title }}">
+{% if meta_description %}<meta property="og:description" content="{{ meta_description }}">{% endif %}
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% if cover_image %}<meta property="og:image" content="{{ cover_image.image.url }}">{% else %}<meta property="og:image" content="{{ placeholder_image_url }}">{% endif %}
+{% endblock %}
+
+{% block twitter %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ meta_title }}">
+{% if meta_description %}<meta name="twitter:description" content="{{ meta_description }}">{% endif %}
+{% if cover_image %}<meta name="twitter:image" content="{{ cover_image.image.url }}">{% else %}<meta name="twitter:image" content="{{ placeholder_image_url }}">{% endif %}
 {% endblock %}
 
 {% block header_right %}
@@ -17,10 +37,10 @@
         <!-- Картинка -->
         <div class="pt-28 md:lg-8 col-span-full lg:col-span-7 xl:col-start-2 xl:col-span-6">
             <div class="product_picture [ w-full aspect-[2/3] overflow-hidden ]">
-                {% if main_image %}
-                <img src="{{ main_image.image.url }}" class="object-cover w-full h-full" alt="{{ main_image.alt_text|default:product.name }}">
+                {% if cover_image %}
+                <img src="{{ cover_image.image.url }}" class="object-cover w-full h-full" alt="{{ cover_image.alt_text|default:product.name }}">
                 {% else %}
-                <img src="{% static 'dist/images/figure.jpg' %}" class="object-cover w-full h-full" alt="{{ product.name }}">
+                <img src="{{ placeholder_image_url }}" class="object-cover w-full h-full" alt="{{ product.name }}">
                 {% endif %}
             </div>
         </div>
@@ -35,26 +55,28 @@
                         {% endif %}
                         <h1 class="h2 br-lg font-benzin uppercase">{{ product.name }}</h1>
                     </div>
+                    {% if default_size %}
                     <div class="flex justify-between items-start shrink-1">
-                        <span class="text-xs uppercase tracking-wider flex items-center gap-2 font-medium">АРТИКУЛ <span class="h-4 border-l-1"></span> {{ product.sku }}</span>
+                        <span class="text-xs uppercase tracking-wider flex items-center gap-2 font-medium">АРТИКУЛ <span class="h-4 border-l-1"></span> {{ default_size.sku }}</span>
                         <div class="flex flex-col items-end gap-1">
                             <div class="flex items-center gap-2">
-                                {% if product.has_discount %}
-                                <span class="text-xs text-stone-400 line-through">{{ product.old_price|floatformat:"0" }} ₸</span>
-                                <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{{ product.discount_percent }}%</span>
+                                {% if default_size.has_discount %}
+                                <span class="text-xs text-stone-400 line-through">{{ default_size.old_price|floatformat:"0" }} ₸</span>
+                                <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{{ default_size.discount_percent }}%</span>
                                 {% endif %}
-                                <span class="text-md font-benzin text-red-500 font-bold">{{ product.price|floatformat:"0" }} ₸</span>
+                                <span class="text-md font-benzin text-red-500 font-bold">{{ default_size.price|floatformat:"0" }} ₸</span>
                             </div>
-                            {% if product.price_rub %}
+                            {% if default_size.price_rub %}
                             <div class="flex items-center gap-2">
-                                {% if product.old_price_rub %}
-                                <span class="text-[10px] text-stone-400 line-through">{{ product.old_price_rub|floatformat:"0" }} ₽</span>
+                                {% if default_size.old_price_rub %}
+                                <span class="text-[10px] text-stone-400 line-through">{{ default_size.old_price_rub|floatformat:"0" }} ₽</span>
                                 {% endif %}
-                                <span class="text-xs text-stone-500">{{ product.price_rub|floatformat:"0" }} ₽</span>
+                                <span class="text-xs text-stone-500">{{ default_size.price_rub|floatformat:"0" }} ₽</span>
                             </div>
                             {% endif %}
                         </div>
                     </div>
+                    {% endif %}
                     <!-- BEGIN buy section -->
                     <div class="product-buy" id="productBuy">
                         <!-- Initial state: Buy + Favorite buttons -->
@@ -71,18 +93,23 @@
                             <p class="text-xs font-bold pb-2">Выберите размер:</p>
                             <div class="size-selector">
                                 {% for size in sizes %}
-                                <button class="size-chip{% if not size.is_available %} disabled{% endif %}" type="button" data-size="{{ size.size }}" data-dims="{{ size.dimensions }}" data-available="{{ size.is_available|yesno:'true,false' }}" {% if not size.is_available %}disabled{% endif %}>
-                                    {{ size.size }}
-                                    <span class="size-chip__dims">{% if size.is_available %}{{ size.dimensions }}{% else %}Нет в наличии{% endif %}</span>
+                                <button class="size-chip{% if not size.in_stock %} disabled{% endif %}" type="button"
+                                    data-size="{{ size.name }}"
+                                    data-sku="{{ size.sku }}"
+                                    data-price="{{ size.price|floatformat:'0' }}"
+                                    data-available="{{ size.in_stock|yesno:'true,false' }}"
+                                    {% if not size.in_stock %}disabled{% endif %}>
+                                    {{ size.name }}
+                                    <span class="size-chip__dims">{% if size.in_stock %}{{ size.price|floatformat:"0" }} ₸{% else %}Нет в наличии{% endif %}</span>
                                 </button>
                                 {% endfor %}
                             </div>
                         </div>
                     </div>
                     <!-- END buy section -->
-                    {% if product.short_description %}
+                    {% if product.description %}
                     <div>
-                        <p class=" text-sm">{{ product.short_description }}</p>
+                        <p class=" text-sm">{{ product.description }}</p>
                     </div>
                     {% endif %}
                 </div>
@@ -103,11 +130,13 @@
         <div class="col-span-full lg:col-span-7 xl:col-start-3 xl:col-span-5 flex ">
             <div id="characters" class="mt-auto pt-12 pb-8 lg:pb-4 w-full">
                 <ul class="mt-auto flex flex-col gap-6">
-                    {% for pc in product_characteristics %}
-                    <li class="flex {% if pc.inline %}flex-row items-baseline{% else %}flex-col{% endif %} text-sm gap-1">
-                        <span class="uppercase font-benzin tracking-wider">{{ pc.name }}{% if pc.inline %} –{% endif %}</span>
-                        <span class="br-lg">{{ pc.value }}{% if pc.hint %} <span class="text-stone-400">{{ pc.hint }}</span>{% endif %}</span>
+                    {% for pc in characteristics %}
+                    <li class="flex {% if pc.characteristic.unit %}flex-row items-baseline{% else %}flex-col{% endif %} text-sm gap-1">
+                        <span class="uppercase font-benzin tracking-wider">{{ pc.characteristic.name }}{% if pc.characteristic.unit %} –{% endif %}</span>
+                        <span class="br-lg">{{ pc.value }}{% if pc.characteristic.unit %} {{ pc.characteristic.unit.abbr }}{% endif %}</span>
                     </li>
+                    {% empty %}
+                    <li class="text-sm text-stone-400">Характеристики не заполнены</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -116,19 +145,21 @@
         <!-- Zoom картинка -->
         <div class="col-span-full lg:col-span-7 lg:col-start-9 xl:col-start-9 xl:col-span-6 ">
             <div class="product-zoom-container w-full h-full aspect-[2/3] overflow-hidden">
-                {% if zoom_image %}
+                {% if product.zoom_image %}
                 <img
-                        src="{{ zoom_image.image.url }}"
+                        src="{{ product.zoom_image.url }}"
                         class="product-zoom-image w-full h-full object-cover"
-                        data-rotate="{{ zoom_image.rotation_angle|default:'15' }}"
-                        alt="{{ zoom_image.alt_text|default:product.name }}"
+                        data-rotate="{{ product.zoom_rotation_angle|default:'15' }}"
+                        alt="{{ product.name }}"
+                        loading="lazy"
                 >
                 {% else %}
                 <img
-                        src="{% static 'dist/images/product-refs.jpg' %}"
+                        src="{{ placeholder_image_url }}"
                         class="product-zoom-image w-full h-full object-cover"
                         data-rotate="15"
                         alt="{{ product.name }}"
+                        loading="lazy"
                 >
                 {% endif %}
             </div>
@@ -139,12 +170,10 @@
         <!-- Слайдер упаковки -->
         <div class="col-span-full col-start-0 md:col-span-3 lg:col-span-7 xl:col-start-2 xl:col-span-6 flex flex-col">
             <div class="[ product-slider ] w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
-                {% for img in slider_package_images %}
-                <img src="{{ img.image.url }}" class="slider-image" alt="{{ img.alt_text|default:'Упаковка' }}">
+                {% for img in package_images %}
+                <img src="{{ img.image.url }}" class="slider-image" alt="{{ img.alt_text|default:'Упаковка' }}" loading="lazy">
                 {% empty %}
-                <img src="{% static 'dist/images/upakovka.jpg' %}" class="slider-image" alt="Упаковка вид 1">
-                <img src="{% static 'dist/images/upakovka-1.jpg' %}" class="slider-image" alt="Упаковка вид 2">
-                <img src="{% static 'dist/images/upakovka-2.jpg' %}" class="slider-image" alt="Упаковка вид 3">
+                <img src="{{ placeholder_image_url }}" class="w-full h-full object-cover" alt="Упаковка" loading="lazy">
                 {% endfor %}
 
                 <!-- Круговой прогресс с кнопкой pause/play -->
@@ -177,12 +206,10 @@
         <!-- Слайдер индивидуальный -->
         <div class="col-span-full lg:col-start-9 md:col-span-3 lg:col-span-7 xl:col-start-9 xl:col-span-6 flex flex-col">
             <div class="[ product-slider ] w-full h-full aspect-[2/3] overflow-hidden relative" data-autoplay="true" data-interval="2000">
-                {% for img in slider_individual_images %}
-                <img src="{{ img.image.url }}" class="slider-image" alt="{{ img.alt_text|default:'Индивидуальная упаковка' }}">
+                {% for img in individual_images %}
+                <img src="{{ img.image.url }}" class="slider-image" alt="{{ img.alt_text|default:'Индивидуальная упаковка' }}" loading="lazy">
                 {% empty %}
-                <img src="{% static 'dist/images/paket.jpg' %}" class="slider-image" alt="Пакет вид 1">
-                <img src="{% static 'dist/images/paket-1.jpg' %}" class="slider-image" alt="Пакет вид 2">
-                <img src="{% static 'dist/images/paket-2.jpg' %}" class="slider-image" alt="Пакет вид 3">
+                <img src="{{ placeholder_image_url }}" class="w-full h-full object-cover" alt="Индивидуальная упаковка" loading="lazy">
                 {% endfor %}
 
                 <!-- Круговой прогресс с кнопкой pause/play -->
@@ -211,50 +238,6 @@
         </div>
     </section>
 
-    {% if related_products %}
-    <section class="mt-8 lg:mt-24 py-8">
-        <div class="main-grid">
-            <div class="col-span-full xl:col-start-2">
-                <h2 class="h2 font-benzin uppercase mb-8">Вам может быть интересно</h2>
-            </div>
-        </div>
-        <div class="flex ">
-            <!-- Карусель -->
-            <div class="carousel-wrapper">
-                <div class="carousel-track">
-                    {% for related in related_products %}
-                    <article class="carousel-card">
-                        <a href="{{ related.get_absolute_url }}" class="block">
-                            <div class="carousel-card_picture">
-                                {% with related_main=related.images.all|first %}
-                                {% if related_main %}
-                                <img src="{{ related_main.image.url }}" class="w-full h-full object-cover" alt="{{ related.name }}">
-                                {% else %}
-                                <img src="{% static 'dist/images/figure.jpg' %}" class="w-full h-full object-cover" alt="{{ related.name }}">
-                                {% endif %}
-                                {% endwith %}
-                                <div class="product-card_label" aria-hidden="true">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="16" height="16" rx="1" fill="currentColor"/>
-                                        <path d="M7.64286 3H8.35714V13H7.64286V3Z" fill="white"/>
-                                        <path d="M3 8.35714L3 7.64286L13 7.64286V8.35714L3 8.35714Z" fill="white"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="carousel-card_info">
-                                <h3 class="text-sm uppercase tracking-wider">{{ related.name }}</h3>
-                            </div>
-                        </a>
-                    </article>
-                    {% endfor %}
-                </div>
-
-                <!-- Кастомный курсор -->
-                <div class="carousel-cursor"></div>
-            </div>
-        </div>
-    </section>
-    {% endif %}
 </main>
 
 {% block shop_ui %}

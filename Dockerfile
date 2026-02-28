@@ -2,11 +2,12 @@ FROM python:3.11-slim-bookworm
 
 WORKDIR /app
 
-# Установка зависимостей для PostgreSQL
+# Установка системных зависимостей
 RUN apt-get update && apt-get install -y \
     gcc \
     postgresql-client \
     libpq-dev \
+    libwebp-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Копирование requirements
