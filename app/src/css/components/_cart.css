@@ -10,6 +10,9 @@
                flex items-center justify-center cursor-pointer
                text-black transition-colors;
     }
+    .cart-qty-btn[data-action="remove"] {
+        @apply hover:bg-red-500 hover:text-white;
+    }
 
     /* Cart remove button */
     .cart-remove-btn {
@@ -49,6 +52,60 @@
     }
     .size-chip__dims {
         @apply text-[9px] font-sans font-normal opacity-70;
+    }
+
+    /* Size dropdown (Lamoda-style) */
+    .size-dropdown {
+        @apply relative;
+    }
+    .size-dropdown__trigger {
+        @apply w-full flex items-center justify-between
+               border border-black px-4 py-3
+               text-sm font-medium
+               cursor-pointer transition-colors
+               hover:bg-stone-50;
+    }
+    .size-dropdown__trigger--placeholder {
+        @apply text-gray-500;
+    }
+    .size-dropdown__arrow {
+        @apply transition-transform;
+    }
+    .size-dropdown.open .size-dropdown__arrow {
+        @apply rotate-180;
+    }
+    .size-dropdown__menu {
+        @apply absolute left-0 right-0 top-full z-30
+               bg-white border border-black border-t-0
+               max-h-60 overflow-y-auto;
+    }
+    .size-dropdown__item {
+        @apply w-full flex items-center justify-between
+               px-4 py-3 text-sm cursor-pointer
+               transition-colors hover:bg-stone-50;
+    }
+    .size-dropdown__item--active {
+        @apply bg-stone-100 font-bold;
+    }
+    .size-dropdown__item--disabled {
+        @apply text-stone-300 cursor-not-allowed
+               hover:bg-transparent;
+    }
+    .size-dropdown__item-name {
+        @apply uppercase tracking-wider;
+    }
+    .size-dropdown__item-info {
+        @apply text-xs text-stone-500;
+    }
+    .size-dropdown__item--disabled .size-dropdown__item-info {
+        @apply line-through;
+    }
+    .size-dropdown__footer {
+        @apply border-t border-stone-200 px-4 py-3;
+    }
+    .size-dropdown__help {
+        @apply text-[11px] text-blue-600 uppercase underline tracking-wider
+               hover:text-black transition-colors;
     }
 
     /* Heart/favorite button on product page */

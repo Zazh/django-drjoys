@@ -1,0 +1,168 @@
+# DR.JOYS Kazakh translations
+# Copyright (C) 2026 DR.JOYS
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DR.JOYS 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-01 01:11+0500\n"
+"PO-Revision-Date: 2026-02-28 23:34+0500\n"
+"Last-Translator: DR.JOYS Team\n"
+"Language-Team: Kazakh\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "ультратонкие презервативы"
+msgstr "ультра жұқа презервативтер"
+
+#, python-format
+msgid "Ультратонкие презервативы DR.JOYS — неощутимые на 95%%"
+msgstr "DR.JOYS ультра жұқа презервативтер — 95%% сезілмейді"
+
+msgid "Избранное"
+msgstr "Таңдаулылар"
+
+msgid "Корзина"
+msgstr "Себет"
+
+msgid "Главная"
+msgstr "Басты бет"
+
+msgid "О Dr.Joys"
+msgstr "Dr.Joys туралы"
+
+msgid "Каталог"
+msgstr "Каталог"
+
+msgid "Партнерам"
+msgstr "Серіктестерге"
+
+msgid "Контакты"
+msgstr "Байланыс"
+
+msgid "Войти"
+msgstr "Кіру"
+
+msgid "Выбрать регион"
+msgstr "Аймақты таңдау"
+
+msgid "Выберите"
+msgstr "Таңдаңыз"
+
+msgid "Выбрать язык"
+msgstr "Тілді таңдау"
+
+msgid "Добавлено!"
+msgstr "Қосылды!"
+
+msgid "Добавить ещё"
+msgstr "Тағы қосу"
+
+msgid "Корзина пуста"
+msgstr "Себет бос"
+
+msgid "Итого"
+msgstr "Барлығы"
+
+msgid "ОФОРМИТЬ ЗАКАЗ"
+msgstr "ТАПСЫРЫС БЕРУ"
+
+msgid "Продолжить покупки"
+msgstr "Сатып алуды жалғастыру"
+
+msgid "В корзину"
+msgstr "Себетке"
+
+msgid "Пока пусто"
+msgstr "Әзірге бос"
+
+msgid "Меню"
+msgstr "Мәзір"
+
+msgid "главная"
+msgstr "басты бет"
+
+msgid "о компании"
+msgstr "компания туралы"
+
+msgid "каталог"
+msgstr "каталог"
+
+msgid "контакты"
+msgstr "байланыс"
+
+msgid "Правовая информация"
+msgstr "Құқықтық ақпарат"
+
+msgid "Политика конфиденциальности"
+msgstr "Құпиялылық саясаты"
+
+msgid "Условия покупки"
+msgstr "Сатып алу шарттары"
+
+msgid "Настройки файлов cookie"
+msgstr "Cookie файлдарының параметрлері"
+
+msgid "сертификат соответствия"
+msgstr "сәйкестік сертификаты"
+
+msgid "© 2026 DR.JOYS - Все права защищены"
+msgstr "© 2026 DR.JOYS - Барлық құқықтар қорғалған"
+
+msgid "Каталог презервативов"
+msgstr "Презервативтер каталогы"
+
+msgid "Товары не найдены"
+msgstr "Тауарлар табылмады"
+
+msgid "DR.JOYS — ультратонкие презервативы, неощутимые на 95%%"
+msgstr "DR.JOYS — ультра жұқа презервативтер, 95%% сезілмейді"
+
+msgid ""
+"Ультратонкие презервативы DR.JOYS толщиной 0,02 мм — неощутимые на 95%%. "
+"Классические, ребристые, ароматизированные."
+msgstr ""
+"DR.JOYS ультра жұқа презервативтер 0,02 мм — 95%% сезілмейді. "
+"Классикалық, қырлы, хош иісті."
+
+msgid "АРТИКУЛ"
+msgstr "АРТИКУЛ"
+
+msgid "Выберите размер"
+msgstr "Өлшемді таңдаңыз"
+
+msgid "Нет в наличии"
+msgstr "Қоймада жоқ"
+
+msgid "Как выбрать размер?"
+msgstr "Өлшемді қалай таңдауға болады?"
+
+msgid "Стоимость"
+msgstr "Бағасы"
+
+msgid "Добавить в корзину"
+msgstr "Себетке қосу"
+
+msgid "СОСТАВ И ХАРАКТЕРИСТИКИ"
+msgstr "ҚҰРАМЫ ЖӘНЕ СИПАТТАМАЛАРЫ"
+
+msgid "Инструкция по применению"
+msgstr "Қолдану нұсқаулығы"
+
+msgid "противопоказания"
+msgstr "қарсы көрсетілімдер"
+
+msgid "Характеристики не заполнены"
+msgstr "Сипаттамалар толтырылмаған"
+
+msgid "Упаковка презервативов DR.JOYS"
+msgstr "DR.JOYS презервативтерінің қаптамасы"
+
+msgid "Презерватив в индивидуальной упаковке"
+msgstr "Жеке қаптамадағы презерватив"
+
+msgid "Вам может быть интересно"
+msgstr "Сізді қызықтыруы мүмкін"

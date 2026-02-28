@@ -1,7 +1,9 @@
+from django.db.models import Prefetch
 from django.http import Http404
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
-from .models import Category, Product, FAQ
+from .models import Category, Product, ProductSize, FAQ, RegionPrice, Stock
 from . import jsonld as jld
 
 
@@ -11,11 +13,23 @@ class CatalogListView(ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
+        region = getattr(self.request, 'region', None)
+        rp_qs = RegionPrice.objects.filter(region=region) if region else RegionPrice.objects.none()
+        stock_qs = Stock.objects.filter(region=region) if region else Stock.objects.none()
         qs = (
             Product.objects
             .filter(is_active=True)
             .select_related('category')
-            .prefetch_related('main_images', 'sizes')
+            .prefetch_related(
+                'main_images',
+                Prefetch(
+                    'sizes',
+                    queryset=ProductSize.objects.prefetch_related(
+                        Prefetch('region_prices', queryset=rp_qs, to_attr='_region_prices'),
+                        Prefetch('stocks', queryset=stock_qs, to_attr='_stocks'),
+                    ),
+                ),
+            )
         )
         category_slug = self.kwargs.get('category_slug')
         if category_slug:
@@ -50,8 +64,8 @@ class CatalogListView(ListView):
 
         # JSON-LD
         breadcrumbs = [
-            {'name': 'DR.JOYS', 'url': '/'},
-            {'name': 'Каталог', 'url': '/catalog/'},
+            {'name': 'DR.JOYS', 'url': reverse('home')},
+            {'name': 'Каталог', 'url': reverse('catalog:catalog')},
         ]
         if current_category:
             breadcrumbs.append({
@@ -60,7 +74,10 @@ class CatalogListView(ListView):
             })
         ctx['jsonld_blocks'] = jld.serialize_jsonld(
             jld.build_breadcrumb_jsonld(self.request, breadcrumbs),
-            jld.build_catalog_itemlist_jsonld(self.request, ctx['products'], current_category),
+            jld.build_catalog_itemlist_jsonld(
+                self.request, ctx['products'], current_category,
+                region=getattr(self.request, 'region', None),
+            ),
             jld.build_faq_jsonld(faqs),
         )
 
@@ -74,12 +91,21 @@ class ProductDetailView(DetailView):
     slug_url_kwarg = 'product_slug'
 
     def get_queryset(self):
+        region = getattr(self.request, 'region', None)
+        rp_qs = RegionPrice.objects.filter(region=region) if region else RegionPrice.objects.none()
+        stock_qs = Stock.objects.filter(region=region) if region else Stock.objects.none()
         return (
             Product.objects
             .filter(is_active=True)
             .select_related('category')
             .prefetch_related(
-                'sizes',
+                Prefetch(
+                    'sizes',
+                    queryset=ProductSize.objects.prefetch_related(
+                        Prefetch('region_prices', queryset=rp_qs, to_attr='_region_prices'),
+                        Prefetch('stocks', queryset=stock_qs, to_attr='_stocks'),
+                    ),
+                ),
                 'characteristics__characteristic__unit',
                 'main_images',
                 'package_images',
@@ -114,8 +140,8 @@ class ProductDetailView(DetailView):
 
         # Хлебные крошки
         breadcrumbs = [
-            {'name': 'DR.JOYS', 'url': '/'},
-            {'name': 'Каталог', 'url': '/catalog/'},
+            {'name': 'DR.JOYS', 'url': reverse('home')},
+            {'name': 'Каталог', 'url': reverse('catalog:catalog')},
             {'name': product.category.name, 'url': product.category.get_absolute_url()},
             {'name': product.name, 'url': ''},
         ]
@@ -126,9 +152,29 @@ class ProductDetailView(DetailView):
             jld.build_breadcrumb_jsonld(self.request, breadcrumbs),
             jld.build_product_jsonld(
                 self.request, product, sizes, cover_image, main_images, characteristics,
+                region=getattr(self.request, 'region', None),
             ),
         )
 
         ctx['meta_title'] = product.meta_title or product.name
         ctx['meta_description'] = product.meta_description or product.description
+
+        # Связанные товары (из той же категории)
+        region = getattr(self.request, 'region', None)
+        rel_rp_qs = RegionPrice.objects.filter(region=region) if region else RegionPrice.objects.none()
+        ctx['related_products'] = (
+            Product.objects
+            .filter(is_active=True, category=product.category)
+            .exclude(pk=product.pk)
+            .prefetch_related(
+                'main_images',
+                Prefetch(
+                    'sizes',
+                    queryset=ProductSize.objects.prefetch_related(
+                        Prefetch('region_prices', queryset=rel_rp_qs, to_attr='_region_prices'),
+                    ),
+                ),
+            )[:6]
+        )
+
         return ctx

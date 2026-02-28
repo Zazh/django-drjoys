@@ -61,6 +61,9 @@ class Product(models.Model):
         SALE = 'sale', 'Скидка'
 
     name = models.CharField('Название', max_length=300)
+    tagline = models.CharField('УТП', max_length=500, blank=True,
+        help_text='Уникальное торговое предложение. Выводится вместо названия на сайте.',
+    )
     slug = models.SlugField('Slug', max_length=300, unique=True)
     category = models.ForeignKey(
         Category,
@@ -140,20 +143,13 @@ class ProductSize(models.Model):
     )
     sku = models.CharField('Артикул', max_length=50, unique=True)
 
-    # Цены KZT (основная валюта)
-    price = models.DecimalField('Цена (₸)', max_digits=10, decimal_places=2)
+    price = models.DecimalField('Базовая цена', max_digits=10, decimal_places=2,
+        help_text='Fallback-цена (KZT). Региональные цены в RegionPrice.',
+    )
     old_price = models.DecimalField(
-        'Старая цена (₸)', max_digits=10, decimal_places=2, blank=True, null=True,
-    )
-    # Цены RUB
-    price_rub = models.DecimalField(
-        'Цена (₽)', max_digits=10, decimal_places=2, blank=True, null=True,
-    )
-    old_price_rub = models.DecimalField(
-        'Старая цена (₽)', max_digits=10, decimal_places=2, blank=True, null=True,
+        'Старая базовая цена', max_digits=10, decimal_places=2, blank=True, null=True,
     )
 
-    in_stock = models.BooleanField('В наличии', default=True)
     order = models.PositiveIntegerField('Порядок', default=0)
 
     class Meta:
@@ -168,6 +164,13 @@ class ProductSize(models.Model):
         return f'{self.product.name} — {self.name}'
 
     @property
+    def in_stock(self):
+        """Наличие для текущего региона (через prefetch _stocks)."""
+        if hasattr(self, '_stocks') and self._stocks:
+            return self._stocks[0].available > 0
+        return True  # fallback: считаем в наличии
+
+    @property
     def has_discount(self):
         return self.old_price is not None and self.old_price > self.price
 
@@ -176,6 +179,85 @@ class ProductSize(models.Model):
         if self.has_discount:
             return round((1 - self.price / self.old_price) * 100)
         return 0
+
+
+# ─── Региональные цены ───
+
+class RegionPrice(models.Model):
+    """Цена варианта товара для конкретного региона."""
+    size = models.ForeignKey(
+        ProductSize, on_delete=models.CASCADE,
+        related_name='region_prices', verbose_name='Размер',
+    )
+    region = models.ForeignKey(
+        'regions.Region', on_delete=models.CASCADE,
+        related_name='prices', verbose_name='Регион',
+    )
+    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
+    old_price = models.DecimalField(
+        'Старая цена', max_digits=10, decimal_places=2,
+        blank=True, null=True,
+    )
+
+    class Meta:
+        verbose_name = 'Цена региона'
+        verbose_name_plural = 'Цены регионов'
+        unique_together = ['size', 'region']
+        indexes = [
+            models.Index(fields=['size', 'region']),
+        ]
+
+    def __str__(self):
+        return f'{self.size} — {self.region.code}: {self.price} {self.region.currency_symbol}'
+
+    @property
+    def has_discount(self):
+        return self.old_price is not None and self.old_price > self.price
+
+    @property
+    def discount_percent(self):
+        if self.has_discount:
+            return round((1 - self.price / self.old_price) * 100)
+        return 0
+
+
+# ─── Остатки ───
+
+class Stock(models.Model):
+    """Остаток товара (размер × регион) для интернет-магазина."""
+    size = models.ForeignKey(
+        ProductSize, on_delete=models.CASCADE,
+        related_name='stocks', verbose_name='Размер',
+    )
+    region = models.ForeignKey(
+        'regions.Region', on_delete=models.CASCADE,
+        related_name='stocks', verbose_name='Регион',
+    )
+    quantity = models.PositiveIntegerField('Остаток', default=0)
+    reserved = models.PositiveIntegerField('Зарезервировано', default=0,
+        help_text='Зарезервировано в неоплаченных заказах',
+    )
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Остаток'
+        verbose_name_plural = 'Остатки'
+        unique_together = ['size', 'region']
+        indexes = [
+            models.Index(fields=['size', 'region']),
+        ]
+
+    def __str__(self):
+        return f'{self.size} — {self.region.code}: {self.available} шт'
+
+    @property
+    def available(self):
+        """Доступно для продажи = остаток − резерв."""
+        return max(0, self.quantity - self.reserved)
+
+    @property
+    def in_stock(self):
+        return self.available > 0
 
 
 # ─── Характеристики ───

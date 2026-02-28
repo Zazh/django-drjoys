@@ -128,4 +128,52 @@
     .modal-result-dark .quiz-result-name {
         @apply text-white;
     }
+
+    /* Cart & Favorites icons in header */
+    .header-icon {
+        @apply relative cursor-pointer text-stone-600 hover:text-black transition-colors;
+    }
+    .header-icon__badge {
+        @apply absolute -top-1.5 -right-1.5 bg-red-500 text-white
+               text-[9px] font-bold rounded-full w-4 h-4
+               flex items-center justify-center leading-none;
+    }
+
+    /* Region switcher (inside mainNav) */
+    .header-switcher {
+        @apply flex items-center gap-1 text-[10px] font-medium
+               px-2 py-1.5 rounded-full border border-stone-200
+               hover:border-black transition-colors cursor-pointer
+               bg-white/80 backdrop-blur-sm;
+    }
+
+    /* Language dropdown */
+    .lang-dropdown {
+        @apply relative z-10;
+    }
+    .lang-dropdown__trigger {
+        @apply flex items-center gap-1.5 text-base font-medium
+               cursor-pointer transition-colors text-stone-600 hover:text-black;
+    }
+    .lang-dropdown__arrow {
+        @apply w-2.5 h-2.5 transition-transform;
+    }
+    .lang-dropdown.open .lang-dropdown__arrow {
+        @apply rotate-180;
+    }
+    .lang-dropdown__menu {
+        @apply absolute left-0 bottom-full mb-2
+               bg-white rounded-lg shadow-lg border border-stone-100
+               py-1 min-w-[120px];
+    }
+    .lang-dropdown.ml-auto .lang-dropdown__menu {
+        @apply left-auto right-0;
+    }
+    .lang-dropdown__item {
+        @apply block px-4 py-2 text-xs text-stone-500
+               hover:text-black hover:bg-stone-50 transition-colors;
+    }
+    .lang-dropdown__item.active {
+        @apply text-black font-bold;
+    }
 }

@@ -1,3 +1,4 @@
+{% load i18n %}
 <!-- BEGIN modal favorites -->
 <div class="modal-overlay hidden" id="modalFavorites">
     <div class="modal-content modal-wide">
@@ -13,7 +14,7 @@
         </div>
 
         <!-- Title -->
-        <h2 class="modal-title">Избранное</h2>
+        <h2 class="modal-title">{% trans "Избранное" %}</h2>
 
         <!-- Favorites grid -->
         <div class="flex flex-col gap-3" id="favoritesList">
@@ -27,7 +28,7 @@
                         <p class="text-xs font-bold leading-tight">Презервативы DR.JOYS классические, 5 шт.</p>
                         <p class="text-xs text-red-500 font-benzin mt-1">690 ₽</p>
                     </div>
-                    <button class="fav-to-cart-btn text-[10px] uppercase font-bold text-gray-500 hover:text-black text-left" type="button">В корзину</button>
+                    <button class="fav-to-cart-btn text-[10px] uppercase font-bold text-gray-500 hover:text-black text-left" type="button">{% trans "В корзину" %}</button>
                 </div>
                 <button class="fav-remove-btn shrink-0 self-start text-gray-500 hover:text-red-500 p-1" type="button" aria-label="Удалить из избранного">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -49,7 +50,7 @@
                         <p class="text-xs font-bold leading-tight">Презервативы DR.JOYS ребристые, 3 шт.</p>
                         <p class="text-xs text-red-500 font-benzin mt-1">890 ₽</p>
                     </div>
-                    <button class="fav-to-cart-btn text-[10px] uppercase font-bold text-gray-500 hover:text-black text-left" type="button">В корзину</button>
+                    <button class="fav-to-cart-btn text-[10px] uppercase font-bold text-gray-500 hover:text-black text-left" type="button">{% trans "В корзину" %}</button>
                 </div>
                 <button class="fav-remove-btn shrink-0 self-start text-gray-500 hover:text-red-500 p-1" type="button" aria-label="Удалить из избранного">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -71,7 +72,7 @@
                         <p class="text-xs font-bold leading-tight">Презервативы DR.JOYS XXL увеличенные, 5 шт.</p>
                         <p class="text-xs text-red-500 font-benzin mt-1">790 ₽</p>
                     </div>
-                    <button class="fav-to-cart-btn text-[10px] uppercase font-bold text-gray-500 hover:text-black text-left" type="button">В корзину</button>
+                    <button class="fav-to-cart-btn text-[10px] uppercase font-bold text-gray-500 hover:text-black text-left" type="button">{% trans "В корзину" %}</button>
                 </div>
                 <button class="fav-remove-btn shrink-0 self-start text-gray-500 hover:text-red-500 p-1" type="button" aria-label="Удалить из избранного">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -89,7 +90,7 @@
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="text-gray-200 mb-4">
                 <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
             </svg>
-            <p class="text-sm text-gray-500">Пока пусто</p>
+            <p class="text-sm text-gray-500">{% trans "Пока пусто" %}</p>
         </div>
     </div>
 </div>

@@ -1,10 +1,11 @@
 from django.core.management.base import BaseCommand
 
-from catalog.models import Category, Product, ProductSize, FAQ
+from catalog.models import Category, Product, ProductSize, RegionPrice, FAQ
+from regions.models import Region
 
 
 class Command(BaseCommand):
-    help = 'Загрузка начальных данных каталога (категория, товары, размеры, FAQ)'
+    help = 'Загрузка начальных данных каталога (категория, товары, размеры, региональные цены, FAQ)'
 
     def handle(self, *args, **options):
         self.stdout.write('Загрузка начальных данных каталога...')
@@ -22,6 +23,10 @@ class Command(BaseCommand):
         )
         self.stdout.write(self.style.SUCCESS(f'Категория: {cat.name}'))
 
+        # --- Регионы ---
+        kz = Region.objects.filter(code='kz').first()
+        ru = Region.objects.filter(code='ru').first()
+
         # --- Товары с размерами ---
         products_data = [
             {
@@ -34,9 +39,9 @@ class Command(BaseCommand):
                 ),
                 'badge': 'bestseller',
                 'sizes': [
-                    {'name': '3 шт', 'sku': '100001-3', 'price': '2100', 'price_rub': '410'},
-                    {'name': '5 шт', 'sku': '100001-5', 'price': '3540', 'old_price': '4200', 'price_rub': '690', 'old_price_rub': '820'},
-                    {'name': '12 шт', 'sku': '100001-12', 'price': '7900', 'price_rub': '1540'},
+                    {'name': '3 шт', 'sku': '100001-3', 'price': '2100', 'prices': {'kz': '2100', 'ru': '410'}},
+                    {'name': '5 шт', 'sku': '100001-5', 'price': '3540', 'old_price': '4200', 'prices': {'kz': '3540', 'kz_old': '4200', 'ru': '690', 'ru_old': '820'}},
+                    {'name': '12 шт', 'sku': '100001-12', 'price': '7900', 'prices': {'kz': '7900', 'ru': '1540'}},
                 ],
             },
             {
@@ -44,8 +49,8 @@ class Command(BaseCommand):
                 'name': 'Презервативы DR.JOYS Классические',
                 'description': 'Классические презервативы с гладкой поверхностью.',
                 'sizes': [
-                    {'name': '3 шт', 'sku': '100002-3', 'price': '2500', 'price_rub': '490'},
-                    {'name': '10 шт', 'sku': '100002-10', 'price': '4200', 'price_rub': '820'},
+                    {'name': '3 шт', 'sku': '100002-3', 'price': '2500', 'prices': {'kz': '2500', 'ru': '490'}},
+                    {'name': '10 шт', 'sku': '100002-10', 'price': '4200', 'prices': {'kz': '4200', 'ru': '820'}},
                 ],
             },
             {
@@ -54,7 +59,7 @@ class Command(BaseCommand):
                 'description': 'Ребристая текстура для дополнительной стимуляции.',
                 'badge': 'new',
                 'sizes': [
-                    {'name': '3 шт', 'sku': '100003-3', 'price': '2890', 'price_rub': '560'},
+                    {'name': '3 шт', 'sku': '100003-3', 'price': '2890', 'prices': {'kz': '2890', 'ru': '560'}},
                 ],
             },
             {
@@ -62,7 +67,7 @@ class Command(BaseCommand):
                 'name': 'Презервативы DR.JOYS Неощутимые на 95%',
                 'description': 'Ультратонкие, неощутимые на 95%.',
                 'sizes': [
-                    {'name': '5 шт', 'sku': '100004-5', 'price': '3540', 'price_rub': '690'},
+                    {'name': '5 шт', 'sku': '100004-5', 'price': '3540', 'prices': {'kz': '3540', 'ru': '690'}},
                 ],
             },
             {
@@ -70,7 +75,7 @@ class Command(BaseCommand):
                 'name': 'Презервативы DR.JOYS XXL увеличенные',
                 'description': 'Увеличенный размер для максимального комфорта.',
                 'sizes': [
-                    {'name': '5 шт', 'sku': '100005-5', 'price': '3890', 'old_price': '4500', 'price_rub': '760', 'old_price_rub': '880'},
+                    {'name': '5 шт', 'sku': '100005-5', 'price': '3890', 'old_price': '4500', 'prices': {'kz': '3890', 'kz_old': '4500', 'ru': '760', 'ru_old': '880'}},
                 ],
             },
         ]
@@ -83,14 +88,27 @@ class Command(BaseCommand):
             )
             if created:
                 self.stdout.write(f'  + {product.name}')
-            for i, size in enumerate(sizes_data):
-                ProductSize.objects.update_or_create(
-                    sku=size['sku'],
-                    defaults={**size, 'product': product, 'order': i},
+            for i, size_data in enumerate(sizes_data):
+                prices = size_data.pop('prices', {})
+                size_obj, _ = ProductSize.objects.update_or_create(
+                    sku=size_data['sku'],
+                    defaults={**size_data, 'product': product, 'order': i},
                 )
+                # Региональные цены
+                if kz and prices.get('kz'):
+                    RegionPrice.objects.update_or_create(
+                        size=size_obj, region=kz,
+                        defaults={'price': prices['kz'], 'old_price': prices.get('kz_old')},
+                    )
+                if ru and prices.get('ru'):
+                    RegionPrice.objects.update_or_create(
+                        size=size_obj, region=ru,
+                        defaults={'price': prices['ru'], 'old_price': prices.get('ru_old')},
+                    )
 
         self.stdout.write(self.style.SUCCESS(f'Товары: {Product.objects.count()}'))
         self.stdout.write(self.style.SUCCESS(f'Размеры: {ProductSize.objects.count()}'))
+        self.stdout.write(self.style.SUCCESS(f'Региональные цены: {RegionPrice.objects.count()}'))
 
         # --- FAQ ---
         faqs_data = [

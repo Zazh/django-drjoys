@@ -1,6 +1,17 @@
 import json
 
 
+def _get_region_price(size, region):
+    """Достаёт цену размера для региона из prefetched _region_prices."""
+    if region:
+        region_prices = getattr(size, '_region_prices', None)
+        if region_prices is not None:
+            for rp in region_prices:
+                if rp.region_id == region.pk:
+                    return rp.price
+    return size.price
+
+
 def _absolute_url(request, path):
     return request.build_absolute_uri(path)
 
@@ -34,7 +45,7 @@ def build_breadcrumb_jsonld(request, breadcrumbs):
 
 # ─── Product ───
 
-def build_product_jsonld(request, product, sizes, cover_image, main_images, characteristics):
+def build_product_jsonld(request, product, sizes, cover_image, main_images, characteristics, region=None):
     product_url = _absolute_url(request, product.get_absolute_url())
 
     # Картинки: cover первый, потом остальные
@@ -53,15 +64,17 @@ def build_product_jsonld(request, product, sizes, cover_image, main_images, char
         images.append(_absolute_url(request, '/static/dist/images/placeholder.svg'))
 
     # Offers из размеров
+    currency_code = region.currency_code if region else 'KZT'
     offers_list = []
     prices = []
     for size in sizes:
+        price = _get_region_price(size, region)
         offers_list.append({
             '@type': 'Offer',
             'name': f'{product.name} {size.name}',
             'sku': size.sku,
-            'price': str(size.price),
-            'priceCurrency': 'KZT',
+            'price': str(price),
+            'priceCurrency': currency_code,
             'availability': (
                 'https://schema.org/InStock' if size.in_stock
                 else 'https://schema.org/OutOfStock'
@@ -69,14 +82,14 @@ def build_product_jsonld(request, product, sizes, cover_image, main_images, char
             'itemCondition': 'https://schema.org/NewCondition',
             'url': product_url,
         })
-        prices.append(size.price)
+        prices.append(price)
 
     if len(offers_list) > 1:
         offers_block = {
             '@type': 'AggregateOffer',
             'lowPrice': str(min(prices)),
             'highPrice': str(max(prices)),
-            'priceCurrency': 'KZT',
+            'priceCurrency': currency_code,
             'offerCount': len(offers_list),
             'offers': offers_list,
         }
@@ -119,7 +132,8 @@ def build_product_jsonld(request, product, sizes, cover_image, main_images, char
 
 # ─── CollectionPage + ItemList (каталог) ───
 
-def build_catalog_itemlist_jsonld(request, products, current_category=None):
+def build_catalog_itemlist_jsonld(request, products, current_category=None, region=None):
+    currency_code = region.currency_code if region else 'KZT'
     items = []
     for i, product in enumerate(products, 1):
         # Cover или первая картинка
@@ -134,9 +148,10 @@ def build_catalog_itemlist_jsonld(request, products, current_category=None):
 
         image_url = _image_url(request, cover.image) if cover else None
 
-        # Минимальная цена
+        # Минимальная цена для текущего региона
         product_sizes = list(product.sizes.all())
-        lowest_price = min((s.price for s in product_sizes), default=None)
+        region_prices = [_get_region_price(s, region) for s in product_sizes]
+        lowest_price = min(region_prices, default=None)
 
         list_item = {
             '@type': 'ListItem',
@@ -153,7 +168,7 @@ def build_catalog_itemlist_jsonld(request, products, current_category=None):
             list_item['item']['offers'] = {
                 '@type': 'Offer',
                 'price': str(lowest_price),
-                'priceCurrency': 'KZT',
+                'priceCurrency': currency_code,
             }
         items.append(list_item)
 
@@ -175,6 +190,10 @@ def build_faq_jsonld(faqs):
     if not faqs:
         return None
 
+    valid_faqs = [faq for faq in faqs if faq.question and faq.answer]
+    if not valid_faqs:
+        return None
+
     return {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
@@ -187,7 +206,7 @@ def build_faq_jsonld(faqs):
                     'text': faq.answer,
                 },
             }
-            for faq in faqs
+            for faq in valid_faqs
         ],
     }
 

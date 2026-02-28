@@ -1,5 +1,5 @@
 .breadcrumb {
-    @apply flex gap-3 mt-auto;
+    @apply flex gap-3 mt-auto flex-nowrap overflow-hidden;
 }
 
 .blog-breadcrumbs {
@@ -21,7 +21,10 @@
 }
 
 .breadcrumb-item {
-    @apply text-xs uppercase tracking-wider text-gray-500 hover:text-red-500;
+    @apply text-xs uppercase tracking-wider text-gray-500 hover:text-red-500 shrink-0 whitespace-nowrap;
+}
+.breadcrumb-item:last-child {
+    @apply shrink overflow-hidden text-ellipsis;
 }
 
 .breadcrumb-item a:hover {
@@ -29,9 +32,9 @@
 }
 
 .breadcrumb-separator {
-    @apply text-xs text-gray-400;
+    @apply text-xs text-gray-400 shrink-0;
 }
 
 .breadcrumb-back {
-    @apply flex lg:hidden items-center gap-2 pb-3 text-sm font-medium uppercase tracking-wider text-black hover:text-red-500 mt-auto;
+    @apply fixed top-20 lg:hidden aspect-square rounded-full w-14 flex justify-center items-center bg-black/10 backdrop-blur-[20px] text-white z-10 hover:text-red-500 mt-auto;
 }

@@ -1,0 +1,168 @@
+# DR.JOYS English translations
+# Copyright (C) 2026 DR.JOYS
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DR.JOYS 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-01 01:11+0500\n"
+"PO-Revision-Date: 2026-02-28 23:34+0500\n"
+"Last-Translator: DR.JOYS Team\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "ультратонкие презервативы"
+msgstr "ultra-thin condoms"
+
+#, python-format
+msgid "Ультратонкие презервативы DR.JOYS — неощутимые на 95%%"
+msgstr "DR.JOYS ultra-thin condoms — 95%% undetectable"
+
+msgid "Избранное"
+msgstr "Favorites"
+
+msgid "Корзина"
+msgstr "Cart"
+
+msgid "Главная"
+msgstr "Home"
+
+msgid "О Dr.Joys"
+msgstr "About"
+
+msgid "Каталог"
+msgstr "Catalog"
+
+msgid "Партнерам"
+msgstr "Partners"
+
+msgid "Контакты"
+msgstr "Contact"
+
+msgid "Войти"
+msgstr "Sign in"
+
+msgid "Выбрать регион"
+msgstr "Select region"
+
+msgid "Выберите"
+msgstr "Select"
+
+msgid "Выбрать язык"
+msgstr "Select language"
+
+msgid "Добавлено!"
+msgstr "Added!"
+
+msgid "Добавить ещё"
+msgstr "Add more"
+
+msgid "Корзина пуста"
+msgstr "Cart is empty"
+
+msgid "Итого"
+msgstr "Total"
+
+msgid "ОФОРМИТЬ ЗАКАЗ"
+msgstr "CHECKOUT"
+
+msgid "Продолжить покупки"
+msgstr "Continue shopping"
+
+msgid "В корзину"
+msgstr "Add to cart"
+
+msgid "Пока пусто"
+msgstr "Empty"
+
+msgid "Меню"
+msgstr "Menu"
+
+msgid "главная"
+msgstr "home"
+
+msgid "о компании"
+msgstr "about"
+
+msgid "каталог"
+msgstr "catalog"
+
+msgid "контакты"
+msgstr "contact"
+
+msgid "Правовая информация"
+msgstr "Legal"
+
+msgid "Политика конфиденциальности"
+msgstr "Privacy Policy"
+
+msgid "Условия покупки"
+msgstr "Terms of Purchase"
+
+msgid "Настройки файлов cookie"
+msgstr "Cookie Settings"
+
+msgid "сертификат соответствия"
+msgstr "certificate of conformity"
+
+msgid "© 2026 DR.JOYS - Все права защищены"
+msgstr "© 2026 DR.JOYS - All rights reserved"
+
+msgid "Каталог презервативов"
+msgstr "Condom Catalog"
+
+msgid "Товары не найдены"
+msgstr "No products found"
+
+msgid "DR.JOYS — ультратонкие презервативы, неощутимые на 95%%"
+msgstr "DR.JOYS — ultra-thin condoms, 95%% undetectable"
+
+msgid ""
+"Ультратонкие презервативы DR.JOYS толщиной 0,02 мм — неощутимые на 95%%. "
+"Классические, ребристые, ароматизированные."
+msgstr ""
+"DR.JOYS ultra-thin condoms 0.02 mm — 95%% undetectable. "
+"Classic, ribbed, flavored."
+
+msgid "АРТИКУЛ"
+msgstr "SKU"
+
+msgid "Выберите размер"
+msgstr "Select size"
+
+msgid "Нет в наличии"
+msgstr "Out of stock"
+
+msgid "Как выбрать размер?"
+msgstr "How to choose a size?"
+
+msgid "Стоимость"
+msgstr "Price"
+
+msgid "Добавить в корзину"
+msgstr "Add to cart"
+
+msgid "СОСТАВ И ХАРАКТЕРИСТИКИ"
+msgstr "COMPOSITION & SPECIFICATIONS"
+
+msgid "Инструкция по применению"
+msgstr "Instructions for use"
+
+msgid "противопоказания"
+msgstr "contraindications"
+
+msgid "Характеристики не заполнены"
+msgstr "No specifications available"
+
+msgid "Упаковка презервативов DR.JOYS"
+msgstr "DR.JOYS condom packaging"
+
+msgid "Презерватив в индивидуальной упаковке"
+msgstr "Condom in individual packaging"
+
+msgid "Вам может быть интересно"
+msgstr "You may also like"

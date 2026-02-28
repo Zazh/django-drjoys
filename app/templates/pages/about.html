@@ -5,10 +5,14 @@
 
 {% block meta %}
 <meta name="description" content="DR.JOYS — казахстанский бренд презервативов №1. Узнайте нашу историю, миссию и ценности.">
+{% endblock %}
+
+{% block og %}
+<meta property="og:type" content="website">
 <meta property="og:title" content="О компании — DR.JOYS">
 <meta property="og:description" content="DR.JOYS — казахстанский бренд презервативов №1. История, миссия и ценности компании.">
-<meta property="og:type" content="website">
-<link rel="canonical" href="https://drjoys.kz/about/">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'dist/images/svgs/logo.svg' %}">
 {% endblock %}
 
 {% block content %}

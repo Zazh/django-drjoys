@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}DR.JOYS — ультратонкие презервативы, неощутимые на 95%{% endblock %}
-
-{% block canonical %}/{% endblock %}
+{% block title %}{% trans "DR.JOYS — ультратонкие презервативы, неощутимые на 95%" %}{% endblock %}
 
 {% block meta %}
-<meta name="description" content="Ультратонкие презервативы DR.JOYS толщиной 0,02 мм — неощутимые на 95%. Классические, ребристые, ароматизированные. Доставка по Казахстану.">
+<meta name="description" content="{% trans "Ультратонкие презервативы DR.JOYS толщиной 0,02 мм — неощутимые на 95%. Классические, ребристые, ароматизированные." %}">
 {% endblock %}
 
 {% block content %}

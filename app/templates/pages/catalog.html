@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static catalog_tags i18n %}
 
 {% block title %}{{ meta_title }}{% endblock %}
-
-{% block canonical %}/catalog/{% if current_category %}{{ current_category.slug }}/{% endif %}{% endblock %}
 
 {% block meta %}
 {% if meta_description %}<meta name="description" content="{{ meta_description }}">{% endif %}
@@ -39,7 +37,7 @@
         <div class="col-span-full mb-6 lg:mb-12 lg:col-start-2 flex flex-wrap gap-6 justify-center lg:justify-between items-end">
             <div class="w-full lg:w-auto">
                 <h1 class="h1 font-benzin uppercase text-center lg:text-left">
-                    {% if current_category %}{{ current_category.name }}{% else %}Каталог презервативов{% endif %}
+                    {% if current_category %}{{ current_category.name }}{% else %}{% trans "Каталог презервативов" %}{% endif %}
                 </h1>
             </div>
             <div class="flex gap-8 xl:pr-16 lg:hidden">
@@ -76,11 +74,12 @@
                         <h2 class="product-card_title">{{ product.name }}</h2>
                         {% with first_size=product.sizes.all|first %}
                         {% if first_size %}
+                        {% region_price_data first_size as pd %}
                         <div class="flex items-center gap-2 mt-1">
-                            {% if first_size.has_discount %}
-                            <span class="text-xs text-stone-400 line-through">{{ first_size.old_price|floatformat:"0" }} ₸</span>
+                            {% if pd.has_discount %}
+                            <span class="text-xs text-stone-400 line-through">{{ pd.old_price|format_price }} {{ currency_symbol }}</span>
                             {% endif %}
-                            <span class="text-sm font-bold text-red-500">{{ first_size.price|floatformat:"0" }} ₸</span>
+                            <span class="text-sm font-bold text-red-500">{{ pd.price|format_price }} {{ currency_symbol }}</span>
                         </div>
                         {% endif %}
                         {% endwith %}
@@ -89,7 +88,7 @@
             </article>
             {% empty %}
             <div class="col-span-full text-center py-12">
-                <p class="text-lg text-stone-400">Товары не найдены</p>
+                <p class="text-lg text-stone-400">{% trans "Товары не найдены" %}</p>
             </div>
             {% endfor %}
         </div>
@@ -128,11 +127,6 @@
 {% endblock %}
 
 {% block shop_ui %}
-{% include 'base/components/_floating_nav.html' %}
-{% include 'base/components/_modal_cart.html' %}
-{% include 'base/components/_modal_favorites.html' %}
-{% include 'base/components/_modal_profile.html' %}
-{% include 'base/components/_modal_auth.html' %}
 {% include 'base/components/_modal_order_quantity.html' %}
 {% include 'base/components/_modal_delivery.html' %}
 {% include 'base/components/_modal_success.html' %}
