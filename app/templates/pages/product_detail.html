@@ -82,6 +82,7 @@
                                 <li>
                                     <button class="size-dropdown__item{% if not size.in_stock %} size-dropdown__item--disabled{% endif %}"
                                             type="button"
+                                            data-size-id="{{ size.pk }}"
                                             data-size="{{ size.name }}"
                                             data-sku="{{ size.sku }}"
                                             data-price="{{ spd.price|format_price }}"
@@ -120,7 +121,7 @@
                         <!-- END price -->
 
                         <!-- BEGIN buy section -->
-                        <div class="product-buy flex gap-2" id="productBuy" data-product-name="{{ product.name }}">
+                        <div class="product-buy flex gap-2" id="productBuy" data-product-id="{{ product.pk }}" data-product-name="{{ product.name }}">
                             <button class="btn-cat flex-1 font-benzin" type="button" id="buyAnonymousBtn">{% trans "Добавить в корзину" %}</button>
                             <button class="btn-favorite" type="button" id="productFavoriteBtn" aria-label="Добавить в избранное">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">

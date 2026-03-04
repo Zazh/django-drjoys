@@ -93,6 +93,16 @@
         @apply text-red-500 text-xs pt-1 pl-3;
     }
 
+    /* SSO buttons */
+    .btn-sso {
+        @apply flex items-center justify-center gap-3 w-full
+               bg-stone-50 hover:bg-stone-100 rounded-full py-3.5 px-6
+               text-xs font-bold cursor-pointer transition-colors;
+    }
+    .btn-sso svg {
+        @apply shrink-0;
+    }
+
     /* Full-height modal (shared) */
     .modal-fullscreen {
         @apply min-h-[calc(100dvh-1rem)] md:min-h-140 flex flex-col;

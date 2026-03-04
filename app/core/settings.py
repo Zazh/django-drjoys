@@ -22,11 +22,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    # allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.yandex',
     # Project apps
     'regions',
     'catalog',
     'orders',
     'pages',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -37,6 +45,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -58,6 +67,7 @@ TEMPLATES = [
                 'catalog.context_processors.placeholder_image',
                 'catalog.context_processors.global_jsonld',
                 'regions.context_processors.region_context',
+                'orders.context_processors.cart_context',
             ],
         },
     },
@@ -104,3 +114,70 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Email — SendPulse API
+SENDPULSE_API_ID = os.environ.get('SENDPULSE_API_ID', '')
+SENDPULSE_API_SECRET = os.environ.get('SENDPULSE_API_SECRET', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@dr-joys.com')
+DEFAULT_FROM_NAME = 'DR.JOYS'
+
+# VTB Payment Gateway (Россия)
+VTB_PAYMENT_URL = os.environ.get('VTB_PAYMENT_URL', 'https://vtbkz.rbsuat.com/payment/rest/')
+VTB_USERNAME = os.environ.get('VTB_USERNAME', '')
+VTB_PASSWORD = os.environ.get('VTB_PASSWORD', '')
+
+# Halyk ePay (Казахстан)
+HALYK_OAUTH_URL = os.environ.get('HALYK_OAUTH_URL', 'https://test-epay-oauth.epayment.kz/oauth2/token')
+HALYK_PAYMENT_URL = os.environ.get('HALYK_PAYMENT_URL', 'https://test-epay.epayment.kz/')
+HALYK_CLIENT_ID = os.environ.get('HALYK_CLIENT_ID', '')
+HALYK_CLIENT_SECRET = os.environ.get('HALYK_CLIENT_SECRET', '')
+HALYK_TERMINAL_ID = os.environ.get('HALYK_TERMINAL_ID', '')
+
+# Base URL для платёжных callback-ов (в dev — пустая, в prod — https://dr-joys.com)
+PAYMENT_BASE_URL = os.environ.get('PAYMENT_BASE_URL', '')
+
+# -----------------------------------------------
+# django-allauth (SSO: Google, Yandex)
+# -----------------------------------------------
+SITE_ID = 1
+
+# Allauth account settings — мы используем свои views для email login/register
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_LOGIN_METHODS = {'email'}
+
+# SSO: авто-мёрж аккаунтов по email
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_STORE_TOKENS = False
+
+# Кастомные адаптеры — redirect SSO popup → callback страницу
+ACCOUNT_ADAPTER = 'accounts.adapter.AccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'accounts.adapter.SocialAccountAdapter'
+
+# Провайдеры — credentials из .env
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.environ.get('GOOGLE_CLIENT_ID', ''),
+            'secret': os.environ.get('GOOGLE_CLIENT_SECRET', ''),
+        },
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    },
+    'yandex': {
+        'APP': {
+            'client_id': os.environ.get('YANDEX_CLIENT_ID', ''),
+            'secret': os.environ.get('YANDEX_CLIENT_SECRET', ''),
+        },
+    },
+}

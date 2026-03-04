@@ -1,4 +1,5 @@
 <!-- BEGIN modal profile -->
+{% if request.user.is_authenticated %}
 <div class="modal-overlay hidden" id="modalProfile">
     <div class="modal-content modal-wide">
         <!-- Header -->
@@ -26,8 +27,8 @@
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
                 </div>
-                <p class="text-sm font-bold">Алексей Иванов</p>
-                <p class="text-xs text-gray-500">alexey@example.com</p>
+                <p class="text-sm font-bold">{{ request.user.get_full_name|default:request.user.email }}</p>
+                <p class="text-xs text-gray-500">{{ request.user.email }}</p>
             </div>
             <div class="flex flex-col gap-2">
                 <button class="profile-menu-btn w-full text-left text-sm py-3 px-4 rounded-xl bg-stone-50 hover:bg-gray-200 font-bold" type="button" data-profile-step="2">
@@ -207,18 +208,19 @@
             <div class="flex flex-col gap-4 pt-4">
                 <div class="p-3 rounded-xl bg-stone-50">
                     <p class="text-[10px] text-gray-500 uppercase tracking-wider">Имя</p>
-                    <p class="text-sm font-bold">Алексей Иванов</p>
+                    <p class="text-sm font-bold">{{ request.user.get_full_name|default:request.user.email }}</p>
                 </div>
                 <div class="p-3 rounded-xl bg-stone-50">
                     <p class="text-[10px] text-gray-500 uppercase tracking-wider">Телефон</p>
-                    <p class="text-sm font-bold">+7 (999) 123-45-67</p>
+                    <p class="text-sm font-bold">{{ request.user.phone|default:"—" }}</p>
                 </div>
                 <div class="p-3 rounded-xl bg-stone-50">
                     <p class="text-[10px] text-gray-500 uppercase tracking-wider">Email</p>
-                    <p class="text-sm font-bold">alexey@example.com</p>
+                    <p class="text-sm font-bold">{{ request.user.email }}</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endif %}
 <!-- END modal profile -->

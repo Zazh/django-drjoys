@@ -3,3 +3,4 @@ psycopg2-binary==2.9.10
 Pillow==11.0.0
 requests==2.31.0
 django-modeltranslation==0.19.13
+django-allauth[socialaccount]==65.4.1

@@ -23,7 +23,11 @@
         <form class="flex flex-col gap-3" id="deliveryForm" novalidate>
             <div>
                 <label class="modal-label" for="deliveryCountry">Страна</label>
-                <input class="modal-input" type="text" id="deliveryCountry" name="country" required>
+                <select class="modal-input" id="deliveryCountry" name="country" required>
+                    {% for r in all_regions %}
+                    <option value="{{ r.name }}" data-code="{{ r.code }}" data-phone="{{ r.phone_code }}"{% if r.code == region_code %} selected{% endif %}>{{ r.flag_emoji }} {{ r.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div>
                 <label class="modal-label" for="deliveryCity">Город</label>

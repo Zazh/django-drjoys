@@ -9,6 +9,9 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('region/', include('regions.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('orders/', include('orders.urls')),
 ]
 
 # С языковым префиксом (/ru/, /kk/, /en/)

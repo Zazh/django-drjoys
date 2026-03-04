@@ -32,6 +32,10 @@ class Region(models.Model):
         'По умолчанию', default=False,
         help_text='Только один регион может быть по умолчанию',
     )
+    payment_gateway = models.CharField(
+        'Платёжный шлюз', max_length=20, blank=True,
+        help_text='Код шлюза: vtb, halyk. Пусто = без онлайн-оплаты',
+    )
     order = models.PositiveIntegerField('Порядок', default=0)
 
     class Meta:

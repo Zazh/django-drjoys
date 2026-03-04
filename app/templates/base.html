@@ -91,7 +91,7 @@
                     <svg class="w-6.5 md:w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
                     </svg>
-                    <span class="header-icon__badge" data-fav-count>3</span>
+                    <span class="header-icon__badge{% if not fav_count %} hidden{% endif %}" data-fav-count>{{ fav_count }}</span>
                 </button>
             </div>
             <!-- Корзина -->
@@ -102,7 +102,7 @@
                         <line x1="3" y1="6" x2="21" y2="6"/>
                         <path d="M16 10a4 4 0 01-8 0"/>
                     </svg>
-                    <span class="header-icon__badge" data-cart-count>2</span>
+                    <span class="header-icon__badge{% if not cart_count %} hidden{% endif %}" data-cart-count>{{ cart_count }}</span>
                 </button>
             </div>
         </div>
@@ -127,7 +127,11 @@
     </nav>
     <div class="main-nav__footer">
         <div class="pb-4">
-           <button class="btn-cat flex-1 font-benzin w-full bg-transparent hover:bg-red-500" type="button" data-open-modal="modalProfile">{% trans "Войти" %}</button>
+           {% if request.user.is_authenticated %}
+           <button class="btn-cat flex-1 font-benzin w-full bg-transparent hover:bg-red-500" type="button" data-open-modal="modalProfile">{% trans "Профиль" %}</button>
+           {% else %}
+           <button class="btn-cat flex-1 font-benzin w-full bg-transparent hover:bg-red-500" type="button" data-open-modal="modalAuth">{% trans "Войти" %}</button>
+           {% endif %}
         </div>
         <div class="flex gap-2">
             <div class="flex flex-1 flex-col">
@@ -197,6 +201,8 @@ window.DRJOYS = {
     currencySymbol: '{{ currency_symbol }}',
     currencyCode: '{{ currency_code }}',
     lang: '{{ CURRENT_LANGUAGE }}',
+    csrfToken: '{{ csrf_token }}',
+    isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
     i18n: {
         added: '{% trans "Добавлено!" %}',
         addMore: '{% trans "Добавить ещё" %}',

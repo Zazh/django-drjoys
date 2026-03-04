@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models, transaction
 from django.utils import timezone
 
@@ -25,6 +26,11 @@ class Order(models.Model):
         Region, on_delete=models.PROTECT,
         related_name='orders', verbose_name='Регион',
     )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='orders', verbose_name='Пользователь',
+    )
 
     # Покупатель
     customer_name = models.CharField('ФИО', max_length=200)
@@ -36,6 +42,10 @@ class Order(models.Model):
     address = models.TextField('Адрес')
 
     # Оплата
+    payment_gateway = models.CharField(
+        'Шлюз', max_length=20, blank=True,
+        help_text='Код шлюза: vtb, halyk',
+    )
     payment_id = models.CharField('ID платежа', max_length=200, blank=True,
         help_text='ID транзакции от эквайринга',
     )
@@ -56,6 +66,7 @@ class Order(models.Model):
         indexes = [
             models.Index(fields=['status', 'expires_at']),
             models.Index(fields=['number']),
+            models.Index(fields=['payment_id']),
             models.Index(fields=['-created_at']),
         ]
 
@@ -110,15 +121,22 @@ class Order(models.Model):
 
     @transaction.atomic
     def confirm_payment(self):
-        """Оплата подтверждена — списать со склада."""
-        self.status = self.Status.PAID
-        self.paid_at = timezone.now()
-        self.save(update_fields=['status', 'paid_at'])
+        """Оплата подтверждена — списать со склада.
 
-        for item in self.items.select_related('size'):
+        Использует select_for_update для защиты от двойного подтверждения
+        (callback и return могут прийти одновременно).
+        """
+        locked = Order.objects.select_for_update().get(pk=self.pk)
+        if locked.status != self.Status.PENDING:
+            return  # Уже обработан — идемпотентно
+        locked.status = self.Status.PAID
+        locked.paid_at = timezone.now()
+        locked.save(update_fields=['status', 'paid_at'])
+
+        for item in locked.items.select_related('size'):
             try:
                 stock = Stock.objects.select_for_update().get(
-                    size=item.size, region=self.region,
+                    size=item.size, region=locked.region,
                 )
                 stock.quantity = max(0, stock.quantity - item.quantity)
                 stock.reserved = max(0, stock.reserved - item.quantity)
@@ -126,17 +144,35 @@ class Order(models.Model):
             except Stock.DoesNotExist:
                 pass
 
+        # Обновить self чтобы вызывающий код видел новый статус
+        self.status = locked.status
+        self.paid_at = locked.paid_at
+
+        # Отправить email о подтверждении оплаты
+        from .emails import send_payment_confirmed_email
+        send_payment_confirmed_email(locked)
+
+    @transaction.atomic
     def cancel(self):
         """Отменить заказ — снять резерв."""
-        self.release_stock()
-        self.status = self.Status.CANCELLED
-        self.save(update_fields=['status'])
+        locked = Order.objects.select_for_update().get(pk=self.pk)
+        if locked.status != self.Status.PENDING:
+            return
+        locked.release_stock()
+        locked.status = self.Status.CANCELLED
+        locked.save(update_fields=['status'])
+        self.status = locked.status
 
+    @transaction.atomic
     def expire(self):
         """Заказ истёк — снять резерв."""
-        self.release_stock()
-        self.status = self.Status.EXPIRED
-        self.save(update_fields=['status'])
+        locked = Order.objects.select_for_update().get(pk=self.pk)
+        if locked.status != self.Status.PENDING:
+            return
+        locked.release_stock()
+        locked.status = self.Status.EXPIRED
+        locked.save(update_fields=['status'])
+        self.status = locked.status
 
 
 class OrderItem(models.Model):
