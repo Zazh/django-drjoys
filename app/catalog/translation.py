@@ -1,6 +1,6 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from .models import Category, Product, Characteristic, UnitOfMeasure, FAQ
+from .models import Category, Product, Characteristic, ProductCharacteristic, UnitOfMeasure, FAQ
 
 
 @register(Category)
@@ -16,6 +16,11 @@ class ProductTO(TranslationOptions):
 @register(Characteristic)
 class CharacteristicTO(TranslationOptions):
     fields = ('name',)
+
+
+@register(ProductCharacteristic)
+class ProductCharacteristicTO(TranslationOptions):
+    fields = ('value', 'subtitle')
 
 
 @register(UnitOfMeasure)

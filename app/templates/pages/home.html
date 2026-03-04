@@ -226,7 +226,7 @@
                 <p class="font-medium text-white text-sm md:text-lg leading-tight mt-5">Пройди короткий тест и узнай, какой <span class="md:block">DR.JOYS подходит именно тебе</span></p>
             </div>
             <div class="w-full mt-auto text-center md:text-left">
-                <button type="button" class="btn-macro white-opacity" id="openQuizModal">Пройти опрос</button>
+                <button type="button" class="btn-macro white-opacity" id="openQuizModal">{% trans "Пройти опрос" %}</button>
             </div>
         </div>
 
@@ -1599,38 +1599,86 @@
             }
 
             function goToQuizStep(stepNum) {
-                resetQuizTheme();
-                const targetStep = quizOverlay.querySelector(`[data-step="${stepNum}"]`);
-                if (targetStep) {
-                    if (targetStep.dataset.bgImg) {
-                        quizContent.style.backgroundImage = `url(${targetStep.dataset.bgImg})`;
-                        quizContent.style.backgroundSize = 'cover';
-                        quizContent.style.backgroundPosition = 'center';
-                    }
-                    if (targetStep.dataset.theme === 'dark') {
-                        quizContent.classList.add('modal-result-dark');
-                    }
-                }
                 quizOverlay.querySelectorAll('.modal-step').forEach(step => {
                     step.classList.toggle('hidden', step.dataset.step !== String(stepNum));
                 });
             }
 
-            function getQuizResult() {
-                const important = quizAnswers['1'];
-                const aroma = quizAnswers['2'];
-                const frequency = quizAnswers['3'];
-                const lube = quizAnswers['4'];
+            // Фоны результатов квиза: base_slug → {bg, dark}
+            const quizBgs = {
+                'banana':        { bg: '{% static "dist/images/modal-quizzes/bgs/banana.jpg" %}' },
+                'strawberry':    { bg: '{% static "dist/images/modal-quizzes/bgs/strawberry.jpg" %}' },
+                'chocolate':     { bg: '{% static "dist/images/modal-quizzes/bgs/chocolate.jpg" %}', dark: true },
+                'dotted-ribbed': { bg: '{% static "dist/images/modal-quizzes/bgs/dotted-ribbed.jpg" %}' },
+                'triple-lube':   { bg: '{% static "dist/images/modal-quizzes/bgs/triple-lube.jpg" %}' },
+            };
 
-                if (important === 'aroma') {
-                    if (aroma === 'chocolate') return 'result-chocolate';
-                    if (aroma === 'strawberry') return 'result-strawberry';
-                    return 'result-banana';
+            let quizProducts = [];
+            let quizProductIndex = 0;
+            const nextVariantBtn = document.getElementById('quizNextVariant');
+
+            function renderQuizProduct(product) {
+                const img = document.getElementById('quizResultImg');
+                const name = document.getElementById('quizResultName');
+                const btn = document.getElementById('quizResultBtn');
+
+                img.src = product.image_url || (window.DRJOYS?.placeholderUrl || '');
+                img.alt = product.name;
+                name.textContent = product.name;
+                btn.href = product.url;
+
+                // Фон и тема результата
+                resetQuizTheme();
+                const bgInfo = quizBgs[product.bg_key];
+                if (bgInfo) {
+                    quizContent.style.backgroundImage = `url(${bgInfo.bg})`;
+                    quizContent.style.backgroundSize = 'cover';
+                    quizContent.style.backgroundPosition = 'center';
+                    if (bgInfo.dark) {
+                        quizContent.classList.add('modal-result-dark');
+                    }
                 }
-                if (important === 'texture') return 'result-dotted-ribbed';
-                if (lube === 'yes') return 'result-triple-lube';
-                if (frequency === 'daily' || frequency === 'weekly') return 'result-dotted-ribbed';
-                return 'result-triple-lube';
+            }
+
+            async function submitQuiz() {
+                try {
+                    const resp = await fetch('{% url "catalog:quiz_result" %}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': window.DRJOYS.csrfToken,
+                        },
+                        body: JSON.stringify({
+                            q1: quizAnswers['1'] || '',
+                            q2: quizAnswers['2'] || '',
+                            q3: quizAnswers['3'] || '',
+                            q4: quizAnswers['4'] || '',
+                        }),
+                    });
+                    const data = await resp.json();
+                    if (data.ok && data.products && data.products.length) {
+                        quizProducts = data.products;
+                        quizProductIndex = 0;
+
+                        renderQuizProduct(quizProducts[0]);
+                        goToQuizStep('result');
+
+                        // Показать «Ещё вариант» если больше одного результата
+                        if (nextVariantBtn) {
+                            nextVariantBtn.classList.toggle('hidden', quizProducts.length <= 1);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Quiz error:', e);
+                }
+            }
+
+            if (nextVariantBtn) {
+                nextVariantBtn.addEventListener('click', () => {
+                    if (quizProducts.length <= 1) return;
+                    quizProductIndex = (quizProductIndex + 1) % quizProducts.length;
+                    renderQuizProduct(quizProducts[quizProductIndex]);
+                });
             }
 
             quizOverlay.querySelectorAll('.modal-close-quiz').forEach(btn => {
@@ -1643,7 +1691,7 @@
                     quizAnswers[step.dataset.step] = btn.dataset.value;
 
                     if (btn.hasAttribute('data-last')) {
-                        goToQuizStep(getQuizResult());
+                        submitQuiz();
                     } else if (btn.dataset.nextStep) {
                         goToQuizStep(btn.dataset.nextStep);
                     }
@@ -1652,6 +1700,7 @@
 
             quizOverlay.querySelectorAll('[data-prev-step]').forEach(btn => {
                 btn.addEventListener('click', () => {
+                    resetQuizTheme();
                     goToQuizStep(btn.dataset.prevStep);
                 });
             });

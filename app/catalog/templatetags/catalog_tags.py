@@ -40,29 +40,33 @@ def region_price(context, size, field='price'):
 def region_price_data(context, size):
     """
     Возвращает dict с price, old_price, has_discount, discount_percent для текущего региона.
+    Если у региона needs_conversion — добавляет payment_price, payment_old_price, payment_currency_symbol.
 
     Использование:
         {% region_price_data size as pd %}
         {{ pd.price }} {{ pd.old_price }} {{ pd.has_discount }} {{ pd.discount_percent }}
+        {% if pd.needs_conversion %}({{ pd.payment_price }} {{ pd.payment_currency_symbol }}){% endif %}
     """
     request = context.get('request')
     region = getattr(request, 'region', None)
 
+    data = None
     if region:
         region_prices = getattr(size, '_region_prices', None)
         if region_prices is not None:
             for rp in region_prices:
                 if rp.region_id == region.pk:
-                    return {
+                    data = {
                         'price': rp.price,
                         'old_price': rp.old_price,
                         'has_discount': rp.has_discount,
                         'discount_percent': rp.discount_percent,
                     }
+                    break
         else:
             try:
                 rp = size.region_prices.get(region=region)
-                return {
+                data = {
                     'price': rp.price,
                     'old_price': rp.old_price,
                     'has_discount': rp.has_discount,
@@ -71,12 +75,25 @@ def region_price_data(context, size):
             except size.region_prices.model.DoesNotExist:
                 pass
 
-    return {
-        'price': size.price,
-        'old_price': size.old_price,
-        'has_discount': size.has_discount,
-        'discount_percent': size.discount_percent,
-    }
+    if data is None:
+        data = {
+            'price': size.price,
+            'old_price': size.old_price,
+            'has_discount': size.has_discount,
+            'discount_percent': size.discount_percent,
+        }
+
+    # Двойная валюта: если у региона payment_currency отличается
+    if region and region.needs_conversion:
+        from regions.models import convert_to_kzt
+        data['needs_conversion'] = True
+        data['payment_price'] = convert_to_kzt(data['price'], region.currency_code)
+        data['payment_old_price'] = convert_to_kzt(data['old_price'], region.currency_code) if data['old_price'] else None
+        data['payment_currency_symbol'] = region.payment_currency_symbol
+    else:
+        data['needs_conversion'] = False
+
+    return data
 
 
 @register.filter

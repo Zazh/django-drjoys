@@ -113,9 +113,7 @@
                         {% for item in cart_items %}
                         <div class="flex gap-3 py-3">
                             <div class="w-16 h-16 shrink-0 rounded-lg overflow-hidden bg-stone-50">
-                                {% if item.image_url %}
-                                <img src="{{ item.image_url }}" class="w-full h-full object-cover" alt="{{ item.name }}" loading="lazy">
-                                {% endif %}
+                                <img src="{% if item.image_url %}{{ item.image_url }}{% else %}{{ placeholder_image_url }}{% endif %}" class="w-full h-full object-cover" alt="{{ item.name }}" loading="lazy">
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-xs font-bold leading-tight">{{ item.name }}</p>
@@ -135,7 +133,12 @@
                         {% endif %}
                         <div class="flex justify-between items-center">
                             <span class="font-benzin uppercase text-sm">Итого</span>
-                            <span class="font-benzin text-lg text-red-500">{{ cart_total|floatformat:0 }} {{ currency_symbol }}</span>
+                            <div class="text-right">
+                                <span class="font-benzin text-lg text-red-500">{{ cart_total|floatformat:0 }} {{ currency_symbol }}</span>
+                                {% if payment_total %}
+                                <span class="block text-xs text-stone-400 mt-0.5">({{ payment_total|floatformat:0 }} {{ payment_currency_symbol }})</span>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>

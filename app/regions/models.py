@@ -1,4 +1,7 @@
+from decimal import Decimal
+
 from django.db import models
+from django.utils import timezone
 
 
 class Region(models.Model):
@@ -16,6 +19,14 @@ class Region(models.Model):
     currency_symbol = models.CharField(
         'Символ валюты', max_length=5,
         help_text='₸, ₽, $',
+    )
+    payment_currency_code = models.CharField(
+        'Валюта оплаты', max_length=3, blank=True,
+        help_text='Если оплата в другой валюте (напр. KZT для России). Пусто = совпадает с валютой отображения.',
+    )
+    payment_currency_symbol = models.CharField(
+        'Символ валюты оплаты', max_length=5, blank=True,
+        help_text='Символ валюты оплаты (напр. ₸). Пусто = совпадает.',
     )
     default_language = models.CharField(
         'Язык по умолчанию', max_length=5, default='ru',
@@ -53,7 +64,47 @@ class Region(models.Model):
     def __str__(self):
         return f'{self.name} ({self.currency_code})'
 
+    @property
+    def needs_conversion(self):
+        return bool(self.payment_currency_code) and self.payment_currency_code != self.currency_code
+
     @classmethod
     def get_default(cls):
         """Возвращает регион по умолчанию."""
         return cls.objects.filter(is_default=True, is_active=True).first()
+
+
+class ExchangeRate(models.Model):
+    """Курс валюты к KZT от Нацбанка РК."""
+
+    currency_code = models.CharField(
+        'Валюта', max_length=3, unique=True,
+        help_text='ISO 4217: RUB, USD, EUR',
+    )
+    rate = models.DecimalField(
+        'Курс', max_digits=12, decimal_places=4,
+        help_text='KZT за quant единиц валюты',
+    )
+    quant = models.PositiveIntegerField(
+        'Количество', default=1,
+        help_text='Базовое кол-во единиц (1, 10, 100)',
+    )
+    fetched_at = models.DateTimeField('Обновлён')
+
+    class Meta:
+        verbose_name = 'Курс валюты'
+        verbose_name_plural = 'Курсы валют'
+
+    def __str__(self):
+        return f'{self.quant} {self.currency_code} = {self.rate} KZT'
+
+
+def convert_to_kzt(amount, currency_code):
+    """Конвертировать сумму в KZT по курсу Нацбанка."""
+    if currency_code == 'KZT' or amount is None:
+        return amount
+    try:
+        rate_obj = ExchangeRate.objects.get(currency_code=currency_code)
+    except ExchangeRate.DoesNotExist:
+        return None
+    return (amount * rate_obj.rate / rate_obj.quant).quantize(Decimal('1'))

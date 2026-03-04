@@ -926,6 +926,18 @@ function initProductBuy() {
             }
         }
 
+        // Двойная валюта (payment price)
+        const pricePaymentEl = document.getElementById('pricePayment');
+        if (pricePaymentEl) {
+            const paymentPrice = item.dataset.paymentPrice;
+            if (paymentPrice) {
+                pricePaymentEl.textContent = '(' + paymentPrice + ' ' + (window.DRJOYS?.paymentCurrencySymbol || '') + ')';
+                pricePaymentEl.classList.remove('hidden');
+            } else {
+                pricePaymentEl.classList.add('hidden');
+            }
+        }
+
         closeDropdown();
     }
 
@@ -1080,10 +1092,16 @@ function initCartModal() {
     if (!cartOverlay) return;
 
     const sym = window.DRJOYS?.currencySymbol || '₸';
+    const paySym = window.DRJOYS?.paymentCurrencySymbol || '';
+    const needsConv = window.DRJOYS?.needsConversion || false;
     let cartData = { items: [], cart_total: '0', cart_old_total: '0', cart_count: 0 };
 
     function fmtPrice(val) {
         return parseFloat(val).toLocaleString('ru-RU') + ' ' + sym;
+    }
+
+    function fmtPayment(val) {
+        return parseFloat(val).toLocaleString('ru-RU') + ' ' + paySym;
     }
 
     function renderCart() {
@@ -1112,7 +1130,7 @@ function initCartModal() {
 
                 return `<div class="cart-item flex gap-3 py-3" data-size-id="${item.size_id}" data-price="${item.price}" data-old-price="${item.old_price || ''}">
                     <div class="w-15 h-15 shrink-0 rounded-lg overflow-hidden bg-stone-50">
-                        ${item.image_url ? `<img src="${item.image_url}" class="w-full h-full object-cover" alt="${item.name}" loading="lazy">` : '<div class="w-full h-full bg-stone-50"></div>'}
+                        <img src="${item.image_url || window.DRJOYS?.placeholderUrl || ''}" class="w-full h-full object-cover" alt="${item.name}" loading="lazy">
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-xs font-bold truncate">${item.name}</p>
@@ -1125,9 +1143,10 @@ function initCartModal() {
                                     <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                                 </button>
                             </div>
-                            <div class="flex items-center gap-1.5">
+                            <div class="flex items-center gap-1.5 flex-wrap justify-end">
                                 <span class="text-[10px] text-stone-400 line-through cart-item-old-price ${hasOld ? '' : 'hidden'}">${hasOld ? fmtPrice(parseFloat(item.old_price) * item.qty) : ''}</span>
                                 <span class="text-xs font-bold cart-item-price">${fmtPrice(item.subtotal)}</span>
+                                ${item.payment_subtotal ? `<span class="text-[10px] text-stone-400">(${fmtPayment(item.payment_subtotal)})</span>` : ''}
                             </div>
                         </div>
                     </div>
@@ -1142,7 +1161,13 @@ function initCartModal() {
         const cartOldTotalEl = document.getElementById('cartOldTotal');
         const cartSavingsEl = document.getElementById('cartSavings');
 
-        if (cartTotalEl) cartTotalEl.textContent = fmtPrice(total);
+        if (cartTotalEl) {
+            let totalText = fmtPrice(total);
+            if (needsConv && cartData.payment_total) {
+                totalText += ' (' + fmtPayment(parseFloat(cartData.payment_total)) + ')';
+            }
+            cartTotalEl.textContent = totalText;
+        }
 
         const savings = oldTotal - total;
         if (savings > 0 && cartOldTotalEl && cartSavingsEl) {
@@ -1200,6 +1225,7 @@ function initCartModal() {
         }
     });
 
+    // Checkout → auth check → delivery
     // Checkout → страница оформления заказа
     const checkoutBtn = document.getElementById('cartCheckoutBtn');
     if (checkoutBtn) {
@@ -1243,13 +1269,13 @@ function initFavoritesModal() {
         if (listEl) {
             listEl.innerHTML = items.map(item => `
                 <div class="fav-item flex gap-3 p-2 rounded-xl bg-stone-50" data-product-id="${item.product_id}" data-first-size-id="${item.first_size_id || ''}">
-                    <div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden">
-                        ${item.image_url ? `<img src="${item.image_url}" class="w-full h-full object-cover" alt="${item.name}" loading="lazy">` : '<div class="w-full h-full bg-stone-50"></div>'}
+                    <div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-stone-50">
+                        <img src="${item.image_url || window.DRJOYS?.placeholderUrl || ''}" class="w-full h-full object-cover" alt="${item.name}" loading="lazy">
                     </div>
                     <div class="flex-1 min-w-0 flex flex-col justify-between py-1">
                         <div>
                             <p class="text-xs font-bold leading-tight">${item.name}</p>
-                            ${item.price ? `<p class="text-xs text-red-500 font-benzin mt-1">${parseFloat(item.price).toLocaleString('ru-RU')} ${sym}</p>` : ''}
+                            ${item.price ? `<p class="text-xs text-red-500 font-benzin mt-1">${parseFloat(item.price).toLocaleString('ru-RU')} ${sym}${item.payment_price ? ` <span class="text-stone-400 font-normal">(${parseFloat(item.payment_price).toLocaleString('ru-RU')} ${window.DRJOYS?.paymentCurrencySymbol || ''})</span>` : ''}</p>` : ''}
                         </div>
                         ${item.first_size_id ? '<button class="fav-to-cart-btn text-[10px] uppercase font-bold text-gray-500 hover:text-black text-left" type="button">В корзину</button>' : ''}
                     </div>

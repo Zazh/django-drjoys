@@ -372,6 +372,9 @@
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
+  .mt-3 {
+    margin-top: calc(var(--spacing) * 3);
+  }
   .mt-4 {
     margin-top: calc(var(--spacing) * 4);
   }
@@ -847,6 +850,9 @@
   .p-5 {
     padding: calc(var(--spacing) * 5);
   }
+  .p-6 {
+    padding: calc(var(--spacing) * 6);
+  }
   .px-1\.5 {
     padding-inline: calc(var(--spacing) * 1.5);
   }
@@ -1012,6 +1018,10 @@
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
   }
+  .font-normal {
+    --tw-font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-normal);
+  }
   .tracking-wide {
     --tw-tracking: var(--tracking-wide);
     letter-spacing: var(--tracking-wide);
@@ -1062,6 +1072,9 @@
   }
   .line-through {
     text-decoration-line: line-through;
+  }
+  .underline {
+    text-decoration-line: underline;
   }
   .opacity-55 {
     opacity: 55%;
@@ -1523,11 +1536,6 @@
       display: flex;
     }
   }
-  .lg\:hidden {
-    @media (width >= 64rem) {
-      display: none;
-    }
-  }
   .lg\:aspect-\[2\/3\] {
     @media (width >= 64rem) {
       aspect-ratio: 2/3;
@@ -1741,11 +1749,6 @@
       grid-column-start: 9;
     }
   }
-  .xl\:mr-8 {
-    @media (width >= 80rem) {
-      margin-right: calc(var(--spacing) * 8);
-    }
-  }
   .xl\:w-\[20rem\] {
     @media (width >= 80rem) {
       width: 20rem;
@@ -1764,11 +1767,6 @@
   .xl\:pt-22 {
     @media (width >= 80rem) {
       padding-top: calc(var(--spacing) * 22);
-    }
-  }
-  .xl\:pr-16 {
-    @media (width >= 80rem) {
-      padding-right: calc(var(--spacing) * 16);
     }
   }
 }
@@ -3880,8 +3878,8 @@
   .quiz-question {
     text-align: center;
     font-family: var(--font-benzin);
-    font-size: var(--text-2xl);
-    line-height: var(--tw-leading, var(--text-2xl--line-height));
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
     --tw-leading: var(--leading-tight);
     line-height: var(--leading-tight);
     text-transform: uppercase;
@@ -3917,11 +3915,13 @@
   }
   .quiz-result-img {
     margin-inline: auto;
-    width: calc(var(--spacing) * 52);
     padding-block: calc(var(--spacing) * 6);
+    height: 230px;
   }
   .quiz-result-img img {
-    width: 100%;
+    margin-inline: auto;
+    height: 100%;
+    width: auto;
     object-fit: contain;
   }
   .quiz-result-name {

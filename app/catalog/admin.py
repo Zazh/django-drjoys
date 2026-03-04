@@ -1,14 +1,14 @@
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.utils.html import format_html
-from modeltranslation.admin import TabbedTranslationAdmin
+from modeltranslation.admin import TabbedTranslationAdmin, TranslationTabularInline
 
 from regions.models import Region
 from .models import (
     Category, Product, ProductSize, RegionPrice, Stock,
     UnitOfMeasure, Characteristic, ProductCharacteristic,
     ProductMainImage, ProductPackageImage, ProductIndividualImage,
-    FAQ, SiteSettings,
+    QuizRule, FAQ, SiteSettings,
 )
 
 
@@ -53,10 +53,10 @@ class SizeInline(admin.TabularInline):
     fields = ('name', 'sku', 'price', 'old_price', 'order')
 
 
-class CharacteristicInline(admin.TabularInline):
+class CharacteristicInline(TranslationTabularInline):
     model = ProductCharacteristic
     extra = 1
-    fields = ('characteristic', 'value')
+    fields = ('characteristic', 'value', 'subtitle')
     autocomplete_fields = ['characteristic']
 
 
@@ -100,8 +100,8 @@ class ProductAdmin(TabbedTranslationAdmin):
             'classes': ('collapse',),
             'fields': ('meta_title', 'meta_description'),
         }),
-        ('Zoom (скролл)', {
-            'fields': ('zoom_image', 'zoom_rotation_angle'),
+        ('Изображения', {
+            'fields': ('transparent_image', 'zoom_image', 'zoom_rotation_angle'),
         }),
     )
 
@@ -162,6 +162,18 @@ class StockAdmin(admin.ModelAdmin):
     @admin.display(description='Доступно')
     def available_display(self, obj):
         return obj.available
+
+
+# ─── Квиз ───
+
+@admin.register(QuizRule)
+class QuizRuleAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'priority', 'q1_important', 'q2_aroma', 'q3_frequency', 'q4_lube', 'product', 'is_active')
+    list_display_links = ('__str__',)
+    list_editable = ('priority', 'is_active')
+    list_filter = ('q1_important', 'q2_aroma', 'is_active')
+    autocomplete_fields = ('product',)
+    ordering = ('-priority',)
 
 
 # ─── FAQ ───

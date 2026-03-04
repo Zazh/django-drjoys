@@ -50,7 +50,23 @@ class Order(models.Model):
         help_text='ID транзакции от эквайринга',
     )
     payment_url = models.URLField('Ссылка на оплату', blank=True)
-    total_amount = models.DecimalField('Сумма заказа', max_digits=10, decimal_places=2)
+    total_amount = models.DecimalField('Сумма заказа', max_digits=10, decimal_places=2,
+        help_text='В валюте оплаты (KZT если конвертация)',
+    )
+    display_amount = models.DecimalField(
+        'Сумма отображения', max_digits=10, decimal_places=2,
+        null=True, blank=True,
+        help_text='Сумма в валюте отображения (напр. RUB), если отличается от валюты оплаты',
+    )
+    display_currency_code = models.CharField(
+        'Валюта отображения', max_length=3, blank=True,
+        help_text='Код валюты отображения (напр. RUB)',
+    )
+    exchange_rate_snapshot = models.DecimalField(
+        'Курс на момент заказа', max_digits=12, decimal_places=4,
+        null=True, blank=True,
+        help_text='Курс конвертации: 1 единица display_currency = X KZT',
+    )
 
     # Даты
     expires_at = models.DateTimeField('Истекает',
@@ -201,3 +217,51 @@ class OrderItem(models.Model):
     @property
     def subtotal(self):
         return self.price * self.quantity
+
+
+# ─── Корзина (БД) ───
+
+class CartItem(models.Model):
+    """Позиция корзины для авторизованного пользователя."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='cart_items', verbose_name='Пользователь',
+    )
+    size = models.ForeignKey(
+        ProductSize, on_delete=models.CASCADE,
+        related_name='cart_items', verbose_name='Размер',
+    )
+    qty = models.PositiveIntegerField('Количество', default=1)
+    created_at = models.DateTimeField('Добавлен', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлён', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзина'
+        unique_together = ['user', 'size']
+
+    def __str__(self):
+        return f'{self.user} — {self.size} × {self.qty}'
+
+
+# ─── Избранное (БД) ───
+
+class FavoriteItem(models.Model):
+    """Избранный товар для авторизованного пользователя."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='favorite_items', verbose_name='Пользователь',
+    )
+    product = models.ForeignKey(
+        'catalog.Product', on_delete=models.CASCADE,
+        related_name='favorite_items', verbose_name='Товар',
+    )
+    created_at = models.DateTimeField('Добавлен', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранное'
+        unique_together = ['user', 'product']
+
+    def __str__(self):
+        return f'{self.user} — {self.product}'

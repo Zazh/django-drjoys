@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 
 from django.views.generic import TemplateView
 
+from orders.cart import merge_session_to_db
 from orders.emails import send_welcome_email
 from .forms import RegisterForm, LoginForm, ProfileForm
 
@@ -37,6 +38,7 @@ class RegisterView(View):
         if form.is_valid():
             user = form.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            merge_session_to_db(request)
             send_welcome_email(user)
             return JsonResponse({
                 'ok': True,
@@ -73,6 +75,7 @@ class LoginView(View):
                 status=401,
             )
         login(request, user)
+        merge_session_to_db(request)
         return JsonResponse({
             'ok': True,
             'data': {

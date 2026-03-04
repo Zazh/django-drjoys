@@ -45,7 +45,8 @@ class VTBGateway(BaseGateway):
 
     def create_payment(self, order, return_url, callback_url):
         amount_minor = int(order.total_amount * 100)
-        currency_code = CURRENCY_NUMERIC.get(order.region.currency_code)
+        pay_currency = order.region.payment_currency_code or order.region.currency_code
+        currency_code = CURRENCY_NUMERIC.get(pay_currency)
 
         params = {
             'orderNumber': order.number,

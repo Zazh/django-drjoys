@@ -110,7 +110,7 @@
 
     /* Quiz */
     .quiz-question {
-        @apply font-benzin text-2xl uppercase text-center leading-tight;
+        @apply font-benzin text-xl uppercase text-center leading-tight;
     }
     .quiz-options {
         @apply flex flex-col gap-3 items-center pt-8 w-full;
@@ -120,10 +120,11 @@
                bg-stone-50 min-w-48 transition-opacity hover:opacity-80;
     }
     .quiz-result-img {
-        @apply w-52 mx-auto py-6;
+        @apply mx-auto py-6;
+        height: 230px;
     }
     .quiz-result-img img {
-        @apply w-full object-contain;
+        @apply h-full w-auto object-contain mx-auto;
     }
     .quiz-result-name {
         @apply text-sm font-bold text-center leading-tight pb-6;

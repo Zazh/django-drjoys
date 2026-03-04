@@ -1,9 +1,15 @@
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
+from orders.cart import merge_session_to_db
+
 
 class AccountAdapter(DefaultAccountAdapter):
     """Redirect после allauth-логина → SSO callback страницу."""
+
+    def login(self, request, user):
+        super().login(request, user)
+        merge_session_to_db(request)
 
     def get_login_redirect_url(self, request):
         return '/accounts/sso-callback/'

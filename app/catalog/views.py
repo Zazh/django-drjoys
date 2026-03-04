@@ -1,9 +1,14 @@
+import json
+
 from django.db.models import Prefetch
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
 
-from .models import Category, Product, ProductSize, FAQ, RegionPrice, Stock
+from .models import Category, Product, ProductSize, FAQ, RegionPrice, Stock, QuizRule
 from . import jsonld as jld
 
 
@@ -39,6 +44,9 @@ class CatalogListView(ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         categories = Category.objects.filter(is_active=True)
+        category_count = categories.count()
+        single_category = categories.first() if category_count == 1 else None
+
         category_slug = self.kwargs.get('category_slug')
         current_category = None
         if category_slug:
@@ -46,8 +54,13 @@ class CatalogListView(ListView):
                 current_category = categories.get(slug=category_slug)
             except Category.DoesNotExist:
                 raise Http404
+        elif single_category:
+            current_category = single_category
+
         ctx['categories'] = categories
         ctx['current_category'] = current_category
+        ctx['show_filters'] = category_count > 1
+        ctx['single_category'] = single_category
         faqs = FAQ.objects.filter(is_active=True)
         ctx['faqs'] = faqs
         ctx['page_type'] = 'catalog'
@@ -178,3 +191,85 @@ class ProductDetailView(DetailView):
         )
 
         return ctx
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class QuizResultView(View):
+    """POST API: подбор товара по ответам квиза."""
+
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+        except (json.JSONDecodeError, ValueError):
+            return JsonResponse({'ok': False, 'error': 'Invalid JSON'}, status=400)
+
+        q1 = data.get('q1', '')
+        q2 = data.get('q2', '')
+        q3 = data.get('q3', '')
+        q4 = data.get('q4', '')
+
+        products = QuizRule.get_results(q1, q2, q3, q4)
+        if not products:
+            return JsonResponse({'ok': False, 'error': 'No matching product'})
+
+        region = getattr(request, 'region', None)
+        items = []
+        for product in products:
+            items.append(self._serialize_product(product, region))
+
+        return JsonResponse({'ok': True, 'products': items})
+
+    def _serialize_product(self, product, region):
+        cover = product.main_images.filter(is_cover=True).first()
+        if cover:
+            image_url = cover.thumbnail.url if cover.thumbnail else cover.image.url
+        elif product.transparent_image:
+            image_url = product.transparent_image.url
+        else:
+            image_url = ''
+
+        return {
+            'name': str(product.name),
+            'slug': product.slug,
+            'bg_key': self._get_bg_key(product),
+            'url': product.get_absolute_url(),
+            'image_url': image_url,
+        }
+
+    # Маппинг значений характеристик → ключ фона
+    BG_KEY_MAP = {
+        # Аромат
+        'Банан': 'banana',
+        'Клубника': 'strawberry',
+        'Шоколад': 'chocolate',
+        # Текстура
+        'Точечно-ребристая': 'dotted-ribbed',
+        'Точечная (кошачий язык)': 'dotted-ribbed',
+    }
+
+    def _get_bg_key(self, product):
+        """Определить ключ фона квиза по характеристикам товара."""
+        from .models import ProductCharacteristic
+
+        chars = dict(
+            ProductCharacteristic.objects
+            .filter(product=product, characteristic__name__in=['Аромат', 'Текстура', 'Объём смазки'])
+            .values_list('characteristic__name', 'value')
+        )
+
+        # Аромат (если не «Без аромата»)
+        aroma = chars.get('Аромат', '')
+        if aroma and aroma != 'Без аромата':
+            return self.BG_KEY_MAP.get(aroma, '')
+
+        # Текстура (если не «Гладкая»)
+        texture = chars.get('Текстура', '')
+        if texture and texture != 'Гладкая':
+            return self.BG_KEY_MAP.get(texture, '')
+
+        # Много смазки → triple-lube
+        lube_vol = chars.get('Объём смазки', '')
+        if lube_vol and int(lube_vol) > 1000:
+            return 'triple-lube'
+
+        return ''

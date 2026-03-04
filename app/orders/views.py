@@ -48,7 +48,7 @@ class CartView(View):
             cart_total += item['subtotal']
             old_p = item['old_price'] or item['price']
             cart_old_total += old_p * item['qty']
-            serialized.append({
+            s = {
                 'size_id': item['size_id'],
                 'qty': item['qty'],
                 'name': item['name'],
@@ -59,14 +59,23 @@ class CartView(View):
                 'subtotal': str(item['subtotal']),
                 'image_url': item['image_url'],
                 'product_url': item['product_url'],
-            })
-        return JsonResponse({
+            }
+            if 'payment_price' in item:
+                s['payment_price'] = str(item['payment_price'])
+                s['payment_subtotal'] = str(item['payment_subtotal'])
+            serialized.append(s)
+
+        resp = {
             'ok': True,
             'items': serialized,
             'cart_total': str(cart_total),
             'cart_old_total': str(cart_old_total),
             'cart_count': len(cart),
-        })
+        }
+        payment_total = cart.get_payment_total()
+        if payment_total != cart_total:
+            resp['payment_total'] = str(payment_total)
+        return JsonResponse(resp)
 
 
 class CartAddView(View):
@@ -163,7 +172,7 @@ class FavoritesView(View):
         items = favs.get_items()
         serialized = []
         for item in items:
-            serialized.append({
+            s = {
                 'product_id': item['product_id'],
                 'name': item['name'],
                 'slug': item['slug'],
@@ -172,7 +181,10 @@ class FavoritesView(View):
                 'image_url': item['image_url'],
                 'product_url': item['product_url'],
                 'first_size_id': item['first_size_id'],
-            })
+            }
+            if 'payment_price' in item and item['payment_price'] is not None:
+                s['payment_price'] = str(item['payment_price'])
+            serialized.append(s)
         return JsonResponse({
             'ok': True,
             'items': serialized,
@@ -281,13 +293,17 @@ class CheckoutView(View):
 
         form = CheckoutForm(initial=initial)
 
-        return render(request, 'orders/checkout.html', {
+        ctx = {
             'form': form,
             'cart_items': cart_items,
             'cart_total': cart_total,
             'cart_old_total': cart_old_total,
             'is_authenticated': request.user.is_authenticated,
-        })
+        }
+        # Двойная валюта
+        if request.region and request.region.needs_conversion:
+            ctx['payment_total'] = cart.get_payment_total()
+        return render(request, 'orders/checkout.html', ctx)
 
     @method_decorator(csrf_protect)
     def post(self, request):
@@ -462,18 +478,31 @@ class CheckoutView(View):
     def _create_order(self, request, region, first_name, last_name,
                       phone, email, city, address, total, cart_items):
         """Создать заказ + позиции + зарезервировать stock. Raises ValueError."""
+        # Конвертация в валюту оплаты (если нужно)
+        order_kwargs = {
+            'region': region,
+            'user': request.user,
+            'customer_name': f'{first_name} {last_name}',
+            'customer_phone': phone,
+            'customer_email': email or request.user.email,
+            'city': city,
+            'address': address,
+            'expires_at': timezone.now() + timedelta(minutes=30),
+        }
+
+        if region.needs_conversion:
+            from regions.models import ExchangeRate, convert_to_kzt
+            payment_total = convert_to_kzt(total, region.currency_code)
+            rate_obj = ExchangeRate.objects.get(currency_code=region.currency_code)
+            order_kwargs['total_amount'] = payment_total
+            order_kwargs['display_amount'] = total
+            order_kwargs['display_currency_code'] = region.currency_code
+            order_kwargs['exchange_rate_snapshot'] = rate_obj.rate / rate_obj.quant
+        else:
+            order_kwargs['total_amount'] = total
+
         with transaction.atomic():
-            order = Order.objects.create(
-                region=region,
-                user=request.user,
-                customer_name=f'{first_name} {last_name}',
-                customer_phone=phone,
-                customer_email=email or request.user.email,
-                city=city,
-                address=address,
-                total_amount=total,
-                expires_at=timezone.now() + timedelta(minutes=30),
-            )
+            order = Order.objects.create(**order_kwargs)
 
             for item in cart_items:
                 OrderItem.objects.create(

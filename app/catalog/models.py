@@ -79,6 +79,17 @@ class Product(models.Model):
     )
     is_active = models.BooleanField('Активен', default=True)
 
+    pack_quantity = models.PositiveIntegerField(
+        'Кол-во в пачке', null=True, blank=True,
+        help_text='Количество штук в упаковке (5, 17, 30). Для подбора размера пачки в квизе.',
+    )
+
+    # Прозрачное фото (для квиза, промо-блоков)
+    transparent_image = models.ImageField(
+        'Прозрачное фото (PNG)', upload_to='products/transparent/', blank=True,
+        help_text='PNG с прозрачным фоном. Для результатов квиза и промо.',
+    )
+
     # Zoom (одна картинка, скролл-эффект)
     zoom_image = models.ImageField(
         'Zoom изображение', upload_to='products/zoom/', blank=True,
@@ -114,19 +125,33 @@ class Product(models.Model):
         })
 
     def save(self, *args, **kwargs):
+        if self.pk:
+            try:
+                old = Product.objects.get(pk=self.pk)
+            except Product.DoesNotExist:
+                old = None
+        else:
+            old = None
+
+        # Zoom: max height 1200px, WebP
         if self.zoom_image:
-            if self.pk:
-                try:
-                    old = Product.objects.get(pk=self.pk)
-                    image_changed = old.zoom_image.name != self.zoom_image.name
-                except Product.DoesNotExist:
-                    image_changed = True
-            else:
-                image_changed = True
-            if image_changed:
-                result = optimize_image_field(self.zoom_image, max_width=1400, quality=85)
+            changed = not old or old.zoom_image.name != self.zoom_image.name
+            if changed:
+                result = optimize_image_field(self.zoom_image, max_height=1200, quality=85)
                 if result:
                     self.zoom_image = result
+
+        # Прозрачное фото: max height 400px, PNG
+        if self.transparent_image:
+            changed = not old or old.transparent_image.name != self.transparent_image.name
+            if changed:
+                result = optimize_image_field(
+                    self.transparent_image, max_height=400,
+                    preserve_transparency=True,
+                )
+                if result:
+                    self.transparent_image = result
+
         super().save(*args, **kwargs)
 
 
@@ -320,6 +345,8 @@ class ProductCharacteristic(models.Model):
         verbose_name='Характеристика',
     )
     value = models.CharField('Значение', max_length=500)
+    subtitle = models.CharField('Подпись', max_length=500, blank=True, default='',
+                                help_text='Вспомогательный текст под значением (опционально)')
 
     class Meta:
         verbose_name = 'Характеристика товара'
@@ -391,12 +418,12 @@ class ProductMainImage(models.Model):
             else:
                 image_changed = True
             if image_changed:
-                # Оптимизация основного изображения (800px)
-                result = optimize_image_field(self.image, max_width=800, quality=85)
+                # Оптимизация основного изображения (max height 1000px)
+                result = optimize_image_field(self.image, max_height=1000, quality=85)
                 if result:
                     self.image = result
-                # Генерация миниатюры для каталога (600px)
-                thumb = optimize_image_field(self.image, max_width=600, quality=80)
+                # Генерация миниатюры для каталога (max height 600px)
+                thumb = optimize_image_field(self.image, max_height=600, quality=80)
                 if thumb:
                     self.thumbnail = thumb
         super().save(*args, **kwargs)
@@ -431,7 +458,7 @@ class ProductPackageImage(models.Model):
             else:
                 image_changed = True
             if image_changed:
-                result = optimize_image_field(self.image, max_width=800, quality=82)
+                result = optimize_image_field(self.image, max_height=1000, quality=82)
                 if result:
                     self.image = result
         super().save(*args, **kwargs)
@@ -466,10 +493,166 @@ class ProductIndividualImage(models.Model):
             else:
                 image_changed = True
             if image_changed:
-                result = optimize_image_field(self.image, max_width=800, quality=82)
+                result = optimize_image_field(self.image, max_height=1000, quality=82)
                 if result:
                     self.image = result
         super().save(*args, **kwargs)
+
+
+# ─── Квиз ───
+
+class QuizRule(models.Model):
+    """Правило подбора товара в квизе. Пустое поле = любой ответ."""
+
+    Q1_CHOICES = [
+        ('texture', 'Текстура'),
+        ('aroma', 'Аромат'),
+        ('feel', 'Неощутимость'),
+    ]
+    Q2_CHOICES = [
+        ('banana', 'Банан'),
+        ('strawberry', 'Клубника'),
+        ('chocolate', 'Шоколад'),
+        ('none', 'Без аромата'),
+    ]
+    Q3_CHOICES = [
+        ('daily', 'Каждый день'),
+        ('weekly', 'Несколько раз в неделю'),
+        ('monthly', 'Несколько раз в месяц'),
+        ('yearly', 'Редко'),
+    ]
+    Q4_CHOICES = [
+        ('yes', 'Да'),
+        ('no', 'Нет'),
+    ]
+
+    q1_important = models.CharField(
+        'Q1: Что важнее?', max_length=20,
+        choices=Q1_CHOICES, blank=True,
+    )
+    q2_aroma = models.CharField(
+        'Q2: Аромат', max_length=20,
+        choices=Q2_CHOICES, blank=True,
+    )
+    q3_frequency = models.CharField(
+        'Q3: Частота', max_length=20,
+        choices=Q3_CHOICES, blank=True,
+    )
+    q4_lube = models.CharField(
+        'Q4: Доп. смазка?', max_length=10,
+        choices=Q4_CHOICES, blank=True,
+    )
+
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE,
+        related_name='quiz_rules', verbose_name='Рекомендуемый товар',
+    )
+    priority = models.IntegerField(
+        'Приоритет', default=0,
+        help_text='Чем выше — тем приоритетнее. При совпадении нескольких правил побеждает с высшим.',
+    )
+    is_active = models.BooleanField('Активно', default=True)
+
+    class Meta:
+        verbose_name = 'Правило квиза'
+        verbose_name_plural = 'Правила квиза'
+        ordering = ['-priority']
+
+    def __str__(self):
+        parts = []
+        if self.q1_important:
+            parts.append(f'Q1={self.get_q1_important_display()}')
+        if self.q2_aroma:
+            parts.append(f'Q2={self.get_q2_aroma_display()}')
+        if self.q3_frequency:
+            parts.append(f'Q3={self.get_q3_frequency_display()}')
+        if self.q4_lube:
+            parts.append(f'Q4={self.get_q4_lube_display()}')
+        conditions = ', '.join(parts) if parts else 'Любой ответ'
+        return f'[{self.priority}] {conditions} → {self.product.name}'
+
+    # Частота → желаемое кол-во в пачке
+    FREQUENCY_PACK = {
+        'daily': 30,
+        'weekly': 17,
+        'monthly': 5,
+        'yearly': 5,
+    }
+
+    # Ключевые характеристики для группировки товаров-«братьев»
+    FAMILY_CHARACTERISTICS = ['Аромат', 'Текстура', 'Объём смазки']
+
+    @classmethod
+    def _find_pack_variant(cls, base_product, q3):
+        """Подобрать пачку по частоте через характеристики."""
+        target_qty = cls.FREQUENCY_PACK.get(q3)
+        if not target_qty or base_product.pack_quantity == target_qty:
+            return base_product
+
+        base_chars = dict(
+            ProductCharacteristic.objects
+            .filter(
+                product=base_product,
+                characteristic__name__in=cls.FAMILY_CHARACTERISTICS,
+            )
+            .values_list('characteristic__name', 'value')
+        )
+        if not base_chars:
+            return base_product
+
+        siblings = Product.objects.filter(
+            is_active=True,
+            pack_quantity=target_qty,
+            category=base_product.category,
+        ).exclude(pk=base_product.pk)
+
+        for sibling in siblings:
+            sibling_chars = dict(
+                ProductCharacteristic.objects
+                .filter(
+                    product=sibling,
+                    characteristic__name__in=cls.FAMILY_CHARACTERISTICS,
+                )
+                .values_list('characteristic__name', 'value')
+            )
+            if sibling_chars == base_chars:
+                return sibling
+
+        return base_product
+
+    @classmethod
+    def get_results(cls, q1, q2, q3, q4):
+        """
+        Двухшаговый подбор (возвращает список):
+        1. Все правила на высшем совпавшем приоритете → типы товаров
+        2. Q3 (частота) → подбор пачки для каждого
+        """
+        rules = cls.objects.filter(is_active=True).select_related('product').order_by('-priority')
+        matched = []
+        seen = set()
+        best_priority = None
+
+        for rule in rules:
+            if rule.q1_important and rule.q1_important != q1:
+                continue
+            if rule.q2_aroma and rule.q2_aroma != q2:
+                continue
+            if rule.q3_frequency and rule.q3_frequency != q3:
+                continue
+            if rule.q4_lube and rule.q4_lube != q4:
+                continue
+
+            if best_priority is None:
+                best_priority = rule.priority
+            elif rule.priority < best_priority:
+                break
+
+            product = cls._find_pack_variant(rule.product, q3)
+            if product.pk not in seen:
+                matched.append(product)
+                seen.add(product.pk)
+
+        return matched
 
 
 # ─── FAQ ───
